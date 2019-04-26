@@ -1,0 +1,205 @@
+/*
+*
+* Backpack Crud / List
+*
+*/
+
+	/* Removes the horizontal scroll (if the width allows it) */
+	.box-body.table-responsive {
+	    padding-left: 15px;
+	    padding-right: 15px;
+	}
+
+	/*  DataTables Loading State Visual Improvements  */
+
+	#crudTable_wrapper .dataTables_processing {
+		background: rgba(255,255,255,0.9);
+		top: 26px;
+		height: calc(100% - 6px);
+		left: 115px;
+		width: calc(100% - 30px);
+		z-index: 999;
+		border: none;
+		box-shadow: none;
+	}
+
+	#crudTable_wrapper .dataTables_processing > img {
+		top: calc(50% - 16px)!important;
+		left: calc(50% - 16px)!important;
+		position: absolute;
+	}
+
+	#crudTable_wrapper {
+		/*overflow: hidden;*/
+	}
+
+	#crudTable_wrapper #crudTable {
+		margin-top: 0px!important;
+	}
+
+  /*  DataTables Loading State Visual Improvements  */
+
+	#crudTable.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before,
+	#crudTable.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before {
+		background-color: transparent;
+		color: #636161;
+		font-family: 'FontAwesome';
+		width: 15px;
+		content: "\f142";
+		font-size: 21px;
+		box-shadow: none;
+		border: none;
+		font-weight: 100;
+		margin-top: 5px;
+	}
+
+	.dt-buttons {
+		display: none;
+	}
+
+	.modal .details-control {
+		display: none;
+	}
+
+	#crudTable td {
+		outline: none;
+	}
+
+	#crudTable.has-hidden-columns .details-control {
+		/*display: none;*/
+	}
+
+	div.dataTables_wrapper div.dataTables_length select {
+		width: auto;
+	}
+
+
+	/* backpack filters */
+
+    .backpack-filter label {
+      color: #868686;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .navbar-filters {
+      min-height: 25px;
+      border-radius: 0;
+      margin-bottom: 6px;
+      margin-top: 0px;
+      background: transparent;
+      border-color: #f4f4f4;
+      border: none;
+    }
+
+    .navbar-filters .navbar-collapse {
+    	padding: 0;
+    	border: 0;
+    }
+
+    .navbar-filters .navbar-toggle {
+      padding: 10px 15px;
+      border-radius: 0;
+    }
+
+    .navbar-filters .navbar-brand {
+      height: 25px;
+      padding: 5px 15px;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+    @media (min-width: 768px) {
+      .navbar-filters .navbar-nav>li>a {
+          padding-top: 5px;
+          padding-bottom: 5px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar-filters .navbar-nav {
+        margin: 0;
+      }
+    }
+
+
+	/* pagination overwrites */
+
+	.pagination>li>a {
+	  background: transparent;
+	  border: none;
+	  border-radius: 5px;
+	  color: #333;
+	}
+
+	.pagination>.disabled>a,
+	.pagination>.disabled>a:focus,
+	.pagination>.disabled>a:hover,
+	.pagination>.disabled>span,
+	.pagination>.disabled>span:focus,
+	.pagination>.disabled>span:hover {
+	  background: transparent;
+	}
+
+	.pagination>li>a:focus,
+	.pagination>li>a:hover,
+	.pagination>li>span:focus,
+	.pagination>li>span:hover {
+	  background: white;
+	}
+
+	.pagination>li:last-child>a, .pagination>li:last-child>span,
+	.pagination>li:first-child>a, .pagination>li:first-child>span {
+	  border-radius: 5px;
+	}
+
+	/* datatable search overwrites */
+
+	.dataTables_filter {
+		text-align: right;
+	}
+
+	.dataTables_filter label {
+		font-weight: normal;
+	    white-space: nowrap;
+	    text-align: left;
+	}
+
+	.dataTables_filter input {
+		margin-left: 0.5em;
+	    display: inline-block;
+	    width: auto;
+	    border-radius: 25px;
+	    /*border: none;*/
+	}
+
+	/* datatable header overwrites */
+	table.dataTable {
+		margin-top: 0px!important;
+	}
+
+	.content-wrapper {
+		min-height: calc(100% - 98px);
+	}
+
+	#datatable_search_stack {
+		min-height: 35px;
+	}
+
+	#crudTable thead>tr>th, table.dataTable thead>tr>td {
+		padding-right: 30px;
+	}
+
+	.navbar-filters li>a:active,
+	.navbar-filters .navbar-nav>.active>a, .navbar-filters .navbar-nav>.active>a:focus, .navbar-filters .navbar-nav>.active>a:hover,
+	.navbar-filters .navbar-nav>.open>a, .navbar-filters .navbar-nav>.open>a:focus, .navbar-filters .navbar-nav>.open>a:hover {
+		background-color: #e0e0e9;
+	}
+	.navbar-filters li {
+		margin: 0 2px;
+	}
+	.navbar-filters li>a {
+		border-radius: 2px;
+	}
+	.navbar-filters .nav.navbar-nav {
+		float: none;
+	}

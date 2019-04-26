@@ -1,0 +1,219 @@
+@extends('layouts.app', ['title' => trans('analytics.show.title') . ' ' . $url ])
+@section('content')
+    <div class="header bg-gradient-primary mb-3 pt-6 	d-none d-lg-block d-md-block pt-md-7"></div>
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row">
+                <div class="container-fluid">
+                    <div class="col">
+                        <div class="card shadow">
+                            <div class="card-header d-flex justify-content-between">
+                                <h1>{{ __('analytics.show.title') }}
+                                    <a href="{{ url('/') }}/{{$url}}">{{ $url }}</a>
+                                </h1>
+                                @if ($isOwnerOrAdmin)
+                                    <a href="{{ url('/') }}/url/{{$url}}" class="btn btn-success">{{ __('url.edit.edit') }}</a>
+                                @endif
+                            </div>
+                            <div class="card-body">
+                                <p>{{ __('url.created', ['date' => $creationDate]) }}</p>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="card card-stats mb-4 mb-lg-0">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <h5 class="card-title text-uppercase text-muted mb-0">
+                                                                {{ __('analytics.click.clicks') }}</h5>
+                                                            <span class="h2 font-weight-bold mb-0">{{$clicks}}</span>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                                                                <i class="fa fa-mouse-pointer"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card card-stats mb-4 mb-lg-0">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <h5 class="card-title text-uppercase text-muted mb-0">
+                                                                {{ __('analytics.click.reals') }}</h5>
+                                                            <span class="h2 font-weight-bold mb-0">{{$realClicks}}</span>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="icon icon-shape bg-success text-white rounded-circle shadow">
+                                                                <i class="fa fa-hand-pointer"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card card-stats mb-4 mb-lg-0">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <h5 class="card-title text-uppercase text-muted mb-0">
+                                                                {{ __('analytics.click.today') }}</h5>
+                                                            <span class="h2 font-weight-bold mb-0">{{$todayClicks}}</span>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                                                                <i class="fas fa-clock"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <h1>{{ __('analytics.country.real') }}</h1>
+                                @if (count($countriesRealViews) > 0)
+                                    <div class="chart">
+                                        <!-- Chart wrapper -->
+                                        <canvas id="chart-pie-countries-real"></canvas>
+                                    </div>
+                                @else
+                                    <p>{{ __('analytics.country.na') }}</p>
+                                @endif
+                                <hr>
+                                <h1>{{ __('analytics.country.views') }}</h1>
+                                @if (count($countriesViews) > 0)
+                                    <div class="chart">
+                                        <!-- Chart wrapper -->
+                                        <canvas id="chart-pie-countries"></canvas>
+                                    </div>
+                                @else
+                                    <p>{{ __('analytics.country.na') }}</p>
+                                @endif
+                                <hr>
+                                <div style="display: flex; justify-content: space-between" id="referrers-table">
+                                    <h1>{{ __('analytics.referer.referers') }}</h1>
+                                    <p> {{ __('analytics.referer.list.results', [
+                                        'firstItem' => $referrers->firstItem(),
+                                        'lastItem' => $referrers->lastItem(),
+                                        'num' => $referrers->total()
+                                        ]) }}</p>
+                                </div>
+                                <div id="table-component" class="tab-pane tab-example-result fade active show"
+                                     role="tabpanel" aria-labelledby="table-component-tab">
+                                    <div class="table-responsive">
+                                        @if ($referrers->count())
+                                            <table class="table align-items-center">
+                                                <thead class="thead-light">
+                                                <tr>
+                                                    <th scope="col">{{ __('url.url') }}</th>
+                                                    <th scope="col">{{ __('analytics.view.reals') }}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach ($referrers as $referer)
+                                                    <tr>
+                                                        <th scope="row">
+                                                            @if ($referer->referer == 'Direct / Unknown')
+                                                                <p>{{$referer->referer}}</p>
+                                                            @else
+                                                                <p>
+                                                                    <a href="{{$referer->referer}}">{{$referer->referer}}</a>
+                                                                </p>
+                                                            @endif
+                                                        </th>
+                                                        <td>
+                                                            <p>{{$referer->total}}</p>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                                </tbody>
+                                            </table>
+                                        @else
+                                            <p>{{ __('analytics.referer.na') }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+                                {{ $referrers->fragment('referrers-table')->links() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @include('layouts.footers.auth')
+    </div>
+@endsection
+@push('js')
+    <script src="/js/app.js"></script>
+    <script src="{{ asset('argon') }}/vendor/chart.js/dist/Chart.extension.js"></script>
+    <script>
+        var ctx = document.getElementById('chart-pie-countries-real').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    @foreach ($countriesRealViews as $country => $value)
+                        '{{$country}}',
+                    @endforeach
+                ],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [
+                        @foreach ($countriesRealViews as $country => $value)
+                        {{$value}},
+                        @endforeach
+                    ],
+                    backgroundColor: [
+                        @foreach ($countriesColor as $color)
+                            'rgba({{$color}}, 0.5)',
+                        @endforeach
+                    ],
+                    borderColor: [
+                        @foreach ($countriesColor as $color)
+                            'rgba({{$color}}, 1)',
+                        @endforeach
+                    ],
+                    borderWidth: 1
+                }]
+            },
+        });
+    </script>
+    <script>
+        var ctx = document.getElementById('chart-pie-countries').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    @foreach ($countriesViews as $country => $value)
+                        '{{$country}}',
+                    @endforeach
+                ],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [
+                        @foreach ($countriesViews as $country => $value)
+                        {{$value}},
+                        @endforeach
+                    ],
+                    backgroundColor: [
+                        @foreach ($countriesColor as $color)
+                            'rgba({{$color}}, 0.5)',
+                        @endforeach
+                    ],
+                    borderColor: [
+                        @foreach ($countriesColor as $color)
+                            'rgba({{$color}}, 1)',
+                        @endforeach
+                    ],
+                    borderWidth: 1
+                }]
+            },
+        });
+    </script>
+@endpush

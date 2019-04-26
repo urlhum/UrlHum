@@ -1,0 +1,27 @@
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Vendor
+@import '../js/vendor/@fortawesome/fontawesome-free/css/all.min.css';
+// @import '../js/vendor/bootstrap/dist/css/bootstrap.min.css';
+@import '../js/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css';
+@import '../js/vendor/nucleo/css/nucleo.css';
+@import '../js/vendor/nucleo/css/nucleo-svg.css';
+
+
+
+
+// Argon
+@import '../css/argon.css';
+
+// UrlHum
+@import '../css/urlhum.css';
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}

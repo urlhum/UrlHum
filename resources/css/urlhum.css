@@ -1,0 +1,39 @@
+/*
+ * UrlHum (https://urlhum.com)
+ *
+ * @link      https://github.com/urlhum/UrlHum
+ * @copyright Copyright (c) 2019 Christian la Forgia
+ * @license   https://github.com/urlhum/UrlHum/blob/master/LICENSE.md (MIT License)
+ */
+
+@media (min-width: 769px)
+{
+    .anonymous-create-box
+    {
+        width: 75%;
+    }
+
+    .anonymous-box-container
+    {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px)
+{
+    .anonymous-create-box
+    {
+        width: 100%;
+    }
+
+    nav.navbar
+    {
+        margin-bottom: 20px;
+    }
+
+    .header-body.anonymous
+    {
+        margin-top: 20px;
+    }
+}
