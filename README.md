@@ -1,9 +1,10 @@
-
 # UrlHum
 UrlHum is a modern, privacy-aware and fast URL Shortener built with PHP and the Laravel Framework. 
 At the moment UrlHum is heavily under development, so we recommend you to don't use it in production.
 
 ![UrlHum Screenshot](https://urlhum.com/dist/images/urlhum-screen.png)
+
+If you want, you can join our official [Telegram Group](http://t.me/urlhum).
 
 # What are UrlHum features?
 UrlHum provides you advanced privacy-oriented options, such as IP hashing and anonymizing. More, you control pretty anything from the admin panel: you can decide if an unauthenticated user must be able to create a Short URL, if disallowing certain Short URLs from being created and so much more!
