@@ -60,6 +60,7 @@ class UrlController extends Controller
         // Validation
         $request->validate([
             'url' => 'required|max:255|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
+            // TODO: Better customUrl validation
             'customUrl' => 'nullable|min:4|max:15',
             'privateUrl' => 'boolean',
             'hideUrlStats' => 'boolean'
@@ -135,7 +136,9 @@ class UrlController extends Controller
      */
     public function update($url, Request $request)
     {
-        if (!$this->url->OwnerOrAdmin($url)) {
+        $short_url = Url::where('id', $url)->first()->short_url;
+
+        if (!$this->url->OwnerOrAdmin($short_url)) {
             return response('Forbidden', 403);
         }
 

@@ -92,8 +92,7 @@ class UrlService
         }
 
         $urlUser = Url::where('short_url', $url)
-            ->select('user_id')
-            ->first('user_id');
+            ->first();
 
         if ($urlUser->user_id == $user_id) {
             return true;
