@@ -33,11 +33,7 @@ class UrlService
     public function isUrlReserved($url)
     {
         $reservedUrls = Settings::getReservedUrls();
-        if (in_array($url, $reservedUrls)) {
-            return true;
-        } else {
-            return false;
-        }
+        return in_array($url, $reservedUrls);
     }
 
     /**
@@ -115,26 +111,19 @@ class UrlService
     {
         // Check if Short UrlService is present or not
         if (is_null($short_url)) {
-            $unique = false;
 
             // Iterate until a not-already-created short url is generated
             do {
                 $short_url = Str::random(6);
-                if (Url::where('short_url', $short_url)->first() || $this->isUrlReserved($short_url)) {
-                    $unique = false;
-                } else {
-                    Url::createUrl($long_url, $short_url, $privateUrl, $hideUrlStats);
-                    $unique = true;
-                }
-            } while (!$unique);
+            } while (Url::where('short_url', $short_url)->first() || $this->isUrlReserved($short_url));
+
+            Url::createUrl($long_url, $short_url, $privateUrl, $hideUrlStats);
 
             return $short_url;
 
         } else {
-
             // Set the short url as custom url sent by user
             Url::createUrl($long_url, $short_url, $privateUrl, $hideUrlStats);
-
             return $short_url;
         }
 
@@ -166,17 +155,7 @@ class UrlService
      */
     public function OwnerOrAdmin($url)
     {
-
-        if (!Auth::check()) {
-            return false;
-        }
-
-        if (User::isAdmin() || $this->isOwner($url)) {
-            return true;
-        }
-
-        return false;
-
+        return User::isAdmin() || $this->isOwner($url);
     }
 
 
@@ -211,7 +190,6 @@ class UrlService
 
         return $check;
     }
-
 
 
 }
