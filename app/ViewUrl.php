@@ -73,11 +73,7 @@ class ViewUrl extends Model
             ->orderBy('created_at', 'desc')
             ->get();
 
-      if ($view->isEmpty()) {
-            return true;
-        } else {
-            return false;
-        }
+      return $view->isNotEmpty() ? false : true;
 
     }
 
@@ -125,7 +121,6 @@ class ViewUrl extends Model
      */
     public static function deleteUrlsViews($url)
     {
-
         ViewUrl::where('short_url', $url)->delete();
     }
 

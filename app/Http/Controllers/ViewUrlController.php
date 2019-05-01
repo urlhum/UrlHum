@@ -68,17 +68,17 @@ class ViewUrlController
             $hashed = 1;
         }
 
+        if (ViewUrl::realClick($url, $ip)) {
+            $click = 0;
+            $real_click = 1;
+        } else {
+            $click = 1;
+            $real_click = 0;
+        }
+
         if ( !setting('hash_ip') && setting('anonymize_ip') ) {
             $click = 1;
             $real_click = 0;
-        } else {
-            if (ViewUrl::realClick($url, $ip)) {
-                $click = 0;
-                $real_click = 1;
-            } else {
-                $click = 1;
-                $real_click = 0;
-            }
         }
 
         $data = array(

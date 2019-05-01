@@ -31,7 +31,6 @@ class HomeController extends Controller
         if (setting('private_site')) {
             $this->middleware('auth');
         }
-
     }
 
     /**

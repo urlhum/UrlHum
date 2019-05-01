@@ -64,6 +64,7 @@ class Analytics extends Model
         $todayClicks = Analytics::where('short_url', $url)
             ->where('created_at', '>=', Carbon::now()->subDay())
             ->count();
+
         return $todayClicks;
     }
 
@@ -139,7 +140,6 @@ class Analytics extends Model
             ->groupBy('real_click', 'referer')
             ->orderBy('total', 'DESC')
             ->paginate('20');
-
 
         return $referrers;
     }

@@ -104,7 +104,6 @@ class UrlController extends Controller
             ->with('success', $short)
             ->with('siteUrl', $siteUrl);
 
-
     }
 
     /**
@@ -159,7 +158,6 @@ class UrlController extends Controller
 
         return Redirect::back()
             ->with('success', 'Short URL updated successfully.');
-
 
     }
 
@@ -240,6 +238,7 @@ class UrlController extends Controller
     {
         // Here we add a column with the buttons to show analytics and edit short URLs.
         // There could be a better way to do this.
+        // TODO: Really NEED to find a better way to handle this. It's horrible.
         $dataTable = Datatables::of(Url::getAllUrlsList())->
         addColumn('action', function ($row) {
             return '<a href="/' . $row->short_url . '+"><button type="button" class="btn btn-secondary btn-sm btn-url-analytics"><i class="fa fa-chart-bar" alt="Analytics"> </i> ' . trans('analytics.analytics') . '</button></a> &nbsp;

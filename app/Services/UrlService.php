@@ -11,8 +11,8 @@ namespace App\Services;
 
 use App\Settings;
 use App\User;
-use Auth;
 use App\Url;
+use Auth;
 use Illuminate\Support\Str;
 
 
@@ -47,14 +47,9 @@ class UrlService
         // Check if custom url has been typed by user
         if (is_null($custom_url)) {
             return false;
-        } else {
-            // Search for custom url. If it is present or is it reserved return true
-            if ($res = Url::where('short_url', $custom_url)->exists() || $this->isUrlReserved($custom_url)) {
-                return true;
-            } else {
-                return false;
-            }
         }
+
+        return Url::where('short_url', $custom_url)->exists() || $this->isUrlReserved($custom_url);
     }
 
     /**
@@ -65,11 +60,9 @@ class UrlService
      */
     public function checkExistingLongUrl($long_url)
     {
-        if ($long_url_check = Url::where('long_url', $long_url)->first()) {
-            return $long_url_check['short_url'];
-        }
+        $long_url_check = Url::where('long_url', $long_url)->first();
 
-        return null;
+        return $long_url_check['short_url'];
     }
 
 
@@ -81,16 +74,14 @@ class UrlService
      */
     public function isOwner($url)
     {
-        if (Auth::check()) {
-            $user_id = Auth::user()->id;
-        } else {
+        if (!Auth::check()) {
             return false;
         }
 
         $urlUser = Url::where('short_url', $url)
             ->first();
 
-        if ($urlUser->user_id == $user_id) {
+        if ($urlUser->user_id == Auth::user()->id) {
             return true;
         }
 
@@ -109,24 +100,20 @@ class UrlService
      */
     public function createShortUrl($long_url, $short_url, $privateUrl, $hideUrlStats)
     {
-        // Check if Short UrlService is present or not
-        if (is_null($short_url)) {
-
-            // Iterate until a not-already-created short url is generated
-            do {
-                $short_url = Str::random(6);
-            } while (Url::where('short_url', $short_url)->first() || $this->isUrlReserved($short_url));
-
-            Url::createUrl($long_url, $short_url, $privateUrl, $hideUrlStats);
-
-            return $short_url;
-
-        } else {
+        if (!empty($short_url)) {
             // Set the short url as custom url sent by user
             Url::createUrl($long_url, $short_url, $privateUrl, $hideUrlStats);
             return $short_url;
         }
 
+        // Iterate until a not-already-created short url is generated
+        do {
+            $short_url = Str::random(6);
+        } while (Url::where('short_url', $short_url)->first() || $this->isUrlReserved($short_url));
+
+        Url::createUrl($long_url, $short_url, $privateUrl, $hideUrlStats);
+
+        return $short_url;
     }
 
 
@@ -137,12 +124,11 @@ class UrlService
      */
     public function getMyUrls()
     {
-        if (Auth::check()) {
-            $user_id = Auth::user()->id;
-        } else {
+        if (!Auth::check()) {
             abort(404);
         }
 
+        $user_id = Auth::user()->id;
         return $urlsList = Url::where('user_id', $user_id)->paginate(30);
     }
 
