@@ -1,0 +1,31 @@
+dist: trusty
+sudo: false
+language: php
+php:
+  - 7.0.20
+  - 7.1.9
+  - 7.2.0
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+before_script:
+  - cp .env.travis .env
+  - mysql -u root -e 'create database `urlhum-test`;'
+  - mysql -u root -e "CREATE USER 'urlhum-test'@'localhost' IDENTIFIED BY 'secret';"
+  - mysql -u root -e "GRANT ALL ON \`urlhum-test\`.* TO 'urlhum-test'@'localhost';"
+  - mysql -u root -e "FLUSH PRIVILEGES;"
+  - phpenv config-rm xdebug.ini
+  - composer install --prefer-dist --no-interaction
+  - php artisan key:generate
+  - php artisan clear-compiled -n
+  - php artisan optimize -n
+  - php artisan migrate --force -n --database=urlhum-test
+  - php artisan db:seed --force -n --database=urlhum-test
+
+after_failure:
+  - cat storage/logs/laravel.log
+
+script:
+  - phpunit
