@@ -23,11 +23,12 @@ class ViewUrlTest extends TestCase
      *
      * @return void
      */
-    public function test_url_view_fresh_ip_address()
+    public function url_view_fresh_ip_address()
     {
+
         $ip = '216.58.205.205';
 
-        Url::createUrl('https://instagram.com', 'inst', 0, 0);
+        $this->post('/url', ['url' => 'https://reddit.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
 
         $this->get('/inst', ['REMOTE_ADDR' => $ip])
                 ->assertStatus(302);
@@ -39,6 +40,7 @@ class ViewUrlTest extends TestCase
             ->real_click;
 
         $this->assertEquals(true, $realClick);
+
     }
 
     /**
@@ -48,9 +50,10 @@ class ViewUrlTest extends TestCase
      */
     public function test_url_view_repeat_ip_address()
     {
+
         $ip = '216.58.205.204';
 
-        Url::createUrl('https://instagram.com', 'inst', 0, 0);
+        $this->post('/url', ['url' => 'https://instagram.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
 
         $this->get('/inst', ['REMOTE_ADDR' => $ip])
             ->assertStatus(302);
@@ -65,5 +68,52 @@ class ViewUrlTest extends TestCase
             ->click;
 
         $this->assertEquals(true, $click);
+    }
+
+    /**
+     * If hash ip option is enabled, let's verify if the IP gets hashed
+     *
+     * @return void
+     */
+    public function test_option_ip_hash_enabled_verify_if_ip_hashed()
+    {
+
+        $ip = "216.58.205.205";
+        setting()->set('hash_ip', 1);
+
+        $this->post('/url', ['url' => 'https://google.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
+
+        $this->get('/inst', ['REMOTE_ADDR' => $ip])
+            ->assertStatus(302);
+
+        $hashedIp = ViewUrl::select('ip_address')
+            ->orderBy('id', 'desc')
+            ->first()
+            ->ip_address;
+        
+        $this->assertEquals(hash('sha1', $ip), $hashedIp);
+    }
+
+    /**
+     * Check if Referer gets saved after an User clicks a Short URL
+     *
+     * @return void
+     */
+    public function test_referer_is_saved()
+    {
+        $ip =  "216.58.205.205";
+        $referer = "https://github.com/urlhum";
+
+        $this->post('/url', ['url' => 'https://google.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
+
+        $this->get('/inst', ['REMOTE_ADDR' => $ip, 'HTTP_REFERER' => $referer])
+            ->assertStatus(302);
+
+        $check = ViewUrl::select('referer')
+            ->orderBy('id', 'desc')
+            ->first()
+            ->referer;
+
+        $this->assertEquals($referer, $check);
     }
 }

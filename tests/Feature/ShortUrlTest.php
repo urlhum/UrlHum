@@ -55,7 +55,7 @@ class ShortUrlTest extends TestCase
         $user = factory(User::class)->create();
 
         $this->actingAs($user)
-            ->post('/url', ['url' => 'https://instagram.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
+            ->post('/url', ['url' => 'https://urlhum.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
 
         $this->actingAs($user)
             ->get('/url/inst')
@@ -66,6 +66,32 @@ class ShortUrlTest extends TestCase
         $this->actingAs($user)
             ->put("/url/$urlId", ['destinationUrl' => 'https://aaa.com'])
             ->assertStatus(302);
+    }
+
+
+    /**
+     * If users set the Short Url as hidden from public URLs page,
+     * the list shouldn't have the Short URL
+     *
+     * @return void
+     */
+    public function test_short_hidden_from_public_url_page()
+    {
+        $data = [
+            'url' => 'https://reddit.com',
+            'customUrl' => 'reddit',
+            'privateUrl' => 1,
+            'hideUrlStats' => 0,
+        ];
+
+        $this->post('/url', $data)
+            ->assertStatus(302)
+            ->assertSessionHas('success');
+
+        $urls = Url::getLatestPublicUrls();
+        $url = $urls[0]->short_url;
+
+        $this->assertNotEquals($url, $data['customUrl']);
     }
 
 }

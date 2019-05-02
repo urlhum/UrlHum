@@ -45,27 +45,30 @@ class ViewUrlController
         $hashed = 0;
         $anonymized = 0;
 
-        if (setting('anonymize_ip')) {
+        if (setting('hash_ip') && setting('anonymize_ip')) {
+            $ipAnonymized = IpAnonymizer::anonymizeIp($ip);
+            $anonymized = 1;
+            $countries = $this->getCountries($ipAnonymized);
+            $ip = hash('sha1', $ip);
+            $hashed = 1;
+        }
+
+        if (setting('hash_ip') && !setting('anonymize_ip')) {
+            $countries = $this->getCountries($ip);
+            $ip = hash('sha1', $ip);
+            $hashed = 1;
+        }
+
+        if (!setting('hash_ip') && setting('anonymize_ip')) {
             $ip = IpAnonymizer::anonymizeIp($ip);
+            $countries = $this->getCountries($ip);
             $anonymized = 1;
         }
 
-        // We try to get the IP country using (or not) the anonymized IP
-        // If it fails, because GeoLite2 doesn't know the IP country, we
-        // will set it to Unknown
-        try {
-            $reader = new Reader(app_path() . '/../database/GeoLite2-Country.mmdb');
-            $record = $reader->country($ip);
-            $countryCode = $record->country->isoCode;
-            $countryName = $record->country->name;
-        } catch(\Exception $e) {
-            $countryCode = 'N/A';
-            $countryName = 'Unknown';
-        }
-
-        if (setting('hash_ip')) {
-            $ip = hash('sha1', $ip);
-            $hashed = 1;
+        if (!setting('hash_ip') && !setting('anonymize_ip')) {
+            $hashed = 0;
+            $anonymized = 0;
+            $countries = $this->getCountries($ip);
         }
 
         if (ViewUrl::realClick($url, $ip)) {
@@ -85,8 +88,8 @@ class ViewUrlController
             'short_url' => $url,
             'click' => $click,
             'real_click' => $real_click,
-            'country' => $countryCode,
-            'country_full' => $countryName,
+            'country' => $countries['countryCode'],
+            'country_full' => $countries['countryName'],
             'referer' => $referer ?? NULL,
             'ip_address' => $ip,
             'ip_hashed' => $hashed,
@@ -99,6 +102,24 @@ class ViewUrlController
 
         return Redirect::away($externalUrl);
 
+    }
+
+    public function getCountries($ip)
+    {
+        // We try to get the IP country using (or not) the anonymized IP
+        // If it fails, because GeoLite2 doesn't know the IP country, we
+        // will set it to Unknown
+        try {
+            $reader = new Reader(app_path() . '/../database/GeoLite2-Country.mmdb');
+            $record = $reader->country($ip);
+            $countryCode = $record->country->isoCode;
+            $countryName = $record->country->name;
+            return compact("countryCode", "countryName");
+        } catch(\Exception $e) {
+            $countryCode = 'N/A';
+            $countryName = 'Unknown';
+            return compact("countryCode", "countryName");
+        }
     }
 
 }

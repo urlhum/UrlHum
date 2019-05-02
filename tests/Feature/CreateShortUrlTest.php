@@ -98,6 +98,7 @@ class CreateShortUrlTest extends TestCase
     }
 
 
+
     /**
      * If system setting is set to disallow anonymous URLs, guests
      * users shouldn't be allowed to create Short URLs
