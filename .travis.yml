@@ -20,7 +20,6 @@ before_script:
   - composer install --prefer-dist --no-interaction
   - php artisan key:generate
   - php artisan clear-compiled -n
-  - php artisan optimize -n
   - php artisan migrate --force -n --database=urlhum-test
   - php artisan db:seed --force -n --database=urlhum-test
 
