@@ -10,7 +10,7 @@
         <ul class="nav nav-footer justify-content-center justify-content-xl-end">
             @if ( setting('show_guests_latests_urls'))
                 <li class="nav-item">
-                    <a href="{{ route('url.public') }}" class="nav-link" target="_blank">Latest Urls</a>
+                    <a href="{{ route('url.public') }}" class="nav-link" target="_blank">{{ __('url.latest') }}</a>
                 </li>
             @endif
 
