@@ -1,4 +1,12 @@
-# UrlHum
+<p align="center"><img src="https://urlhum.com/dist/images/logo.png"></p>
+
+<p align="center">
+  <a href="https://travis-ci.org/urlhum/UrlHum"><img src="https://api.travis-ci.org/urlhum/UrlHum.svg" alt="Build Status"></a>
+  <a href="https://github.com/urlhum/UrlHum/blob/master/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/urlhum/urlhum.svg"></a>
+  
+</p>
+
+# About UrlHum
 UrlHum is a modern, privacy-aware and fast URL Shortener built with PHP and the Laravel Framework. 
 At the moment UrlHum is heavily under development, so we recommend you to don't use it in production.
 
