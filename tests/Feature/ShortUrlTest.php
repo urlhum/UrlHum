@@ -89,7 +89,7 @@ class ShortUrlTest extends TestCase
             ->assertSessionHas('success');
 
         $urls = Url::getLatestPublicUrls();
-        $url = $urls[0]->short_url;
+        $url = $urls[0]->short_url ?? NULL;
 
         $this->assertNotEquals($url, $data['customUrl']);
     }
