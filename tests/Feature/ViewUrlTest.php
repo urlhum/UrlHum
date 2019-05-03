@@ -101,6 +101,8 @@ class ViewUrlTest extends TestCase
      */
     public function test_referer_is_saved()
     {
+        setting()->set('disable_referers', 0);
+
         $ip =  "216.58.205.205";
         $referer = "https://github.com/urlhum";
 
@@ -115,5 +117,28 @@ class ViewUrlTest extends TestCase
             ->referer;
 
         $this->assertEquals($referer, $check);
+    }
+
+    /**
+     * Disable referers setting is enabled, so verify if the new view data doesn't contain the referer
+     *
+     * @return void
+     */
+    public function test_disable_referer_setting_enabled_verify_view_doesnt_contain_it()
+    {
+        setting()->set('disable_referers', 1);
+
+        $this->post('/url', ['url' => 'https://stackoverflow.com', 'customUrl' => 'stack', 'privateUrl' => 0, 'hideUrlStats' => 0])
+            ->assertStatus(302);
+
+        $this->withHeader('HTTP_REFERER','https://google.com')
+            ->get('/stack')
+            ->assertStatus(302);
+
+        $referer = ViewUrl::where('short_url', 'stack')
+            ->first()
+            ->referer;
+
+        $this->assertNull($referer);
     }
 }

@@ -21,6 +21,8 @@ return array (
   'anonymize_ip' => 'Anonymize IP addresses when getting IP\'s Country',
   'anonymous' => 'Allow anonymous creation of Short URLs',
   'anonymous_help' => 'Not registered users will be able to create URLs',
+  'disable_referers' => 'Disable Referers',
+  'disable_referers_help' => 'UrlHum will not save anymore HTTP referers sent by users\' browser',
   'deleted' => 'Can deleted URLs be created again?',
   'reserved' => 'Reserved Short URLs (one per line)',
   'reserved_help' => 'Users will not be able to create these custom Short Urls',

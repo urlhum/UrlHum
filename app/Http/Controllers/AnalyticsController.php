@@ -77,6 +77,9 @@ class AnalyticsController extends Controller
      */
     public function showReferrersList()
     {
+        if (setting('disable_referers')) {
+            abort(404);
+        }
         return view('analytics.referrers')->with('referrers', ViewUrl::getReferrers());
     }
 

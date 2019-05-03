@@ -41,7 +41,13 @@ class ViewUrlController
         }
 
         $ip = request()->ip();
-        $referer =  request()->server('HTTP_REFERER') ?? NULL;
+
+        if (setting('disable_referers')) {
+            $referer = NULL;
+        } else {
+            $referer = request()->server('HTTP_REFERER') ?? NULL;
+        }
+
         $hashed = 0;
         $anonymized = 0;
 

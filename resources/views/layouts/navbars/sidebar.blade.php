@@ -102,11 +102,13 @@
                     </a>
                 </li>
 
+                @if (!setting('disable_referers'))
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('url.referers')}} ">
                         <i class="fa fa-hand-point-up text-purple"></i> {{ __('analytics.referer.referers') }}
                     </a>
                 </li>
+                @endif
 
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('user.index')}} ">

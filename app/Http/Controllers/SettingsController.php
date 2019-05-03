@@ -49,6 +49,7 @@ class SettingsController extends Controller
             'show_guests_latests_urls' => 'boolean',
             'hash_ip' => 'boolean',
             'anonymize_ip' => 'boolean',
+            'disable_referers' => 'boolean',
             'reservedShortUrls' => 'max:200',
             'deleted_urls_can_be_recreated' => 'boolean',
             'website_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',

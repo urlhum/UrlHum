@@ -57,7 +57,7 @@ class HomeController extends Controller
 
         $latestsPublicUrls = Url::getLatestPublicUrlsWidget();
 
-        if (!$anonymous && isAdmin()) {
+        if (!$anonymous && isAdmin() && !setting('disable_referers')) {
             $referersWidget = ViewUrl::getReferersWidget();
         }
 

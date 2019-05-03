@@ -12,6 +12,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\ViewUrl;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AnalyticsTest extends TestCase
@@ -89,5 +90,4 @@ class AnalyticsTest extends TestCase
             ->get('/youtube+')
             ->assertStatus(200);
     }
-
 }

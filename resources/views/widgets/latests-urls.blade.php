@@ -1,5 +1,5 @@
 <div class="
-@if ($data['anonymous'] OR !isAdmin())
+@if ($data['anonymous'] OR !isAdmin() OR setting('disable_referers'))
         col-12
 @else
         col-xl-7

@@ -238,6 +238,27 @@
                                                     </tr>
 
                                                     <tr>
+                                                        <td><p>{{ __('settings.disable_referers') }}
+                                                                <i class="fa fa-question-circle"
+                                                                   data-toggle="tooltip"
+                                                                   data-placement="top"
+                                                                   title="{{ __('settings.disable_referers_help') }}">
+                                                                </i>
+                                                            </p>
+                                                        </td>
+                                                        <td class="text-right">
+                                                            <label class="custom-toggle">
+                                                                <input type="hidden" name="disable_referers" value="0">
+                                                                <input @if ($settings['disable_referers'] == 1) checked
+                                                                       @endif
+                                                                       type="checkbox" name="disable_referers"
+                                                                       value="1">
+                                                                <span class="custom-toggle-slider rounded-circle"></span>
+                                                            </label>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
                                                         <td>
                                                             <h1>{{ __('url.short') }}</h1>
                                                         </td>
