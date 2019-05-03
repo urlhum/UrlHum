@@ -21,6 +21,7 @@ before_script:
   - php artisan clear-compiled -n
   - php artisan migrate --force -n --database=testing
   - php artisan db:seed --force -n --database=testing
+  - php artisan settings:set
 
 after_failure:
   - cat storage/logs/laravel.log
