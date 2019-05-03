@@ -33,6 +33,10 @@ class UrlService
     public function isUrlReserved($url)
     {
         $reservedUrls = Settings::getReservedUrls();
+        // Check if there are any reserved URLs
+        if (gettype($reservedUrls) != 'array') {
+            return false;
+        }
         return in_array($url, $reservedUrls);
     }
 
