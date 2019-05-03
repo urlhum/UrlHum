@@ -7,39 +7,39 @@ return array (
     'referer' => 'Referer',
     'list' => 
     array (
-      'results' => 'Showing :firstItem - :lastItem referers of :num total',
+      'results' => ':firstItem / :lastItem 共 :num',
     ),
-    'na' => 'Still no referers to report. Share the URL to increase referrers!',
-    'best' => 'Best referers',
+    'na' => '仍无引荐网址，请分享这个链接！',
+    'best' => '最佳来源',
   ),
   'click' => 
   array (
-    'click' => 'Click',
-    'reals' => 'Real Clicks',
-    'clicks' => 'Clicks',
-    'today' => 'Clicks today',
-    'real' => 'Real Click',
+    'click' => '点击量',
+    'reals' => '真实点击量',
+    'clicks' => '点击量',
+    'today' => '今日点击量',
+    'real' => '真实点击量',
   ),
   'show' => 
   array (
-    'title' => 'Analytics for Short URL',
+    'title' => '短链接分析',
   ),
   'country' => 
   array (
-    'real' => 'Real Views By Country',
-    'na' => 'Sorry, we don\'t have enough data to display countries visits. Share this URL!',
-    'views' => 'Views By Country',
+    'real' => '真实浏览量（按国家/地区排序）',
+    'na' => '抱歉，我们没有足够的数据来显示国家/地区的访问量，分享这个网址！',
+    'views' => '按国家/地区显示',
   ),
   'view' => 
   array (
-    'reals' => 'Real Views',
-    'views' => 'Views',
-    'view' => 'View',
-    'real' => 'Real View',
+    'reals' => '真实浏览量',
+    'views' => '浏览量',
+    'view' => '浏览量',
+    'real' => '真实浏览量',
   ),
   'url' => 
   array (
-    'created' => 'Short URLs created',
+    'created' => '短链接数量',
   ),
-  'analytics' => 'Analytics',
+  'analytics' => '分析',
 );
