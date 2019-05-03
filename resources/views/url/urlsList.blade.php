@@ -81,7 +81,13 @@
                             data;
                     }
                 },
-                ]
+                ],
+                language: {
+                    paginate: {
+                        "previous": "&laquo;",
+                        "next": "&raquo;",
+                    }
+                }
             });
         });
 
