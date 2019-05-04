@@ -3,7 +3,7 @@
 return array (
   'settings' => 'Settings',
   'system' => 'System Settings',
-  'anon_hash_alert' => 'Attention: if you anonymize the IP without hashing it, Analytics will not be able to count Real Clicks, because it is impossible to check the user IP.',
+  'anon_hash_alert' => 'Attention: if you anonymize the IP without hashing it_IT, Analytics will not be able to count Real Clicks, because it_IT is impossible to check the user IP.',
   'general' => 'General',
   'website_name' => 'Website name',
   'website_image' => 'Website image',
