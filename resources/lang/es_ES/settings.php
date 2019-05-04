@@ -21,7 +21,7 @@ return array (
   'anonymize_ip' => 'Anonimizar direcciones IP al obtener la IP del país',
   'anonymous' => 'Permitir la creación anónima de short URLs',
   'anonymous_help' => 'Los usuarios no registrados podrán crear URLs.',
-  'disable_referers' => 'Disable Referers',
+  'disable_referers' => 'Desactivar Referers',
   'disable_referers_help' => 'UrlHum will not save anymore HTTP referers sent by users\' browser',
   'deleted' => '¿Se pueden volver a crear las URL eliminadas?',
   'reserved' => 'Direcciones short URL reservadas (una por línea)',
