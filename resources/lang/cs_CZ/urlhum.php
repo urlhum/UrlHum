@@ -1,12 +1,12 @@
 <?php
 
 return array (
-  'privacypolicy' => '隐私政策',
-  'and' => '与',
-  'termsofuse' => '使用条款',
-  'dashboard' => '控制台',
+  'privacypolicy' => 'Privacy Policy',
+  'and' => 'and',
+  'termsofuse' => 'Terms of Use',
+  'dashboard' => 'Dashboard',
   'design_by' => 'Design by',
-  'users' => '用户',
+  'users' => 'Users',
   'welcome' => 'Welcome!',
   'accessFeatures' => 'Sign up or Sign in to access all features',
   'search' => 'Search',
