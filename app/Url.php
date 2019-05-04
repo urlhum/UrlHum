@@ -129,5 +129,8 @@ class Url extends Model
       return $urls;
     }
 
+    public function clicks(){
+        return $this->hasMany('App\Analytics', 'short_url','short_url');
+    }
 
 }
