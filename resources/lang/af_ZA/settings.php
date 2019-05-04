@@ -21,8 +21,6 @@ return array (
   'anonymize_ip' => '获取IP的国家/地区时匿名化IP地址',
   'anonymous' => '允许匿名创建短网址',
   'anonymous_help' => '允许未登录的用户创建短链接',
-  'disable_referers' => 'Disable Referers',
-  'disable_referers_help' => 'UrlHum will not save anymore HTTP referers sent by users\' browser',
   'deleted' => '删除的URL能否被再次创建？',
   'reserved' => '保留的短网址（每行一个）',
   'reserved_help' => '用户将无法创建这些短链接',
