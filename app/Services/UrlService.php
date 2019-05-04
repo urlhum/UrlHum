@@ -148,23 +148,6 @@ class UrlService
         return User::isAdmin() || $this->isOwner($url);
     }
 
-
-    /**
-     * Check if the Url statistics are Hidden and return the setting value
-     *
-     * @param $url
-     * @return mixed
-     */
-    public function urlStatsHidden($url)
-    {
-        $check = Url::where('short_url', $url)
-            ->select('hide_stats')
-            ->first();
-
-        return $check->hide_stats;
-    }
-
-
     /**
      * Check if the typed URL has already been deleted before
      *

@@ -96,13 +96,6 @@ class UrlController extends Controller
                 ->with('siteUrl', $siteUrl);
         }
 
-        // We check if deleted URLs can be created again, and if not, we return an "existingCustom" error.
-        // This kind of error return is for security purpose.
-        if (!setting('deleted_urls_can_be_recreated') && $this->url->isUrlAlreadyDeleted($customUrl)) {
-            return Redirect::route('home')
-                ->with('existingCustom', $customUrl);
-        }
-
         $short = $this->url->createShortUrl($long_url, $customUrl, $privateUrl, $hideUrlStats);
 
         return Redirect::route('home')
