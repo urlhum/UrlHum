@@ -1,6 +1,6 @@
 <?php
 
 return array (
-  'next' => '»',
-  'previous' => '«',
+  'previous' => '»',
+  'next' => '«',
 );

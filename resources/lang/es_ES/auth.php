@@ -1,6 +1,6 @@
 <?php
 
 return array (
-  'failed' => 'Queste credenziali non sono corrette.',
-  'throttle' => 'Troppi tentativi di accesso. Prova di nuovo tra :seconds secondi.',
+  'failed' => 'Estas credenciales no coinciden con nuestros registros.',
+  'throttle' => 'Demasiados intentos de inicio de sesión. Por favor, intente de nuevo en :seconds segundos.',
 );

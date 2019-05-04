@@ -1,45 +1,45 @@
 <?php
 
 return array (
-  'referer' => 
-  array (
-    'referers' => 'Referers',
-    'referer' => 'Referer',
-    'list' => 
-    array (
-      'results' => 'Showing :firstItem - :lastItem referers of :num total',
-    ),
-    'na' => 'Still no referers to report. Share the URL to increase referrers!',
-    'best' => 'Best referers',
-  ),
+  'analytics' => 'Analytics',
   'click' => 
   array (
     'click' => 'Click',
-    'reals' => 'Real Clicks',
-    'clicks' => 'Clicks',
-    'today' => 'Clicks today',
-    'real' => 'Real Click',
-  ),
-  'show' => 
-  array (
-    'title' => 'Analytics for Short URL',
+    'clicks' => 'Click',
+    'real' => 'Click reali',
+    'reals' => 'Click reali',
+    'today' => 'Click oggi',
   ),
   'country' => 
   array (
-    'real' => 'Real Views By Country',
-    'na' => 'Sorry, we don\'t have enough data to display countries visits. Share this URL!',
-    'views' => 'Views By Country',
+    'na' => 'Spiacenti, non abbiamo abbastanza dati per mostrare le visite per paese. Condividi questo URL!',
+    'real' => 'Visualizzazioni reali per Paese',
+    'views' => 'Visualizzazioni per Paese',
   ),
-  'view' => 
+  'referer' => 
   array (
-    'reals' => 'Real Views',
-    'views' => 'Views',
-    'view' => 'View',
-    'real' => 'Real View',
+    'best' => 'Migliori referers',
+    'list' => 
+    array (
+      'results' => 'Mostrando :firstItem - :lastItem referers di :num totali',
+    ),
+    'na' => 'Ancora nessun referer da mostrare. Condividi questo URL per aumentarli!',
+    'referer' => 'Referer',
+    'referers' => 'Referers',
+  ),
+  'show' => 
+  array (
+    'title' => 'Analytics per Short URL',
   ),
   'url' => 
   array (
-    'created' => 'Short URLs created',
+    'created' => 'Short URL creati',
   ),
-  'analytics' => 'Analytics',
+  'view' => 
+  array (
+    'real' => 'Visualizzazione Reale',
+    'reals' => 'Visualizzazioni Reali',
+    'view' => 'Visualizzazione',
+    'views' => 'Visualizzazioni',
+  ),
 );
