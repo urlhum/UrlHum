@@ -1,49 +1,49 @@
 <?php
 
 return array (
-  'list' => 'URLs list',
-  'edit' => 
-  array (
-    'edit' => 'Edit URL',
-    'short' => 'Edit Short URL',
-  ),
-  'created' => 'URL created at :date',
-  'url' => 'URL',
-  'my' => 
-  array (
-    'my' => 'My Short URLs',
-    'list' => 'Showing :firstItem - :lastItem Short URLs of :num total',
-  ),
-  'public' => 'Latest public URLs',
-  'short' => 'Short URL',
-  'new' => 'New URL',
-  'long' => 'Long URL',
+  'action' => 'Azione',
+  'all' => 'Mostra tutti',
+  'by' => 'Creato da',
+  'created' => 'URL creato il :date',
+  'createdStr' => 'Creato',
   'delete' => 
   array (
-    'confirm' => 'Are you sure you want to delete this Short URL? All related Analytics data will be lost.',
-    'delete' => 'Delete URL',
+    'confirm' => 'Sei sicuro di voler eliminare questo Short URL? Tutti i dati analitici legati saranno persi.',
+    'delete' => 'Elimina URL',
   ),
-  'listres' => 'Showing :firstItem - :lastItem Short URLs of :num total',
-  'updated' => 'URL updated at :date',
-  'destination' => 'Destination',
-  'by' => 'Created By',
-  'stats' => 'View stats',
+  'destination' => 'Destinazione',
+  'edit' => 
+  array (
+    'edit' => 'Modifica URL',
+    'short' => 'Modifica Short URL',
+  ),
+  'existing_custom' => 'Lo Short URL :url esiste già. Scegli un altro Short URL',
+  'existing_long' => 'Questo URL di destinazione esiste già',
+  'id' => 'ID',
+  'latest' => 'Ultimi URL',
+  'list' => 'Lista URL',
+  'listres' => 'Mostrando :firstItem - lastItem Short URL di :num totali',
+  'long' => 'Destinazione',
+  'my' => 
+  array (
+    'list' => 'Mostrando :firstItem - :lastItem Short URL di :num totali',
+    'my' => 'Miei Short URL',
+  ),
+  'new' => 'Nuovo URL',
+  'new_long_text' => 'Crea nuovo Short URL',
   'options' => 
   array (
-    'hide' => 'Hide from Public URLs page',
-    'private_stats' => 'Make this URL statistics private',
-    'destination' => 'Destination URL',
-    'options' => 'Options',
-    'custom' => 'Custom Short URL',
+    'custom' => 'Short URL personalizzato',
+    'destination' => 'URL di destinazione',
+    'hide' => 'Nascondi dalla pagina pubblica degli URL',
+    'options' => 'Opzioni',
+    'private_stats' => 'Imposta le statistiche di questo URL come private',
   ),
-  'id' => 'ID',
-  'createdStr' => 'Created',
-  'action' => 'Action',
-  'existing_long' => 'This Long URL already exists',
-  'success' => 'Success! Short URL created',
-  'existing_custom' => 'The short URL :url already exists. Please choose another Short URL',
-  'new_long_text' => 'Create new Short URL',
-  'latest' => 'Latest URLs',
-  'all' => 'See all',
-  'urls' => 'URLs',
+  'public' => 'Ultimi URL pubblici',
+  'short' => 'Short URL',
+  'stats' => 'Visualizza statistiche',
+  'success' => 'Successo! Short URL creato',
+  'updated' => 'URL aggiornato il :date',
+  'url' => 'URL',
+  'urls' => 'URL',
 );
