@@ -7,12 +7,12 @@ return [
   |--------------------------------------------------------------------------
   |
   | The following language lines are used for Laravel Backpack - Settings
-  | Author: Frederik Rabøl (frederik-rm@hotmail.com)
+  |
   */
-  'name'             => 'Navn',
-  'value'            => 'værdi',
-  'description'      => 'beskrivelse',
-  'setting_singular' => 'indstilling',
-  'setting_plural'   => 'indstillinger',
+  'name'             => 'ຊື່',
+  'value'            => 'ຄ່າທີ່ລະບຸ',
+  'description'      => 'ຄໍາອະທິບາຍ',
+  'setting_singular' => 'ການຕັ້ງຄ່າ',
+  'setting_plural'   => 'ການຕັ້ງຄ່າຕ່າງໆ',
 
 ];
