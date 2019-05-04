@@ -7,39 +7,39 @@ return array (
     'referer' => 'Referer',
     'list' => 
     array (
-      'results' => 'Mostrando :firstItem - :lastItem referers di :num totali',
+      'results' => 'Showing :firstItem - :lastItem referers of :num total',
     ),
-    'na' => 'Ancora nessun referer da mostrare. Condividi questo URL per aumentarli!',
-    'best' => 'Migliori referers',
+    'na' => 'Still no referers to report. Share the URL to increase referrers!',
+    'best' => 'Best referers',
   ),
   'click' => 
   array (
     'click' => 'Click',
-    'reals' => 'Click reali',
-    'clicks' => 'Click',
-    'today' => 'Click oggi',
-    'real' => 'Click reali',
+    'reals' => 'Real Clicks',
+    'clicks' => 'Clicks',
+    'today' => 'Clicks today',
+    'real' => 'Real Click',
   ),
   'show' => 
   array (
-    'title' => 'Analytics per Short URL',
+    'title' => 'Analytics for Short URL',
   ),
   'country' => 
   array (
-    'real' => 'Visualizzazioni reali per Paese',
-    'na' => 'Spiacenti, non abbiamo abbastanza dati per mostrare le visite per paese. Condividi questo URL!',
-    'views' => 'Visualizzazioni per Paese',
+    'real' => 'Real Views By Country',
+    'na' => 'Sorry, we don\'t have enough data to display countries visits. Share this URL!',
+    'views' => 'Views By Country',
   ),
   'view' => 
   array (
-    'reals' => 'Visualizzazioni Reali',
-    'views' => 'Visualizzazioni',
-    'view' => 'Visualizzazione',
-    'real' => 'Visualizzazione Reale',
+    'reals' => 'Real Views',
+    'views' => 'Views',
+    'view' => 'View',
+    'real' => 'Real View',
   ),
   'url' => 
   array (
-    'created' => 'Short URL creati',
+    'created' => 'Short URLs created',
   ),
   'analytics' => 'Analytics',
 );
