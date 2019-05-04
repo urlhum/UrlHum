@@ -28,18 +28,18 @@ return array (
   array (
     'real' => 'Real Views By Country',
     'na' => 'Sorry, we don\'t have enough data to display countries visits. Share this URL!',
-    'views' => '按国家/地区显示',
+    'views' => 'Views By Country',
   ),
   'view' => 
   array (
-    'reals' => '真实浏览量',
-    'views' => '浏览量',
-    'view' => '浏览量',
-    'real' => '真实浏览量',
+    'reals' => 'Real Views',
+    'views' => 'Views',
+    'view' => 'View',
+    'real' => 'Real View',
   ),
   'url' => 
   array (
-    'created' => '短链接数量',
+    'created' => 'Short URLs created',
   ),
-  'analytics' => '分析',
+  'analytics' => 'Analytics',
 );
