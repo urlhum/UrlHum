@@ -14,6 +14,7 @@ use App\Url;
 use App\Services\UrlService;
 use App\ViewUrl;
 use Carbon\Carbon;
+
 /**
  * Class AnalyticsController
  *
@@ -48,30 +49,30 @@ class AnalyticsController extends Controller
         $urlWithRelations = Url::withCount([
             'clicks',
             'clicks as real_clicks_count' => function ($query) {
-        $query->where('real_click', 1);
-    },
+                $query->where('real_click', 1);
+            },
             'clicks as today_clicks_count' => function ($query) {
-        $query->where('created_at', '>=', Carbon::now()->subDay());
-    },
-])->where('short_url', $url)->firstOrFail();
+                $query->where('created_at', '>=', Carbon::now()->subDay());
+            },
+        ])->where('short_url', $url)->firstOrFail();
 
-        if ($this->url->urlStatsHidden($url)  && !$this->url->OwnerOrAdmin($url)) {
-           abort(403);
+        if ($this->url->urlStatsHidden($url) && !$this->url->OwnerOrAdmin($url)) {
+            abort(403);
         }
 
         $countriesViews = Analytics::getCountriesViews($url);
 
         $data = [
-            'url'                   =>          $url,
-            'clicks'                =>          $urlWithRelations->clicks_count,
-            'realClicks'            =>          $urlWithRelations->real_clicks_count,
-            'todayClicks'           =>          $urlWithRelations->today_clicks_count,
-            'countriesViews'        =>          $countriesViews,
-            'countriesRealViews'    =>          Analytics::getCountriesRealViews($url),
-            'countriesColor'        =>          Analytics::getCountriesColor($countriesViews),
-            'referrers'             =>          Analytics::getReferrers($url),
-            'creationDate'          =>          $urlWithRelations->created_at->diffForHumans(),
-            'isOwnerOrAdmin'        =>          $this->url->OwnerOrAdmin($url)
+            'url' => $url,
+            'clicks' => $urlWithRelations->clicks_count,
+            'realClicks' => $urlWithRelations->real_clicks_count,
+            'todayClicks' => $urlWithRelations->today_clicks_count,
+            'countriesViews' => $countriesViews,
+            'countriesRealViews' => Analytics::getCountriesRealViews($url),
+            'countriesColor' => Analytics::getCountriesColor($countriesViews),
+            'referrers' => Analytics::getReferrers($url),
+            'creationDate' => $urlWithRelations->created_at->diffForHumans(),
+            'isOwnerOrAdmin' => $this->url->OwnerOrAdmin($url)
         ];
 
         return view('analytics.urlAnalytics')->with($data);
