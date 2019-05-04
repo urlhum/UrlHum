@@ -80,7 +80,12 @@ class UrlController extends Controller
             $hideUrlStats = 0;
         }
 
-        if ($this->url->checkExistingCustomUrl($customUrl)) {
+
+        if ($this->url->checkExistingCustomUrl($customUrl) ||
+            $this->url->isShortUrlProtected($customUrl)    ||
+            $this->url->isUrlReserved($customUrl)          ||
+            (!setting('deleted_urls_can_be_recreated') && $this->url->isUrlAlreadyDeleted($request->input)))
+        {
             return Redirect::route('home')
                 ->with('existingCustom', $customUrl);
         }
@@ -198,7 +203,7 @@ class UrlController extends Controller
     public function checkExistingUrl(Request $request)
     {
         if (Url::where('short_url', $request->input)->exists() || $this->url->isUrlReserved($request->input) ||
-            (!setting('deleted_urls_can_be_recreated') && $this->url->isUrlAlreadyDeleted($request->input))) {
+            (!setting('deleted_urls_can_be_recreated') && $this->url->isUrlAlreadyDeleted($request->input)) || $this->url->isShortUrlProtected($request->input)) {
 
             return response('Custom URL already existing', 409);
         }

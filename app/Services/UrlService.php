@@ -182,4 +182,22 @@ class UrlService
     }
 
 
+    /**
+     * Check if Short URL is protected / cannot be created
+     * because it is a path
+     *
+     * @return array
+     */
+    public function isShortUrlProtected($url)
+    {
+        $routes = array_map(
+            function (\Illuminate\Routing\Route $route) {
+                return $route->uri;
+            }, (array) \Route::getRoutes()->getIterator()
+        );
+
+        return in_array($url, $routes);
+    }
+
+
 }
