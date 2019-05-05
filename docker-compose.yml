@@ -1,0 +1,47 @@
+version: '3'
+
+networks:
+  urlhum:
+    driver: bridge
+
+services:
+  urlhum:
+    image: urlhum
+    build:
+      context: .
+    networks:
+      - urlhum
+    volumes:
+      - ./.env-docker:/app/.env
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      - APP_KEY=${URLHUM_APP_KEY}
+
+  mysql:
+    image: mariadb
+    networks:
+      - urlhum
+    volumes:
+      - ./data/database:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=urlhum
+      - MYSQL_USER=url
+      - MYSQL_PASSWORD=hum
+
+  redis:
+    image: redis:alpine
+    networks:
+      - urlhum
+
+  caddy:
+    image: abiosoft/caddy
+    ports:
+      - "22443:443"
+      - "2280:80"
+    networks:
+      - urlhum
+    volumes:
+      - ./Caddyfile:/etc/Caddyfile

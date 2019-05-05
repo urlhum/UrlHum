@@ -1,0 +1,7 @@
+localhost:443 {
+	root urlhum
+	tls self_signed
+	proxy / http://urlhum:8000 {
+		transparent
+	}
+}
