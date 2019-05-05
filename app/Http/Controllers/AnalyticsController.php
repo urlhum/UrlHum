@@ -56,7 +56,7 @@ class AnalyticsController extends Controller
             },
         ])->where('short_url', $url)->firstOrFail();
 
-        if (Url::where('short_url', $url)->first()->hide_stats && !$this->url->OwnerOrAdmin($url)) {
+        if ($urlWithRelations->hide_stats && !$this->url->OwnerOrAdmin($url)) {
             abort(403);
         }
 
