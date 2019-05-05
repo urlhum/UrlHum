@@ -1,9 +1,9 @@
 <?php
 
 return array (
-  'password' => '密码必须至少为六个字符',
-  'reset' => '你的密码已被重置',
-  'sent' => '密码重置链接已发送到你的邮箱中！',
-  'token' => '密码重置Token无效',
-  'user' => '该用户不存在',
+  'password' => 'Passwords must be at least six characters and match the confirmation.',
+  'reset' => 'Your password has been reset!',
+  'sent' => 'We have e-mailed your password reset link!',
+  'token' => 'This password reset token is invalid.',
+  'user' => 'We can\'t find a user with that e-mail address.',
 );

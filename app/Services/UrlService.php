@@ -148,23 +148,6 @@ class UrlService
         return User::isAdmin() || $this->isOwner($url);
     }
 
-
-    /**
-     * Check if the Url statistics are Hidden and return the setting value
-     *
-     * @param $url
-     * @return mixed
-     */
-    public function urlStatsHidden($url)
-    {
-        $check = Url::where('short_url', $url)
-            ->select('hide_stats')
-            ->first();
-
-        return $check->hide_stats;
-    }
-
-
     /**
      * Check if the typed URL has already been deleted before
      *
@@ -179,6 +162,24 @@ class UrlService
             ->exists();
 
         return $check;
+    }
+
+
+    /**
+     * Check if Short URL is protected / cannot be created
+     * because it is a path
+     *
+     * @return array
+     */
+    public function isShortUrlProtected($url)
+    {
+        $routes = array_map(
+            function (\Illuminate\Routing\Route $route) {
+                return $route->uri;
+            }, (array) \Route::getRoutes()->getIterator()
+        );
+
+        return in_array($url, $routes);
     }
 
 

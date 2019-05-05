@@ -1,6 +1,6 @@
 <?php
 
 return array (
-  'failed' => '用户信息错误',
-  'throttle' => '尝试登录次数过多，请在  :seconds 秒后重试',
+  'failed' => 'These credentials do not match our records.',
+  'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 );

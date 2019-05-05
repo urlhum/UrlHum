@@ -27,48 +27,6 @@ class Analytics extends Model
     protected $table = 'views';
 
     /**
-     * Get the Clicks an URL had
-     *
-     * @param $url
-     * @return int
-     */
-    public static function getClicks($url)
-    {
-        $clicks = Analytics::where('short_url', $url)
-            ->count();
-        return $clicks;
-    }
-
-    /**
-     * Get the Real Clicks an URL had
-     *
-     * @param $url
-     * @return int
-     */
-    public static function getRealClicks($url)
-    {
-        $realClicks = Analytics::where('short_url', $url)
-            ->where('real_click', 1)
-            ->count();
-        return $realClicks;
-    }
-
-    /**
-     * Load the Clicks (not real) made today to the URL
-     *
-     * @param $url
-     * @return int
-     */
-    public static function getTodayClicks($url)
-    {
-        $todayClicks = Analytics::where('short_url', $url)
-            ->where('created_at', '>=', Carbon::now()->subDay())
-            ->count();
-
-        return $todayClicks;
-    }
-
-    /**
      * Get the list of the URL's visitors countries
      *
      * @param $url
@@ -100,7 +58,6 @@ class Analytics extends Model
 
         return $countriesRealViews;
     }
-
 
     /**
      * Generate a random set of colors, depending on how much countries
@@ -143,22 +100,6 @@ class Analytics extends Model
 
         return $referrers;
     }
-
-    /**
-     * Get the data of the URL creation
-     *
-     * @param $url
-     * @return mixed
-     */
-    public static function getCreationDate($url)
-    {
-        $creationDate = Url::where('short_url', $url)
-            ->select('created_at')
-            ->first('created_at');
-
-        return $creationDate->created_at->diffForHumans();
-    }
-
 
     /**
      * Count how much referers we have in total
