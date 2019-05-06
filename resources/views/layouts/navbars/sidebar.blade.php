@@ -42,7 +42,7 @@
                 <div class="row">
                     <div class="col-6 collapse-brand">
                         <a href="{{ route('home') }}">
-                            <img src="/images/urlhum.png">
+                            <img src="{{ setting('website_image') }}">
                         </a>
                     </div>
                     <div class="col-6 collapse-close">
