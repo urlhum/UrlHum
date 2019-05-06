@@ -56,6 +56,7 @@ class SettingsSetCommand extends Command
             "deleted_urls_can_be_recreated" => 1,
             "website_name" => "UrlHum",
             "website_image" => "/images/urlhum.png",
+            "website_favicon" => "/images/favicon.ico",
             "privacy_policy" => " ",
             "enable_privacy_policy" => 1,
             "terms_of_use" => " ",

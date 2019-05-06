@@ -79,6 +79,20 @@
                                                         </td>
                                                     </tr>
 
+                                                    <tr>
+                                                        <td>
+                                                            <p>{{ __('settings.website_favicon') }}</p>
+                                                        </td>
+                                                        <td class="text-right">
+                                                            <img src="{{ $settings['website_favicon'] }}"
+                                                                 class="w-25 img-fluid img-thumbnail">
+                                                            <div class="form-group">
+                                                                <input type="file" class="form-control-file"
+                                                                       name="website_favicon">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
 
                                                     <tr>
                                                         <td><p>{{ __('settings.private') }}

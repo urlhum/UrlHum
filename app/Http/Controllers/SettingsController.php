@@ -53,6 +53,7 @@ class SettingsController extends Controller
             'reservedShortUrls' => 'max:200',
             'deleted_urls_can_be_recreated' => 'boolean',
             'website_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'website_favicon' => 'image|mimes:ico,png|max:2048',
             'privacy_policy' => 'max:10000',
             'enable_privacy_policy' => 'boolean',
             'terms_of_use' => 'max:10000',
@@ -62,11 +63,20 @@ class SettingsController extends Controller
         // We convert reservedShortUrls new lines to array and json-ize the array to save in Database
         $data['reservedShortUrls'] = json_encode(explode(PHP_EOL, $data['reservedShortUrls']));
 
+
+        // TODO: These checks are repeated. To clear up a bit
         // We get the image, if uploaded by the user, then move it in the /images public folder
         if ($request->exists('website_image')) {
             $imageName = time().'.'.request()->website_image->getClientOriginalExtension();
             $request->website_image->move(public_path('images'), $imageName);
             $data['website_image'] = '/images/' . $imageName;
+        }
+
+        // We get the favicon, if uploaded by the user, then move it in the /images public folder
+        if ($request->exists('website_favicon')) {
+            $faviconName = time().'.'.request()->website_favicon->getClientOriginalExtension();
+            $request->website_favicon->move(public_path('images'), $faviconName);
+            $data['website_favicon'] = '/images/' . $faviconName;
         }
 
         // Check if Privacy Policy and TOS text is empty.
