@@ -1,6 +1,6 @@
 <?php
 /**
- * UrlHum (https://urlhum.com)
+ * UrlHum (https://urlhum.com).
  *
  * @link      https://github.com/urlhum/UrlHum
  * @copyright Copyright (c) 2019 Christian la Forgia
@@ -15,8 +15,9 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class HomeTest extends TestCase
 {
     use DatabaseTransactions;
+
     /**
-     * Simply show the homepage to any user
+     * Simply show the homepage to any user.
      *
      * @return void
      */
@@ -28,7 +29,7 @@ class HomeTest extends TestCase
 
     /**
      * If "private site" setting is enabled, guests should be redirected
-     * to login page
+     * to login page.
      *
      * @return void
      */
@@ -40,9 +41,8 @@ class HomeTest extends TestCase
             ->assertRedirect('/login');
     }
 
-
     /**
-     * If Privacy Policy page is disabled, don't show it
+     * If Privacy Policy page is disabled, don't show it.
      *
      * @return void
      */
@@ -54,7 +54,7 @@ class HomeTest extends TestCase
     }
 
     /**
-     * If Privacy Policy page is enabled, show it
+     * If Privacy Policy page is enabled, show it.
      *
      * @return void
      */
@@ -66,7 +66,7 @@ class HomeTest extends TestCase
     }
 
     /**
-     * If TOS page is disabled, don't show it
+     * If TOS page is disabled, don't show it.
      *
      * @return void
      */
@@ -78,7 +78,7 @@ class HomeTest extends TestCase
     }
 
     /**
-     * If Privacy Policy page is enabled, show it
+     * If Privacy Policy page is enabled, show it.
      *
      * @return void
      */

@@ -1,6 +1,6 @@
 <?php
 /**
- * UrlHum (https://urlhum.com)
+ * UrlHum (https://urlhum.com).
  *
  * @link      https://github.com/urlhum/UrlHum
  * @copyright Copyright (c) 2019 Christian la Forgia
@@ -9,14 +9,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Analytics;
 use App\Url;
-use App\Services\UrlService;
 use App\ViewUrl;
+use App\Analytics;
 use Carbon\Carbon;
+use App\Services\UrlService;
 
 /**
- * Class AnalyticsController
+ * Class AnalyticsController.
  *
  * @author Christian la Forgia <christian@optiroot.it>
  */
@@ -38,7 +38,7 @@ class AnalyticsController extends Controller
     }
 
     /**
-     * Show the URL analytics page to user
+     * Show the URL analytics page to user.
      *
      * @param $url
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -56,7 +56,7 @@ class AnalyticsController extends Controller
             },
         ])->where('short_url', $url)->firstOrFail();
 
-        if ($urlWithRelations->hide_stats && !$this->url->OwnerOrAdmin($url)) {
+        if ($urlWithRelations->hide_stats && ! $this->url->OwnerOrAdmin($url)) {
             abort(403);
         }
 
@@ -72,15 +72,14 @@ class AnalyticsController extends Controller
             'countriesColor' => Analytics::getCountriesColor($countriesViews),
             'referrers' => Analytics::getReferrers($url),
             'creationDate' => $urlWithRelations->created_at->diffForHumans(),
-            'isOwnerOrAdmin' => $this->url->OwnerOrAdmin($url)
+            'isOwnerOrAdmin' => $this->url->OwnerOrAdmin($url),
         ];
 
         return view('analytics.urlAnalytics')->with($data);
-
     }
 
     /**
-     * Show the referers list to the user
+     * Show the referers list to the user.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -89,7 +88,7 @@ class AnalyticsController extends Controller
         if (setting('disable_referers')) {
             abort(404);
         }
+
         return view('analytics.referrers')->with('referrers', ViewUrl::getReferrers());
     }
-
 }

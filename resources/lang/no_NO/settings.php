@@ -1,6 +1,6 @@
 <?php
 
-return array (
+return [
   'settings' => 'Settings',
   'system' => 'System Settings',
   'anon_hash_alert' => 'Attention: if you anonymize the IP without hashing it, Analytics will not be able to count Real Clicks, because it is impossible to check the user IP.',
@@ -31,4 +31,4 @@ return array (
   'tos_desc' => 'Write your Terms Of Use here. Standard HTML is allowed.',
   'save_changes' => 'Save changes',
   'success' => 'Settings successfully updated!',
-);
+];

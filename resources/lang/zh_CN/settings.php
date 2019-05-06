@@ -1,6 +1,6 @@
 <?php
 
-return array (
+return [
   'settings' => '设置',
   'system' => '系统设置',
   'anon_hash_alert' => '注意：如果您对IP进行匿名处理而不进行哈希处理，则分析将无法统计实际点击次数，因为无法检测用户IP。',
@@ -31,4 +31,4 @@ return array (
   'tos_desc' => '在此处编辑您的使用条款，可以使用HTML语言',
   'save_changes' => '保存更改',
   'success' => '设置已更新！',
-);
+];

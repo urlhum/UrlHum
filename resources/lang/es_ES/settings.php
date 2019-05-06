@@ -1,6 +1,6 @@
 <?php
 
-return array (
+return [
   'settings' => 'Ajustes',
   'system' => 'Ajustes del sistema',
   'anon_hash_alert' => 'Atención: si usted anónima la IP sin anularla, Analytics no podrá contar los clics reales, ya que es imposible verificar la IP del usuario.',
@@ -31,4 +31,4 @@ return array (
   'tos_desc' => 'Escriba sus Términos de Uso aquí. Se permite HTML estándar.',
   'save_changes' => 'Guardar cambios',
   'success' => 'Configuraciones exitosamente actualizadas!',
-);
+];

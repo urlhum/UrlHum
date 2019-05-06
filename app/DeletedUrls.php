@@ -1,6 +1,6 @@
 <?php
 /**
- * UrlHum (https://urlhum.com)
+ * UrlHum (https://urlhum.com).
  *
  * @link      https://github.com/urlhum/UrlHum
  * @copyright Copyright (c) 2019 Christian la Forgia
@@ -9,11 +9,11 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * Model for the deletedURls database table
+ * Model for the deletedURls database table.
  *
  * Class DeletedUrls
  * @author Christian la Forgia <christian@optiroot.it>
@@ -23,7 +23,7 @@ class DeletedUrls extends Model
     /**
      * @var string
      */
-    protected $table = "deleted_urls";
+    protected $table = 'deleted_urls';
     /**
      * @var bool
      */
@@ -31,13 +31,13 @@ class DeletedUrls extends Model
 
     /**
      * Add a deleted URL to the table.
-     * Useful to check in future if a URL has already been deleted
+     * Useful to check in future if a URL has already been deleted.
      *
      * @param $url
      */
     public static function add($url)
     {
-        $deleted = new DeletedUrls();
+        $deleted = new self();
         $deleted->url = $url;
         $deleted->deleted_at = Carbon::now()->toDateTimeString();
         $deleted->save();

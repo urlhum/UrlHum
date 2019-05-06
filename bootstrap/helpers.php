@@ -4,5 +4,5 @@ use App\User;
 
 function isAdmin()
 {
-   return User::isAdmin();
+    return User::isAdmin();
 }

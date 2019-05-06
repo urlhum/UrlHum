@@ -16,7 +16,7 @@ class ArgonPresetServiceProvider extends ServiceProvider
     {
         PresetCommand::macro('argon', function ($command) {
             ArgonPreset::install();
-            
+
             $command->info('Argon scaffolding installed successfully.');
         });
     }

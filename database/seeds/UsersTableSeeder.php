@@ -19,7 +19,7 @@ class UsersTableSeeder extends Seeder
             'password' => Hash::make('urlhum'),
             'role' => 'admin',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
         ]);
     }
 }

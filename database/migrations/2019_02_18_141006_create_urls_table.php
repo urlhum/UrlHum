@@ -22,8 +22,6 @@ class CreateUrlsTable extends Migration
             $table->tinyInteger('private')->default(0);
             $table->tinyInteger('hide_stats')->default(0);
         });
-
-
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-return array (
+return [
   'privacypolicy' => 'Políticas de privacidad',
   'and' => 'y',
   'termsofuse' => 'Términos de uso',
@@ -21,4 +21,4 @@ return array (
   'close' => 'Cerrar',
   'edit' => 'Editar',
   'user' => 'Usuario',
-);
+];

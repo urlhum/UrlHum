@@ -1,6 +1,6 @@
 <?php
 
-return array (
+return [
   'privacypolicy' => '隐私政策',
   'and' => '与',
   'termsofuse' => '使用条款',
@@ -21,4 +21,4 @@ return array (
   'close' => '关闭',
   'edit' => '编辑',
   'user' => '用户',
-);
+];

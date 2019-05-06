@@ -1,41 +1,37 @@
 <?php
 
-return array (
+return [
   'list' => 'Lista de URLs',
-  'edit' => 
-  array (
+  'edit' => [
     'edit' => 'Editar URL',
     'short' => 'Editar Short URL',
-  ),
+  ],
   'created' => 'URL creada en :date',
   'url' => 'URL',
-  'my' => 
-  array (
+  'my' => [
     'my' => 'Mi Short URLs',
     'list' => 'Mostrando :firstItem - :lastItem Short URLs de :num total',
-  ),
+  ],
   'public' => 'Últimas URLs públicas',
   'short' => 'Short URL',
   'new' => 'Nueva URL',
   'long' => 'Long URL',
-  'delete' => 
-  array (
+  'delete' => [
     'confirm' => 'Estás seguro de que deseas eliminar esta short URL? Todos los datos analíticos relacionados se perderán..',
     'delete' => 'Eliminar URL',
-  ),
+  ],
   'listres' => 'Mostrando :firstItem - :lastItem Short URLs de :num total',
   'updated' => 'URL actualizada en :date',
   'destination' => 'Destino',
   'by' => 'Creada por',
   'stats' => 'Ver estadísticas',
-  'options' => 
-  array (
+  'options' => [
     'hide' => 'Ocultar de la página de URL públicas',
     'private_stats' => 'Hacer que las estadísticas de esta URL sean privadas',
     'destination' => 'Destino URL',
     'options' => 'Opciones',
     'custom' => 'Short URL personalizada',
-  ),
+  ],
   'id' => 'ID',
   'createdStr' => 'Creada',
   'action' => 'Acción',
@@ -46,4 +42,4 @@ return array (
   'latest' => 'Últimas URLs',
   'all' => 'Ver todo',
   'urls' => 'URLs',
-);
+];

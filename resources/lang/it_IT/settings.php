@@ -1,6 +1,6 @@
 <?php
 
-return array (
+return [
   'settings' => 'Impostazioni',
   'system' => 'Impostazioni di Sistema',
   'anon_hash_alert' => 'Attenzione: se anonimizzi l\'indirizzo IP senza effettuare il relativo hashing, le funzioni di analitica non potranno contare i click reali, in quanto sarebbe impossibile determinare l\'indirizzo IP dell\'utente.',
@@ -31,4 +31,4 @@ return array (
   'tos_desc' => 'Digita i tuoi Termini di Utilizzo qui. L\'HTML standard è permesso.',
   'save_changes' => 'Salva cambiamenti',
   'success' => 'Impostazioni aggiornate con successo!',
-);
+];

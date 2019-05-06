@@ -1,6 +1,6 @@
 <?php
 /**
- * UrlHum (https://urlhum.com)
+ * UrlHum (https://urlhum.com).
  *
  * @link      https://github.com/urlhum/UrlHum
  * @copyright Copyright (c) 2019 Christian la Forgia
@@ -13,12 +13,11 @@ use Closure;
 use App\User;
 
 /**
- * Check if the user is an Admin or not
+ * Check if the user is an Admin or not.
  *
  * Class checkAdmin
- * @package App\Http\Middleware
  */
-class checkAdmin
+class CheckAdmin
 {
     /**
      * Handle an incoming request.
@@ -34,6 +33,5 @@ class checkAdmin
         }
 
         return abort(404);
-
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * UrlHum (https://urlhum.com)
+ * UrlHum (https://urlhum.com).
  *
  * @link      https://github.com/urlhum/UrlHum
  * @copyright Copyright (c) 2019 Christian la Forgia
@@ -9,15 +9,14 @@
 
 namespace Tests\Feature;
 
+use App\Url;
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\User;
-use App\Url;
 
 class ShortUrlTest extends TestCase
 {
     use DatabaseTransactions;
-
 
     public function getUrlId($url)
     {
@@ -28,7 +27,7 @@ class ShortUrlTest extends TestCase
     }
 
     /**
-     * Try to edit a Short URL as an anonymous user. Should fail
+     * Try to edit a Short URL as an anonymous user. Should fail.
      *
      * @return void
      */
@@ -39,14 +38,14 @@ class ShortUrlTest extends TestCase
         $this->get('/url/inst')
             ->assertStatus(403);
 
-       $urlId = $this->getUrlid('inst');
+        $urlId = $this->getUrlid('inst');
 
         $this->put("/url/$urlId", ['destinationUrl' => 'https://aaa.com'])
             ->assertStatus(403);
     }
 
     /**
-     * Try to edit a Short URL as an owner. Should succeed
+     * Try to edit a Short URL as an owner. Should succeed.
      *
      * @return void
      */
@@ -68,10 +67,9 @@ class ShortUrlTest extends TestCase
             ->assertStatus(302);
     }
 
-
     /**
      * If users set the Short Url as hidden from public URLs page,
-     * the list shouldn't have the Short URL
+     * the list shouldn't have the Short URL.
      *
      * @return void
      */
@@ -89,9 +87,8 @@ class ShortUrlTest extends TestCase
             ->assertSessionHas('success');
 
         $urls = Url::getLatestPublicUrls();
-        $url = $urls[0]->short_url ?? NULL;
+        $url = $urls[0]->short_url ?? null;
 
         $this->assertNotEquals($url, $data['customUrl']);
     }
-
 }

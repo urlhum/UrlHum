@@ -1,45 +1,38 @@
 <?php
 
-return array (
-  'referer' => 
-  array (
+return [
+  'referer' => [
     'referers' => 'Referers',
     'referer' => 'Referer',
-    'list' => 
-    array (
+    'list' => [
       'results' => 'Showing :firstItem - :lastItem referers of :num total',
-    ),
+    ],
     'na' => 'Still no referers to report. Share the URL to increase referrers!',
     'best' => 'Best referers',
-  ),
-  'click' => 
-  array (
+  ],
+  'click' => [
     'click' => 'Click',
     'reals' => 'Real Clicks',
     'clicks' => 'Clicks',
     'today' => 'Clicks today',
     'real' => 'Real Click',
-  ),
-  'show' => 
-  array (
+  ],
+  'show' => [
     'title' => 'Analytics for Short URL',
-  ),
-  'country' => 
-  array (
+  ],
+  'country' => [
     'real' => 'Real Views By Country',
     'na' => 'Sorry, we don\'t have enough data to display countries visits. Share this URL!',
     'views' => 'Views By Country',
-  ),
-  'view' => 
-  array (
+  ],
+  'view' => [
     'reals' => 'Real Views',
     'views' => 'Views',
     'view' => 'View',
     'real' => 'Real View',
-  ),
-  'url' => 
-  array (
+  ],
+  'url' => [
     'created' => 'Short URLs created',
-  ),
+  ],
   'analytics' => 'Analytics',
-);
+];

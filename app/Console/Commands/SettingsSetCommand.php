@@ -1,6 +1,6 @@
 <?php
 /**
- * UrlHum (https://urlhum.com)
+ * UrlHum (https://urlhum.com).
  *
  * @link      https://github.com/urlhum/UrlHum
  * @copyright Copyright (c) 2019 Christian la Forgia
@@ -38,28 +38,28 @@ class SettingsSetCommand extends Command
     }
 
     /**
-     * Return an array of the default UrlHum settings
+     * Return an array of the default UrlHum settings.
      *
      * @return array
      */
     public static function defaultSettingsList()
     {
         return [
-            "anonymous_urls" => 1,
-            "registration" => 1,
-            "private_site" => 0,
-            "show_guests_latests_urls" => 1,
-            "hash_ip" => 1,
-            "anonymize_ip" => 1,
-            "disable_referers" => 1,
-            "reservedShortUrls" =>  '""',
-            "deleted_urls_can_be_recreated" => 1,
-            "website_name" => "UrlHum",
-            "website_image" => "/images/urlhum.png",
-            "privacy_policy" => " ",
-            "enable_privacy_policy" => 1,
-            "terms_of_use" => " ",
-            "enable_terms_of_use" => 1,
+            'anonymous_urls' => 1,
+            'registration' => 1,
+            'private_site' => 0,
+            'show_guests_latests_urls' => 1,
+            'hash_ip' => 1,
+            'anonymize_ip' => 1,
+            'disable_referers' => 1,
+            'reservedShortUrls' =>  '""',
+            'deleted_urls_can_be_recreated' => 1,
+            'website_name' => 'UrlHum',
+            'website_image' => '/images/urlhum.png',
+            'privacy_policy' => ' ',
+            'enable_privacy_policy' => 1,
+            'terms_of_use' => ' ',
+            'enable_terms_of_use' => 1,
         ];
     }
 
@@ -75,12 +75,11 @@ class SettingsSetCommand extends Command
 
         $diff = array_diff_key($default, $actual);
 
-        if(!empty($diff)) {
+        if (! empty($diff)) {
             setting()->set(array_merge($default, $actual));
             setting()->save();
         }
 
         $this->info('Great! New settings created.');
-
     }
 }

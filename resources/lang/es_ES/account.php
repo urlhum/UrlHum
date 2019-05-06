@@ -1,9 +1,8 @@
 <?php
 
-return array (
+return [
   'update_success' => '¡Cuenta actualizada con éxito!',
-  'password' => 
-  array (
+  'password' => [
     'success' => '¡Contraseña actualizada con éxito!',
     'current' => 'Contraseña actual',
     'not_match' => 'El campo contraseña actual no coincide con su contraseña',
@@ -15,7 +14,7 @@ return array (
     'change' => 'Cambiar contraseña',
     'old' => 'Contraseña anterior',
     'send' => 'Enviar enlace para restablecer la contraseña',
-  ),
+  ],
   'user_created' => 'Usuario creado exitosamente',
   'user_updated' => 'Usuario actualizado exitosamente',
   'user_deleted' => 'Usuario eliminado exitosamente',
@@ -42,9 +41,8 @@ return array (
   'users' => 'Usuarios',
   'add' => 'Agregar usuario',
   'creation_date' => 'Fecha de creación',
-  'delete' => 
-  array (
+  'delete' => [
     'confirm' => '¿Estás seguro de que quieres eliminar a este usuario?',
     'delete' => 'Borrar usuario',
-  ),
-);
+  ],
+];

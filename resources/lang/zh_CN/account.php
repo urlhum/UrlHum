@@ -1,9 +1,8 @@
 <?php
 
-return array (
+return [
   'update_success' => '账户信息更新成功',
-  'password' => 
-  array (
+  'password' => [
     'success' => '账户信息更新成功！',
     'current' => '旧密码',
     'not_match' => '旧密码字段与您的密码不符',
@@ -15,7 +14,7 @@ return array (
     'change' => '更改密码',
     'old' => '旧密码',
     'send' => '发送密码重置链接',
-  ),
+  ],
   'user_created' => '用户创建成功',
   'user_updated' => '用户信息更新成功',
   'user_deleted' => '用户删除成功',
@@ -42,9 +41,8 @@ return array (
   'users' => '用户',
   'add' => '新增用户',
   'creation_date' => '创建日期',
-  'delete' => 
-  array (
+  'delete' => [
     'confirm' => '您确定要删除此用户吗？',
     'delete' => '删除用户',
-  ),
-);
+  ],
+];

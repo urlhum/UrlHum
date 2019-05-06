@@ -1,6 +1,6 @@
 <?php
 /**
- * UrlHum (https://urlhum.com)
+ * UrlHum (https://urlhum.com).
  *
  * @link      https://github.com/urlhum/UrlHum
  * @copyright Copyright (c) 2019 Christian la Forgia
@@ -9,23 +9,21 @@
 
 namespace App\Services;
 
-use App\Settings;
-use App\User;
-use App\Url;
 use Auth;
+use App\Url;
+use App\User;
+use App\Settings;
 use Illuminate\Support\Str;
 
-
 /**
- * Useful functions to use in the Whole App for Short URLs
+ * Useful functions to use in the Whole App for Short URLs.
  *
  * Class UrlService
- * @package App\Services
  */
 class UrlService
 {
     /**
-     * Check if the URL is reserved, based on the system setting
+     * Check if the URL is reserved, based on the system setting.
      *
      * @param $url
      * @return bool
@@ -34,7 +32,7 @@ class UrlService
     {
         $reservedUrls = Settings::getReservedUrls();
         // Check if there are any reserved URLs or if the custom URL isn't set
-        if (gettype($reservedUrls) !== 'array' || $url === NULL) {
+        if (gettype($reservedUrls) !== 'array' || $url === null) {
             return false;
         }
 
@@ -42,7 +40,7 @@ class UrlService
     }
 
     /**
-     * Check if the Custom URL already exists
+     * Check if the Custom URL already exists.
      *
      * @param $custom_url
      * @return bool
@@ -58,7 +56,7 @@ class UrlService
     }
 
     /**
-     * Check if the long URL exists on database. If so, return the short URL
+     * Check if the long URL exists on database. If so, return the short URL.
      *
      * @param $long_url
      * @return mixed|null
@@ -70,16 +68,15 @@ class UrlService
         return $long_url_check['short_url'];
     }
 
-
     /**
-     * Check if the logged in user is the Short URL owner
+     * Check if the logged in user is the Short URL owner.
      *
      * @param $url
      * @return bool
      */
     public function isOwner($url)
     {
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return false;
         }
 
@@ -93,9 +90,8 @@ class UrlService
         return false;
     }
 
-
     /**
-     * Actually creates a short URL if there is no custom URL. Otherwise, use the custom
+     * Actually creates a short URL if there is no custom URL. Otherwise, use the custom.
      *
      * @param $long_url
      * @param $short_url
@@ -105,9 +101,10 @@ class UrlService
      */
     public function createShortUrl($long_url, $short_url, $privateUrl, $hideUrlStats)
     {
-        if (!empty($short_url)) {
+        if (! empty($short_url)) {
             // Set the short url as custom url sent by user
             Url::createUrl($long_url, $short_url, $privateUrl, $hideUrlStats);
+
             return $short_url;
         }
 
@@ -115,34 +112,34 @@ class UrlService
         do {
             $short_url = Str::random(6);
         } while (Url::where('short_url', $short_url)->first() ||
-                 $this->isUrlReserved($short_url)             ||
-                 $this->isShortUrlProtected($short_url)       ||
-                (!setting('deleted_urls_can_be_recreated') && $this->isUrlAlreadyDeleted($short_url))
+                 $this->isUrlReserved($short_url) ||
+                 $this->isShortUrlProtected($short_url) ||
+                (! setting('deleted_urls_can_be_recreated') && $this->isUrlAlreadyDeleted($short_url))
                 );
 
         Url::createUrl($long_url, $short_url, $privateUrl, $hideUrlStats);
+
         return $short_url;
     }
 
-
     /**
-     * Load the URLs of the currently logged in user
+     * Load the URLs of the currently logged in user.
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function getMyUrls()
     {
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             abort(404);
         }
 
         $user_id = Auth::user()->id;
+
         return $urlsList = Url::where('user_id', $user_id)->paginate(30);
     }
 
-
     /**
-     * Check if the logged in user is the URL Owner or an Admin
+     * Check if the logged in user is the URL Owner or an Admin.
      *
      * @param $url
      * @return bool
@@ -153,7 +150,7 @@ class UrlService
     }
 
     /**
-     * Check if the typed URL has already been deleted before
+     * Check if the typed URL has already been deleted before.
      *
      * @param $url
      * @return bool
@@ -168,10 +165,9 @@ class UrlService
         return $check;
     }
 
-
     /**
      * Check if Short URL is protected / cannot be created
-     * because it is a path
+     * because it is a path.
      *
      * @return array
      */
@@ -185,6 +181,4 @@ class UrlService
 
         return in_array($url, $routes);
     }
-
-
 }
