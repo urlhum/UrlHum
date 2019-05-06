@@ -56,7 +56,6 @@ class UrlController extends Controller
         if (!Auth::check() && !setting('anonymous_urls')) {
             abort(403);
         }
-
         // Validation
         $request->validate([
             'url' => 'required|max:255|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',

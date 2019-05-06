@@ -33,10 +33,11 @@ class UrlService
     public function isUrlReserved($url)
     {
         $reservedUrls = Settings::getReservedUrls();
-        // Check if there are any reserved URLs
-        if (gettype($reservedUrls) != 'array') {
+        // Check if there are any reserved URLs or if the custom URL isn't set
+        if (gettype($reservedUrls) !== 'array' || $url === NULL) {
             return false;
         }
+
         return in_array($url, $reservedUrls);
     }
 
@@ -113,10 +114,13 @@ class UrlService
         // Iterate until a not-already-created short url is generated
         do {
             $short_url = Str::random(6);
-        } while (Url::where('short_url', $short_url)->first() || $this->isUrlReserved($short_url));
+        } while (Url::where('short_url', $short_url)->first() ||
+                 $this->isUrlReserved($short_url)             ||
+                 $this->isShortUrlProtected($short_url)       ||
+                (!setting('deleted_urls_can_be_recreated') && $this->isUrlAlreadyDeleted($short_url))
+                );
 
         Url::createUrl($long_url, $short_url, $privateUrl, $hideUrlStats);
-
         return $short_url;
     }
 
