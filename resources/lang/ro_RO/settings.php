@@ -7,6 +7,7 @@ return array (
   'general' => 'General',
   'website_name' => 'Website name',
   'website_image' => 'Website image',
+  'website_favicon' => 'Website favicon',
   'private' => 'Make website private',
   'private_help' => 'The website homepage will redirect to the login',
   'registration' => 'Enable users registration',
