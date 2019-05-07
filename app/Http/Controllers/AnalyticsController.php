@@ -9,7 +9,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Analytics;
+use App\Services\Analytics;
 use App\Url;
 use App\Services\UrlService;
 use App\ViewUrl;
@@ -27,14 +27,18 @@ class AnalyticsController extends Controller
      */
     protected $url;
 
+    protected $analytics;
+
     /**
      * AnalyticsController constructor.
      *
      * @param UrlService $urlService
+     * @param Analytics $analytics
      */
-    public function __construct(UrlService $urlService)
+    public function __construct(UrlService $urlService, Analytics $analytics)
     {
         $this->url = $urlService;
+        $this->analytics = $analytics;
     }
 
     /**
@@ -60,7 +64,7 @@ class AnalyticsController extends Controller
             abort(403);
         }
 
-        $countriesViews = Analytics::getCountriesViews($url);
+        $countriesViews = $this->analytics->getCountriesViews($url);
 
         $data = [
             'url' => $url,
@@ -68,9 +72,9 @@ class AnalyticsController extends Controller
             'realClicks' => $urlWithRelations->real_clicks_count,
             'todayClicks' => $urlWithRelations->today_clicks_count,
             'countriesViews' => $countriesViews,
-            'countriesRealViews' => Analytics::getCountriesRealViews($url),
-            'countriesColor' => Analytics::getCountriesColor($countriesViews),
-            'referrers' => Analytics::getReferrers($url),
+            'countriesRealViews' => $this->analytics->getCountriesRealViews($url),
+            'countriesColor' =>  $this->analytics->getCountriesColor($countriesViews),
+            'referrers' =>  $this->analytics->getReferrers($url),
             'creationDate' => $urlWithRelations->created_at->diffForHumans(),
             'isOwnerOrAdmin' => $this->url->OwnerOrAdmin($url)
         ];

@@ -7,25 +7,18 @@
  * @license   https://github.com/urlhum/UrlHum/blob/master/LICENSE.md (MIT License)
  */
 
-namespace App;
+namespace App\Services;
 
-use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
+use App\ViewUrl;
 
 /**
- * Analytics Model, used to retrieve every data about URLs analytics
+ * Class Analytics, used to retrieve analytics data about Short URLs
  *
- * Class Analytics
+ *
  * @author Christian la Forgia <christian@optiroot.it>
  */
-class Analytics extends Model
+class Analytics
 {
-    /**
-     * @var string
-     */
-    protected $table = 'views';
-
     /**
      * Get the list of the URL's visitors countries
      *
@@ -34,13 +27,14 @@ class Analytics extends Model
      */
     public static function getCountriesViews($url)
     {
-        $countriesViews =  Analytics::where('short_url', $url)
+        $countriesViews =  ViewUrl::where('short_url', $url)
             ->select('country_full', \DB::raw('count(*) as total'))
             ->groupBy('country_full')
             ->pluck('total','country_full')->all();
 
         return $countriesViews;
     }
+
 
     /**
      * Get the list of the URL's real visitors countries
@@ -50,7 +44,7 @@ class Analytics extends Model
      */
     public static function getCountriesRealViews($url)
     {
-        $countriesRealViews =  Analytics::where('short_url', $url)
+        $countriesRealViews =  ViewUrl::where('short_url', $url)
             ->where('real_click', 1)
             ->select('country_full', \DB::raw('count(*) as total'))
             ->groupBy('country_full')
@@ -91,7 +85,7 @@ class Analytics extends Model
      */
     public static function getReferrers($url)
     {
-        $referrers =  Analytics::where('short_url', $url)
+        $referrers =  ViewUrl::where('short_url', $url)
             ->where('real_click', 1)
             ->select(\DB::raw('IFNULL(referer, \'Direct / Unknown\') AS referer'),  \DB::raw('sum(real_click) as total'))
             ->groupBy('real_click', 'referer')
@@ -108,7 +102,7 @@ class Analytics extends Model
      */
     public static function getReferersCount()
     {
-        $referersCount = DB::table('views')->count(DB::raw('DISTINCT referer'));
+        $referersCount = ViewUrl::count(\DB::raw('DISTINCT referer'));
 
         return $referersCount;
     }

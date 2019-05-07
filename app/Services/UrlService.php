@@ -20,7 +20,8 @@ use Illuminate\Support\Str;
  * Useful functions to use in the Whole App for Short URLs
  *
  * Class UrlService
- * @package App\Services
+ *
+ * @author Christian la Forgia <christian@optiroot.it>
  */
 class UrlService
 {

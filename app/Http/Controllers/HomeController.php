@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Url;
 use App\ViewUrl;
 use App\User;
-use App\Analytics;
+use App\Services\Analytics;
 
 /**
  * Class HomeController
@@ -21,16 +21,19 @@ use App\Analytics;
  */
 class HomeController extends Controller
 {
+    protected $analytics;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Analytics $analytics)
     {
         if (setting('private_site')) {
             $this->middleware('auth');
         }
+        $this->analytics = $analytics;
     }
 
     /**
@@ -67,7 +70,7 @@ class HomeController extends Controller
             'referers' => $referersWidget,
             'urlsCount' => Url::count(),
             'usersCount' => User::count(),
-            'referersCount' => Analytics::getReferersCount(),
+            'referersCount' => $this->analytics->getReferersCount(),
             'anonymous' => $anonymous
         ];
 
