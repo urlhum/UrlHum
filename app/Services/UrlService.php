@@ -26,6 +26,24 @@ use Illuminate\Support\Str;
 class UrlService
 {
     /**
+     * Check if is possible to use the Custom URL or not
+     *
+     * @param $url
+     * @return bool
+     */
+    public function customUrlAvailable($url)
+    {
+        if ($this->checkExistingCustomUrl($url) ||
+            $this->isShortUrlProtected($url)    ||
+            $this->isUrlReserved($url)          ||
+            (!setting('deleted_urls_can_be_recreated') && ($this->isUrlAlreadyDeleted($url)))) {
+                return false;
+            }
+
+        return true;
+    }
+
+    /**
      * Check if the URL is reserved, based on the system setting
      *
      * @param $url

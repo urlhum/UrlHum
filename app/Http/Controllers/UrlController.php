@@ -10,13 +10,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateShortUrl;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\DataTables\DataTables;
-use App\Url;
 use Illuminate\Support\Facades\Auth;
 use App\Services\UrlService;
 use App\DeletedUrls;
 use App\ViewUrl;
+use App\Url;
 use App;
 
 
@@ -51,56 +52,33 @@ class UrlController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(CreateShortUrl $request)
     {
-        if (!Auth::check() && !setting('anonymous_urls')) {
-            abort(403);
-        }
-        // Validation
-        $request->validate([
-            'url' => 'required|max:255|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
-            // TODO: Better customUrl validation
-            'customUrl' => 'nullable|min:4|max:15',
-            'privateUrl' => 'boolean',
-            'hideUrlStats' => 'boolean'
-        ]);
-
-        $long_url = $request->input('url');
-        // Get custom URL from request. If field is empty, return null
-        $customUrl = $request->input('customUrl') ?? null;
+        $data = $request->validated();
         $siteUrl = request()->getHttpHost();
-        // Get private URL or hideUrlStats. It is a checkbox: if it is not sent by client we set it to 0
-        $privateUrl = $request->input('privateUrl') ?? 0;
-        $hideUrlStats = $request->input('hideUrlStats') ?? 0;
 
         // If user is not logged in, he can't set private statistics,
         // because otherwise they will not be available to anybody else but admin
         if (!Auth::check()) {
-            $hideUrlStats = 0;
+            $data['hideUrlStats'] = 0;
         }
 
-
-        if ($this->url->checkExistingCustomUrl($customUrl) ||
-            $this->url->isShortUrlProtected($customUrl)    ||
-            $this->url->isUrlReserved($customUrl)          ||
-            (!setting('deleted_urls_can_be_recreated') && $this->url->isUrlAlreadyDeleted($request->input)))
-        {
+        if (!$this->url->customUrlAvailable($data['customUrl'])) {
             return Redirect::route('home')
-                ->with('existingCustom', $customUrl);
+                ->with('existingCustom', $data['customUrl']);
         }
 
-        if ($existing = $this->url->checkExistingLongUrl($long_url)) {
+        if ($existing = $this->url->checkExistingLongUrl($data['url'])) {
             return Redirect::route('home')
                 ->with('existing', $existing)
                 ->with('siteUrl', $siteUrl);
         }
 
-        $short = $this->url->createShortUrl($long_url, $customUrl, $privateUrl, $hideUrlStats);
+        $short = $this->url->createShortUrl($data['url'], $data['customUrl'], $data['privateUrl'], $data['hideUrlStats']);
 
         return Redirect::route('home')
             ->with('success', $short)
             ->with('siteUrl', $siteUrl);
-
     }
 
     /**
