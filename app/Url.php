@@ -130,7 +130,7 @@ class Url extends Model
     }
 
     public function clicks(){
-        return $this->hasMany('App\Analytics', 'short_url','short_url');
+        return $this->hasMany('App\ViewUrl', 'short_url','short_url');
     }
 
 }
