@@ -7,6 +7,7 @@ return array (
   'general' => '概览',
   'website_name' => '网站名称',
   'website_image' => '网站图片',
+  'website_favicon' => 'Website favicon',
   'private' => '使网站私密',
   'private_help' => '网站首页将重定向到登录页',
   'registration' => '启用用户注册',

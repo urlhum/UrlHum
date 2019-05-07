@@ -7,6 +7,7 @@ return array (
   'general' => 'Generale',
   'website_name' => 'Nome Sito web',
   'website_image' => 'Immagine sito web',
+  'website_favicon' => 'Website favicon',
   'private' => 'Imposta il sito come privato',
   'private_help' => 'La homepage del sito reindirizzerà alla pagina d\'accesso',
   'registration' => 'Abilita registrazione utenti',
