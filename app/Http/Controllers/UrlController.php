@@ -49,7 +49,7 @@ class UrlController extends Controller
     /**
      * Store the data the user sent to create the Short URL
      *
-     * @param Request $request
+     * @param CreateShortUrl $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CreateShortUrl $request)
