@@ -9,6 +9,7 @@
 
 namespace Tests\Feature;
 
+use App\DeletedUrls;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\User;
@@ -50,7 +51,6 @@ class ShortUrlTest extends TestCase
      */
     public function test_edit_short_url_as_owner()
     {
-        $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
 
         $this->actingAs($user)
@@ -91,4 +91,66 @@ class ShortUrlTest extends TestCase
         $this->assertNotEquals($url, $data['customUrl']);
     }
 
+    /**
+     * Delete Short URL as Owner, should succeed
+     *
+     * @return void
+     */
+    public function test_delete_short_url_as_owner()
+    {
+        $user = factory(User::class)->create();
+
+        $this->actingAs($user)
+            ->post('/url', ['url' => 'https://urlhum.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
+
+        $this->actingAs($user)
+            ->delete("/url/inst")
+            ->assertStatus(302);
+
+        $this->assertNull(Url::find('inst'));
+    }
+
+    /**
+     * Delete Short URL as Anonymous user. Should fail
+     *
+     * @return void
+     */
+    public function test_delete_short_url_as_anonymous()
+    {
+        $user = factory(User::class)->create();
+
+        $this->actingAs($user)
+            ->post('/url', ['url' => 'https://urlhum.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
+
+        \Auth::logout();
+
+        $this->delete('url/inst')
+            ->assertStatus(403);
+
+        $this->assertNotNull(Url::find('inst'));
+    }
+
+
+    /**
+     * Delete Short URL as Admin. Should succeed
+     *
+     * @return void
+     */
+    public function test_delete_short_url_as_admin()
+    {
+        $user = factory(User::class)->create();
+
+        $this->actingAs($user)
+            ->post('/url', ['url' => 'https://urlhum.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
+
+        \Auth::logout();
+
+        $admin = User::find(1);
+
+        $this->actingAs($admin)
+            ->delete('url/inst')
+            ->assertStatus(302);
+
+        $this->assertNull(Url::find('inst'));
+    }
 }

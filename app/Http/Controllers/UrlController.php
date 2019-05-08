@@ -140,22 +140,18 @@ class UrlController extends Controller
     {
         Url::findOrFail($url);
 
-        $shortUrl = Url::where('id', $url)->first()->short_url;
-
-        if (!$this->url->OwnerOrAdmin($shortUrl)) {
+        if (!$this->url->OwnerOrAdmin($url)) {
             return response('Forbidden', 403);
         }
 
-        ViewUrl::deleteUrlsViews($shortUrl);
+        ViewUrl::deleteUrlsViews($url);
         Url::destroy($url);
 
         // We add the Short URL to the DeletedUrls Database table.
         // Needed to use the setting 'allow deleted URLs to be created again'
-        DeletedUrls::add($shortUrl);
+        DeletedUrls::add($url);
 
-
-        return Redirect::route('url.my')->with(['success' => 'Short url "' . $shortUrl . '" deleted successfully. Its Analytics data has been deleted too.']);
-
+        return Redirect::route('url.my')->with(['success' => 'Short url "' . $url . '" deleted successfully. Its Analytics data has been deleted too.']);
     }
 
     /**
