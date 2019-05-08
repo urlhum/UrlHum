@@ -55,10 +55,10 @@ class HomeController extends Controller
         // We null the referers Widget to enable it just if the user is an admin
         $referersWidget = NULL;
 
-        $latestsPublicUrls = Url::getLatestPublicUrlsWidget();
+        $publicUrls = Url::getLatestPublicUrlsWidget();
 
         if(!setting('show_guests_latests_urls') && $anonymous) {
-            $latestsPublicUrls = NULL;
+            $publicUrls = NULL;
         }
 
         if (!$anonymous && isAdmin() && !setting('disable_referers')) {
@@ -66,7 +66,7 @@ class HomeController extends Controller
         }
 
         $data = [
-            'publicUrls' => $latestsPublicUrls,
+            'publicUrls' => $publicUrls,
             'referers' => $referersWidget,
             'urlsCount' => Url::count(),
             'usersCount' => User::count(),
