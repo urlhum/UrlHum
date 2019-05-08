@@ -28,3 +28,4 @@ after_failure:
 
 script:
   - phpunit
+  - vendor/bin/phpunit --coverage-clover=coverage.xml
