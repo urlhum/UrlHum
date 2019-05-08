@@ -15,7 +15,6 @@ before_script:
   - mysql -u root -e "CREATE USER 'urlhum-test'@'localhost' IDENTIFIED BY 'secret';"
   - mysql -u root -e "GRANT ALL ON \`urlhum-test\`.* TO 'urlhum-test'@'localhost';"
   - mysql -u root -e "FLUSH PRIVILEGES;"
-  - phpenv config-rm xdebug.ini
   - composer install --prefer-dist --no-interaction
   - php artisan key:generate
   - php artisan clear-compiled -n
@@ -25,10 +24,9 @@ before_script:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-  
+
 after_failure:
   - cat storage/logs/laravel.log
 
 script:
-  - phpunit
-  - vendor/bin/phpunit --coverage-clover=coverage.xml
+  - phpunit --coverage-clover=coverage.xml

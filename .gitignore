@@ -47,3 +47,4 @@ _ide_helper_models.php
 
 .env-example
 data/
+coverage.xml
