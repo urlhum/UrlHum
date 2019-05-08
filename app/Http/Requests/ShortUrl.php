@@ -29,7 +29,7 @@ class ShortUrl extends FormRequest
     public function rules()
     {
         return [
-            'url' => 'required|max:500|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
+            'url' => 'required|max:500|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\_\-\?\=\/\w \.-]*)*\/?$/',
             // TODO: Better customUrl validation
             'customUrl' => 'nullable|min:4|max:15|regex:/^[-a-zA-Z0-9_]+$/',
             'privateUrl' => 'boolean',
