@@ -23,6 +23,9 @@ before_script:
   - php artisan db:seed --force -n --database=testing
   - php artisan settings:set
 
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+  
 after_failure:
   - cat storage/logs/laravel.log
 
