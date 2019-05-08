@@ -39,9 +39,7 @@ class ShortUrlTest extends TestCase
         $this->get('/url/inst')
             ->assertStatus(403);
 
-       $urlId = $this->getUrlid('inst');
-
-        $this->put("/url/$urlId", ['destinationUrl' => 'https://aaa.com'])
+        $this->put("/url/inst", ['url' => 'https://aaa.com'])
             ->assertStatus(403);
     }
 
@@ -52,6 +50,7 @@ class ShortUrlTest extends TestCase
      */
     public function test_edit_short_url_as_owner()
     {
+        $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
 
         $this->actingAs($user)
@@ -61,10 +60,8 @@ class ShortUrlTest extends TestCase
             ->get('/url/inst')
             ->assertStatus(200);
 
-        $urlId = $this->getUrlId('inst');
-
         $this->actingAs($user)
-            ->put("/url/$urlId", ['destinationUrl' => 'https://aaa.com'])
+            ->put("/url/inst", ['url' => 'https://aaa.com', 'privateUrl' => 0, 'hideUrlStats' => 0])
             ->assertStatus(302);
     }
 

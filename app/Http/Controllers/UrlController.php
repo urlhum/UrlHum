@@ -10,7 +10,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\CreateShortUrl;
+use App\Http\Requests\ShortUrl;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
@@ -49,10 +49,10 @@ class UrlController extends Controller
     /**
      * Store the data the user sent to create the Short URL
      *
-     * @param CreateShortUrl $request
+     * @param ShortUrl $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(CreateShortUrl $request)
+    public function store(ShortUrl $request)
     {
         $data = $request->validated();
         $siteUrl = request()->getHttpHost();
@@ -63,7 +63,7 @@ class UrlController extends Controller
             $data['hideUrlStats'] = 0;
         }
 
-        if (!$this->url->customUrlAvailable($data['customUrl'])) {
+        if ($this->url->customUrlExisting($data['customUrl'])) {
             return Redirect::route('home')
                 ->with('existingCustom', $data['customUrl']);
         }
@@ -74,7 +74,7 @@ class UrlController extends Controller
                 ->with('siteUrl', $siteUrl);
         }
 
-        $short = $this->url->createShortUrl($data['url'], $data['customUrl'], $data['privateUrl'], $data['hideUrlStats']);
+        $short = $this->url->shortenUrl($data['url'], $data['customUrl'], $data['privateUrl'], $data['hideUrlStats']);
 
         return Redirect::route('home')
             ->with('success', $short)
@@ -97,7 +97,7 @@ class UrlController extends Controller
         Url::where('short_url', $url)->firstOrFail();
         $data = Url::getUrlForEdit($url);
 
-        return view('url.urlEdit')->with('data', $data);
+        return view('url.edit')->with('data', $data);
     }
 
 
@@ -105,29 +105,23 @@ class UrlController extends Controller
      * Update the URL on the user request
      *
      * @param $url
-     * @param Request $request
+     * @param ShortUrl $request
+     *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
-    public function update($url, Request $request)
+    public function update($url, ShortUrl $request)
     {
-        $short_url = Url::where('id', $url)->first()->short_url;
+        $url = Url::findOrFail($url);
 
-        if (!$this->url->OwnerOrAdmin($short_url)) {
+        if (!$this->url->OwnerOrAdmin($url->short_url)) {
             return response('Forbidden', 403);
         }
 
-        $url = Url::findOrFail($url);
+        $data = $request->validated();
 
-        $request->validate([
-            'hideUrlStats' => 'integer|max:1',
-            'privateUrl' => 'integer|max:1',
-            'destinationUrl' => 'required|max:255|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/'
-        ]);
-
-        // We check if checkboxes are set, otherwise set them to 0
-        $url->private = $request->privateUrl ?? 0;
-        $url->hide_stats = $request->hideUrlStats ?? 0;
-        $url->long_url = $request->destinationUrl;
+        $url->private = $data['privateUrl'];
+        $url->hide_stats = $data['hideUrlStats'];
+        $url->long_url = $data['url'];
 
         $url->update();
 
@@ -188,8 +182,8 @@ class UrlController extends Controller
      */
     public function getMyUrls()
     {
-        $urls = $this->url->getMyUrls();
-        return view('url.myUrls')->with('urls', $urls);
+        $urls = Url::getMyUrls();
+        return view('url.my')->with('urls', $urls);
     }
 
 
@@ -200,7 +194,7 @@ class UrlController extends Controller
      */
     public function showUrlsList()
     {
-        return view('url.urlsList');
+        return view('url.list');
     }
 
     /**
@@ -237,7 +231,7 @@ class UrlController extends Controller
             abort(404);
         }
 
-        return view('url.publicUrls')->with('urls', Url::getLatestPublicUrls());
+        return view('url.public')->with('urls', Url::getLatestPublicUrls());
     }
 
 

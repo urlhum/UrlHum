@@ -64,7 +64,7 @@
                                                         <i class="fas fa-ellipsis-v "></i>
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                        <form action="/url/{{$url->id}}" method="post">
+                                                        <form action="/url/{{$url->short_url}}" method="post">
                                                             @csrf
                                                             @method('delete')
                                                             <a class="dropdown-item"

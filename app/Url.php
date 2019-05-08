@@ -28,7 +28,9 @@ class Url extends Model
      */
     protected $table = "urls";
 
+    protected $primaryKey = "short_url";
 
+    public $incrementing = false;
     /**
      * Create a Short URL based on the given parameters
      *
@@ -37,12 +39,11 @@ class Url extends Model
      * @param $privateUrl
      * @param $hideUrlStats
      */
-    public static function createUrl($long_url, $short_url, $privateUrl, $hideUrlStats)
+    public static function createShortUrl($long_url, $short_url, $privateUrl, $hideUrlStats)
     {
+        $user_id = NULL;
         if (Auth::check()) {
             $user_id = Auth::user()->id;
-        } else {
-            $user_id = NULL;
         }
 
         $url = new Url;
@@ -128,6 +129,22 @@ class Url extends Model
 
       return $urls;
     }
+
+    /**
+     * Load the URLs of the currently logged in user
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public static function getMyUrls()
+    {
+        if (!Auth::check()) {
+            abort(404);
+        }
+
+        $user_id = Auth::user()->id;
+        return $urlsList = Url::where('user_id', $user_id)->paginate(30);
+    }
+
 
     public function clicks(){
         return $this->hasMany('App\ViewUrl', 'short_url','short_url');

@@ -25,39 +25,80 @@ use Illuminate\Support\Str;
  */
 class UrlService
 {
+
+    /**
+     * Actually creates a short URL if there is no custom URL. Otherwise, use the custom
+     *
+     * @param $long_url
+     * @param $short_url
+     * @param $privateUrl
+     * @param $hideUrlStats
+     * @return string
+     */
+    public function shortenUrl($long_url, $short_url, $privateUrl, $hideUrlStats)
+    {
+        if (!empty($short_url)) {
+            // Set the short url as custom url sent by user
+            Url::createShortUrl($long_url, $short_url, $privateUrl, $hideUrlStats);
+            return $short_url;
+        }
+
+        // Iterate until a not-already-created short url is generated
+        do {
+            $short_url = Str::random(6);
+            // ! because we need 'false', not 'true'
+        } while ($this->customUrlExisting($short_url));
+
+        Url::createShortUrl($long_url, $short_url, $privateUrl, $hideUrlStats);
+        return $short_url;
+    }
+
     /**
      * Check if is possible to use the Custom URL or not
      *
      * @param $url
      * @return bool
      */
-    public function customUrlAvailable($url)
+    public function customUrlExisting($url)
     {
         if ($this->checkExistingCustomUrl($url) ||
             $this->isShortUrlProtected($url)    ||
             $this->isUrlReserved($url)          ||
             (!setting('deleted_urls_can_be_recreated') && ($this->isUrlAlreadyDeleted($url)))) {
-                return false;
-            }
+            return true;
+        }
 
-        return true;
+        return false;
     }
 
     /**
-     * Check if the URL is reserved, based on the system setting
+     * Check if the logged in user is the URL Owner or an Admin
      *
      * @param $url
      * @return bool
      */
-    public function isUrlReserved($url)
+    public function OwnerOrAdmin($url)
     {
-        $reservedUrls = Settings::getReservedUrls();
-        // Check if there are any reserved URLs or if the custom URL isn't set
-        if (gettype($reservedUrls) !== 'array' || $url === NULL) {
-            return false;
+        return User::isAdmin() || $this->isOwner($url);
+    }
+
+    /**
+     * Check if the logged in user is the Short URL owner
+     *
+     * @param $url
+     * @return bool
+     */
+    public function isOwner($url)
+    {
+        if (!Auth::check()) { return false; }
+
+        $urlUser = Url::find($url);
+
+        if ($urlUser->user_id == Auth::user()->id) {
+            return true;
         }
 
-        return in_array($url, $reservedUrls);
+        return false;
     }
 
     /**
@@ -89,86 +130,40 @@ class UrlService
         return $long_url_check['short_url'];
     }
 
+    /**
+     * Check if Short URL is protected / cannot be created
+     * because it is a path
+     *
+     * @param url
+     * @return array|null
+     */
+    public function isShortUrlProtected($url)
+    {
+        $routes = array_map(
+            function (\Illuminate\Routing\Route $route) {
+                return $route->uri;
+            }, (array) \Route::getRoutes()->getIterator()
+        );
+
+        return in_array($url, $routes);
+    }
+
 
     /**
-     * Check if the logged in user is the Short URL owner
+     * Check if the URL is reserved, based on the system setting
      *
      * @param $url
      * @return bool
      */
-    public function isOwner($url)
+    public function isUrlReserved($url)
     {
-        if (!Auth::check()) {
+        $reservedUrls = Settings::getReservedUrls();
+        // Check if there are any reserved URLs or if the custom URL isn't set
+        if (gettype($reservedUrls) !== 'array' || $url === NULL) {
             return false;
         }
 
-        $urlUser = Url::where('short_url', $url)
-            ->first();
-
-        if ($urlUser->user_id == Auth::user()->id) {
-            return true;
-        }
-
-        return false;
-    }
-
-
-    /**
-     * Actually creates a short URL if there is no custom URL. Otherwise, use the custom
-     *
-     * @param $long_url
-     * @param $short_url
-     * @param $privateUrl
-     * @param $hideUrlStats
-     * @return string
-     */
-    public function createShortUrl($long_url, $short_url, $privateUrl, $hideUrlStats)
-    {
-        if (!empty($short_url)) {
-            // Set the short url as custom url sent by user
-            Url::createUrl($long_url, $short_url, $privateUrl, $hideUrlStats);
-            return $short_url;
-        }
-
-        // Iterate until a not-already-created short url is generated
-        do {
-            $short_url = Str::random(6);
-        } while (Url::where('short_url', $short_url)->first() ||
-                 $this->isUrlReserved($short_url)             ||
-                 $this->isShortUrlProtected($short_url)       ||
-                (!setting('deleted_urls_can_be_recreated') && $this->isUrlAlreadyDeleted($short_url))
-                );
-
-        Url::createUrl($long_url, $short_url, $privateUrl, $hideUrlStats);
-        return $short_url;
-    }
-
-
-    /**
-     * Load the URLs of the currently logged in user
-     *
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     */
-    public function getMyUrls()
-    {
-        if (!Auth::check()) {
-            abort(404);
-        }
-
-        $user_id = Auth::user()->id;
-        return $urlsList = Url::where('user_id', $user_id)->paginate(30);
-    }
-
-
-    /**
-     * Check if the logged in user is the URL Owner or an Admin
-     *
-     * @param $url
-     * @return bool
-     */
-    public function OwnerOrAdmin($url)
-    {
-        return User::isAdmin() || $this->isOwner($url);
+        return in_array($url, $reservedUrls);
     }
 
     /**
@@ -186,24 +181,4 @@ class UrlService
 
         return $check;
     }
-
-
-    /**
-     * Check if Short URL is protected / cannot be created
-     * because it is a path
-     *
-     * @return array
-     */
-    public function isShortUrlProtected($url)
-    {
-        $routes = array_map(
-            function (\Illuminate\Routing\Route $route) {
-                return $route->uri;
-            }, (array) \Route::getRoutes()->getIterator()
-        );
-
-        return in_array($url, $routes);
-    }
-
-
 }

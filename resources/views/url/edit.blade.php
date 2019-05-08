@@ -11,7 +11,7 @@
                                 <h1>{{ __('url.edit.short') }}
                                     <a href="/{{$data->short_url}}">{{$data->short_url}}</a>
                                 </h1>
-                                <form action="/url/{{$data->urlid}}" method="POST" id="deleteUrl">
+                                <form action="/url/{{$data->short_url}}" method="POST" id="deleteUrl">
                                     @csrf
                                     <input type="hidden" name="_method" value="DELETE">
                                     <input type="submit" class="btn btn-danger" value="{{ __('url.delete.delete') }}"
@@ -63,12 +63,13 @@
                                 </a>
                                 <hr>
                                 <div>
-                                    <form method="POST" action="/url/{{$data->urlid}}">
+                                    <form method="POST" action="/url/{{$data->short_url}}">
                                         @csrf
                                         <input type="hidden" name="_method" value="PUT">
                                         <label class="text-left" for="privateUrl" style="float:left;">{{ __('url.options.hide') }}</label>
                                         <div class="form-group text-right" id="privateUrlcontainer">
                                             <label class="custom-toggle">
+                                                <input type="hidden" name="privateUrl" value="0">
                                                 <input type="checkbox" name="privateUrl" value="1"
                                                        @if ($data->private == 1) checked @endif >
                                                 <span class="custom-toggle-slider rounded-circle"></span>
@@ -77,6 +78,7 @@
                                         <label class="text-left" for="hideUrlStats" style="float:left;">{{ __('url.options.private_stats') }}</label>
                                         <div class="form-group text-right" id="hideUrlStatscontainer">
                                             <label class="custom-toggle">
+                                                <input type="hidden" name="hideUrlStats" value="0">
                                                 <input type="checkbox" name="hideUrlStats" value="1"
                                                        @if ($data->hide_stats == 1) checked @endif>
                                                 <span class="custom-toggle-slider rounded-circle"></span>
@@ -85,7 +87,7 @@
                                         <label class="text-left" for="customUrl" style="float:left;">{{ __('url.options.destination') }}</label>
                                         <div class="form-group" id="destinationUrlcontainer">
                                             <input type="url" class="form-control" id="destinationUrl"
-                                                   name="destinationUrl" value="{{$data->long_url}}">
+                                                   name="url" value="{{$data->long_url}}">
                                         </div>
                                         <button type="submit" class="btn btn-secondary">{{ __('urlhum.send') }}</button>
                                     </form>
