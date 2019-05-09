@@ -16,9 +16,9 @@
         "geoip2/geoip2": "~2.0",
         "guzzlehttp/guzzle": "^6.3",
         "laravel-frontend-presets/argon": "^1.0",
-        "laravel/framework": "5.7.*",
+        "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
-        "yajra/laravel-datatables": "1.0"
+        "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
