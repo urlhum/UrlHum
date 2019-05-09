@@ -118,5 +118,87 @@ class CreateShortUrlTest extends TestCase
             ->assertStatus(403);
     }
 
+    /**
+     * If a custom URL is existing, verify the response
+     *
+     * @return void
+     */
+    public function test_existing_custom_url()
+    {
+        $data = [
+            'url' => 'https://reddit.com',
+            'customUrl' => 'reddit',
+            'privateUrl' => 0,
+            'hideUrlStats' => 0,
+        ];
+
+        $this->post('/url', $data)
+            ->assertStatus(302);
+
+        $this->post('/url', $data)
+            ->assertSessionHas('existingCustom');
+    }
+
+    /**
+     * If a long url exists, verify the response
+     *
+     * @return void
+     */
+    public function test_existing_long_url()
+    {
+        $data = [
+            'url' => 'https://reddit.com',
+            'customUrl' => null,
+            'privateUrl' => 0,
+            'hideUrlStats' => 0,
+        ];
+
+        $this->post('/url', $data)
+            ->assertStatus(302);
+
+        $this->post('/url', $data)
+            ->assertSessionHas('existing');
+    }
+
+    /**
+     * Ajax-check existing Custom URL. Should return 409 (existing)
+     *
+     * @return void
+     */
+    public function test_ajax_existing_custom_url()
+    {
+        $data = [
+            'url' => 'https://reddit.com',
+            'customUrl' => 'reddit',
+            'privateUrl' => 0,
+            'hideUrlStats' => 0,
+        ];
+        $this->post('/url', $data)
+            ->assertStatus(302);
+
+        $this->post('/url/short', ['input' => 'reddit'])
+            ->assertStatus(409);
+    }
+
+    /**
+     * Ajax-check not-existing Custom URL. Should return 200 (ok)
+     *
+     * @return void
+     */
+    public function test_ajax_not_existing_custom_url()
+    {
+        $data = [
+            'url' => 'https://reddit.com',
+            'customUrl' => 'reddit',
+            'privateUrl' => 0,
+            'hideUrlStats' => 0,
+        ];
+        $this->post('/url', $data)
+            ->assertStatus(302);
+
+        $this->post('/url/short', ['input' => 'test'])
+            ->assertStatus(200);
+    }
+
 
 }

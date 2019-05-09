@@ -66,17 +66,13 @@ class HomeController extends Controller
             $referersWidget = ViewUrl::referersWidget();
         }
 
-        $data = [
+        return view('dashboard', [
             'publicUrls' => $publicWidget,
             'referers' => $referersWidget,
             'urlsCount' => Url::count(),
             'usersCount' => User::count(),
             'referersCount' => $this->analytics->getReferersCount(),
-            'anonymous' => $anonymous
-        ];
-
-        return view('dashboard', [
-            'data' => $data,
+            'anonymous' => $anonymous,
             'anonymous_urls' => $anonymousUrls,
         ]);
 

@@ -1,12 +1,12 @@
 <form method="POST" action="/url">
     <div class="row">
         <div class="col
-            @if ($data['anonymous'])
+            @if ($anonymous)
                 anonymous-box-container
             @endif">
 
             <div class="card shadow
-            @if ($data['anonymous'])
+            @if ($anonymous)
                 anonymous-create-box
             @endif">
                 <div class="card-header border-0">

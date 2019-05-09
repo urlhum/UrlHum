@@ -9,7 +9,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">{{ __('analytics.url.created') }}</h5>
-                                    <span class="h2 font-weight-bold mb-0">{{$data['urlsCount']}}</span>
+                                    <span class="h2 font-weight-bold mb-0">{{$urlsCount}}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
@@ -26,7 +26,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">{{ __('account.users') }}</h5>
-                                    <span class="h2 font-weight-bold mb-0">{{$data['usersCount']}}</span>
+                                    <span class="h2 font-weight-bold mb-0">{{$usersCount}}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
@@ -43,7 +43,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">{{ __('analytics.referer.referers') }}</h5>
-                                    <span class="h2 font-weight-bold mb-0">{{$data['referersCount']}}</span>
+                                    <span class="h2 font-weight-bold mb-0">{{$referersCount}}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-info text-white rounded-circle shadow">

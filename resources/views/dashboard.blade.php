@@ -7,11 +7,11 @@
             @include('widgets/create-url')
         @endif
         <div class="row mt-5">
-            @isset($data['publicUrls'])
+            @isset($publicUrls)
                 @include('widgets/latests-urls')
             @endisset
 
-            @isset($data['referers'])
+            @isset($referers)
                 @include('widgets/referrers')
             @endisset
         </div>

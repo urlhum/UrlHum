@@ -141,4 +141,37 @@ class ViewUrlTest extends TestCase
 
         $this->assertNull($referer);
     }
+
+    /**
+     * Visit a non-existing Short URL. Return 404
+     *
+     * @return void
+     */
+    public function test_visit_non_existing_url()
+    {
+        $this->get('/test')
+            ->assertStatus(404);
+    }
+
+    /**
+     * Visit a short URL with anonymous and hash disabled
+     * Check if actually IP address is not anonymized
+     *
+     * @return void
+     */
+    public function test_visit_url_hash_and_anonymous_ip_disabled()
+    {
+        $ip = '192.168.1.1';
+        setting()->set('anonymize_ip', 0);
+        setting()->set('hash_ip', 0);
+        $this->post('/url', ['url' => 'https://stackoverflow.com', 'customUrl' => 'stack', 'privateUrl' => 0, 'hideUrlStats' => 0])
+            ->assertStatus(302);
+
+        $this->get('stack', ['REMOTE_ADDR' => $ip]);
+
+        $viewIp = \DB::table('views')->latest()->first()->ip_address;
+
+        $this->assertEquals($ip, $viewIp);
+
+    }
 }

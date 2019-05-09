@@ -1,5 +1,5 @@
 <div class="
-@if ($data['anonymous'] OR !isAdmin() OR setting('disable_referers'))
+@if ($anonymous OR !isAdmin() OR setting('disable_referers'))
         col-12
 @else
         col-xl-7
@@ -30,7 +30,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($data['publicUrls'] as $publicUrl)
+                @foreach ($publicUrls as $publicUrl)
                     <tr>
                         <th scope="row">
                             {{$publicUrl->short_url}}

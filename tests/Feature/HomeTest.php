@@ -11,6 +11,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\User;
 
 class HomeTest extends TestCase
 {
@@ -88,4 +89,53 @@ class HomeTest extends TestCase
         $this->get('/terms-of-use')
             ->assertStatus(200);
     }
+
+    /**
+     * Visit Homepage with latest URLs widget disabled as anonymous
+     *
+     * @return void
+     */
+    public function test_show_homepage_public_urls_widget_disabled()
+    {
+        setting()->set('show_guests_latests_urls', 0);
+
+        $this->post('/url', ['url' => 'https://youtube.com/testingifthisisvisible',
+            'customUrl' => 'youtube', 'privateUrl' => 0, 'hideUrlStats' => 0]);
+
+        $this->get('/')
+            ->assertDontSee('https://youtube.com/testingifthisisvisible');
+    }
+
+    /**
+     * Visit Homepage with Referers enabled as admin, check if visibile: should
+     *
+     * @return void
+     */
+    public function test_show_homepage_referers_widget_enabled()
+    {
+        setting()->set('disable_referers', 0);
+
+        $admin = User::find(1);
+        $this->actingAs($admin)
+            ->get('/')
+            ->assertSee('Best referers');
+    }
+
+    /**
+     * Visit Homepage with Referers enabled as admin, check if visibile: shouldn't
+     *
+     * @return void
+     */
+    public function test_show_homepage_referers_widget_disabled()
+    {
+        setting()->set('disable_referers', 1);
+
+        $admin = User::find(1);
+        $this->actingAs($admin)
+            ->get('/')
+            ->assertDontSee('Best referers');
+    }
+
+
+
 }

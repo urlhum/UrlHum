@@ -153,4 +153,94 @@ class ShortUrlTest extends TestCase
 
         $this->assertNull(Url::find('inst'));
     }
+
+    /**
+     * Show the user his own short URLs page
+     *
+     * @return void
+     */
+    public function test_show_my_urls_page()
+    {
+        $user = factory(User::class)->create();
+        $this->actingAs($user)
+            ->get('/url/my')
+            ->assertStatus(200);
+    }
+
+    /**
+     * Show to guest user his own short URLs page (should return 302)
+     *
+     * @return void
+     */
+    public function test_show_my_urls_page_guest()
+    {
+        $this->get('/url/my')
+            ->assertStatus(302);
+    }
+
+    /**
+     * Show URLs List page to admin. Should return 200
+     *
+     * @return void
+     */
+    public function test_show_urls_list_page_admin()
+    {
+        $admin = User::find(1);
+        $this->actingAs($admin)
+            ->get('/url/list')
+                ->assertStatus(200);
+    }
+
+    /**
+     * Show URLs List page to user. Should fail to 404
+     *
+     * @return void
+     */
+    public function test_show_urls_list_page_user()
+    {
+        $user = factory(User::class)->create();
+        $this->actingAs($user)
+            ->get('/url/list')
+            ->assertStatus(404);
+    }
+
+    /**
+     * AJAX-load of the URLs list for admin.
+     *
+     * @return void
+     */
+    public function test_show_urls_list_ajax_admin()
+    {
+        $admin = User::find(1);
+        $this->actingAs($admin)
+            ->get('/url/list-load')
+            ->assertStatus(200);
+    }
+
+    /**
+     * View the public URLs page as guest, with option disabled
+     *
+     * @return void
+     */
+    public function test_view_public_urls_as_guest_option_disabled()
+    {
+        setting()->set('show_guests_latests_urls', 0);
+        $this->get('/url/public')
+            ->assertStatus(404);
+    }
+
+    /**
+     * View public URLs page as guest, with option enabled
+     *
+     * @return void
+     */
+    public function test_view_public_urls_as_guest_option_enabled()
+    {
+        setting()->set('show_guests_latests_urls', 1);
+        $this->get('/url/public')
+            ->assertStatus(200);
+    }
+
+
 }
+
