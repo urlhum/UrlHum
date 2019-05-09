@@ -29,4 +29,4 @@ after_failure:
   - cat storage/logs/laravel.log
 
 script:
-  - phpunit --coverage-clover=coverage.xml
+  - vendor/bin/phpunit --coverage-clover=coverage.xml
