@@ -33,9 +33,8 @@ class ViewUrlController
      */
     public function view($url)
     {
-        // There could be a good validation to do
-        if ($result = Url::where('short_url', $url)->first()) {
-            $externalUrl = $result['long_url'];
+        if ($result = Url::find($url)) {
+            $externalUrl = $result->long_url;
         } else {
             abort(404);
         }
@@ -51,41 +50,29 @@ class ViewUrlController
         $hashed = 0;
         $anonymized = 0;
 
-        if (setting('hash_ip') && setting('anonymize_ip')) {
-            $ipAnonymized = IpAnonymizer::anonymizeIp($ip);
+
+        if (setting('anonymize_ip')) {
+            $Anonip = IpAnonymizer::anonymizeIp($ip);
             $anonymized = 1;
-            $countries = $this->getCountries($ipAnonymized);
+            $countries = $this->getCountries($Anonip);
+        } else {
+            $countries = $this->getCountries($ip);
+        }
+
+        if (setting('hash_ip')) {
             $ip = hash('sha1', $ip);
             $hashed = 1;
         }
 
-        if (setting('hash_ip') && !setting('anonymize_ip')) {
-            $countries = $this->getCountries($ip);
-            $ip = hash('sha1', $ip);
-            $hashed = 1;
-        }
-
-        if (!setting('hash_ip') && setting('anonymize_ip')) {
-            $ip = IpAnonymizer::anonymizeIp($ip);
-            $countries = $this->getCountries($ip);
-            $anonymized = 1;
-        }
-
-        if (!setting('hash_ip') && !setting('anonymize_ip')) {
-            $hashed = 0;
-            $anonymized = 0;
-            $countries = $this->getCountries($ip);
-        }
+        $click = 1;
+        $real_click = 0;
 
         if (ViewUrl::realClick($url, $ip)) {
             $click = 0;
             $real_click = 1;
-        } else {
-            $click = 1;
-            $real_click = 0;
         }
 
-        if ( !setting('hash_ip') && setting('anonymize_ip') ) {
+        if (!setting('hash_ip') && setting('anonymize_ip') ) {
             $click = 1;
             $real_click = 0;
         }
