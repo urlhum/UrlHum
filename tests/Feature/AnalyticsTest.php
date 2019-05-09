@@ -90,4 +90,45 @@ class AnalyticsTest extends TestCase
             ->get('/youtube+')
             ->assertStatus(200);
     }
+
+    /**
+     * Admin that visits the referers page, with referers enabled. Expects 200
+     *
+     * @return void
+     */
+    public function test_referers_enabled_views_as_admin()
+    {
+        setting()->set('disable_referers', 0);
+        $admin = User::find(1);
+        $this->actingAs($admin)
+            ->get('/url/referers')
+            ->assertStatus(200);
+    }
+
+    /**
+     * Admin that visits the referer page, with referers disabled. Expects 404
+     *
+     * @return void
+     */
+    public function test_referers_disabled_view_as_admin()
+    {
+        setting()->set('disable_referers', 1);
+        $admin = User::find(1);
+        $this->actingAs($admin)
+            ->get('/url/referers')
+            ->assertStatus(404);
+    }
+
+    /**
+     * User that visits the referer page, expect 404
+     *
+     * @return void
+     */
+    public function test_referers_view_as_user()
+    {
+        $user = factory(User::class)->create();
+        $this->actingAs($user)
+            ->get('/url/referers')
+            ->assertStatus(404);
+    }
 }
