@@ -31,6 +31,7 @@ class Url extends Model
     protected $primaryKey = "short_url";
 
     public $incrementing = false;
+
     /**
      * Create a Short URL based on the given parameters
      *
@@ -86,8 +87,6 @@ class Url extends Model
             ->first();
 
         return $data;
-
-
     }
 
 
@@ -145,8 +144,13 @@ class Url extends Model
         return $urlsList = Url::where('user_id', $user_id)->paginate(30);
     }
 
-
-    public function clicks(){
+    /**
+     * Url Eloquent hasMany relationship with ViewUrl
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function clicks()
+    {
         return $this->hasMany('App\ViewUrl', 'short_url','short_url');
     }
 
