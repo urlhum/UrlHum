@@ -64,16 +64,14 @@ class AnalyticsController extends Controller
             abort(403);
         }
 
-        $countriesViews = $this->analytics->getCountriesViews($url);
-
         $data = [
             'url' => $url,
             'clicks' => $urlWithRelations->clicks_count,
             'realClicks' => $urlWithRelations->real_clicks_count,
             'todayClicks' => $urlWithRelations->today_clicks_count,
-            'countriesViews' => $countriesViews,
+            'countriesViews' => $this->analytics->getCountriesViews($url),
             'countriesRealViews' => $this->analytics->getCountriesRealViews($url),
-            'countriesColor' =>  $this->analytics->getCountriesColor($countriesViews),
+            'countriesColor' =>  $this->analytics->getCountriesColor($this->analytics->getCountriesViews($url)),
             'referrers' =>  $this->analytics->getReferrers($url),
             'creationDate' => $urlWithRelations->created_at->diffForHumans(),
             'isOwnerOrAdmin' => $this->url->OwnerOrAdmin($url)

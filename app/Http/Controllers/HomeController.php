@@ -26,6 +26,7 @@ class HomeController extends Controller
     /**
      * Create a new controller instance.
      *
+     * @param $analytics
      * @return void
      */
     public function __construct(Analytics $analytics)
@@ -52,21 +53,21 @@ class HomeController extends Controller
 
         $anonymousUrls = setting('anonymous_urls');
 
-        // We null the referers Widget to enable it just if the user is an admin
+        // We null the referers Widget to enable it just if the user is an admin and has referers enabled
         $referersWidget = NULL;
 
-        $publicUrls = Url::getLatestPublicUrlsWidget();
+        $publicWidget = Url::publicUrlsWidget();
 
         if(!setting('show_guests_latests_urls') && $anonymous) {
-            $publicUrls = NULL;
+            $publicWidget = NULL;
         }
 
         if (!$anonymous && isAdmin() && !setting('disable_referers')) {
-            $referersWidget = ViewUrl::getReferersWidget();
+            $referersWidget = ViewUrl::referersWidget();
         }
 
         $data = [
-            'publicUrls' => $publicUrls,
+            'publicUrls' => $publicWidget,
             'referers' => $referersWidget,
             'urlsCount' => Url::count(),
             'usersCount' => User::count(),

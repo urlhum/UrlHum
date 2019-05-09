@@ -57,4 +57,18 @@ class Settings extends Model
         return json_decode($settings);
     }
 
+
+    /**
+     * Save images uploaded from settings page in the public/images folder
+     *
+     * @param $image
+     * @return string
+     */
+    public static function saveImage($image)
+    {
+        $imageName = time().'.'.$image->getClientOriginalExtension();
+        $image->move(public_path('images'), $imageName);
+        return $path = '/images/' . $imageName;
+    }
+
 }

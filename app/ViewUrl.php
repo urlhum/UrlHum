@@ -101,7 +101,7 @@ class ViewUrl extends Model
      *
      * @return \Illuminate\Support\Collection
      */
-    public static function getReferersWidget()
+    public static function referersWidget()
     {
         $urls = DB::table('views')
             ->select(\DB::raw('IFNULL(referer, \'Direct / Unknown\') AS referer'), \DB::raw('sum(click) as clicks'), \DB::raw('sum(real_click) as real_clicks'))

@@ -116,7 +116,7 @@ class Url extends Model
      *
      * @return \Illuminate\Support\Collection
      */
-    public static function getLatestPublicUrlsWidget()
+    public static function publicUrlsWidget()
     {
       $urls = DB::table('urls')
           ->select('urls.short_url', 'urls.long_url', \DB::raw('count(views.short_url) as clicks'), 'urls.created_at')
