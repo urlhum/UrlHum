@@ -57,4 +57,9 @@ class ProfileController extends Controller
 
         return back()->withPasswordStatus( __('account.password.success'));
     }
+
+    public function verified()
+    {
+        return view('profile.verified');
+    }
 }

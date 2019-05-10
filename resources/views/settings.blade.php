@@ -280,6 +280,29 @@
 
                                                     <tr>
                                                         <td style="border:0px;">
+                                                            <p>{{ __('settings.require_user_verify') }}
+                                                                <i class="fa fa-question-circle"
+                                                                   data-toggle="tooltip"
+                                                                   data-placement="top"
+                                                                   title="{{ __('settings.require_user_verify_help') }}">
+                                                                </i>
+                                                            </p>
+                                                        </td>
+                                                        <td style="border:0px;" class="text-right">
+                                                            <label class="custom-toggle">
+                                                                <input type="hidden" name="require_user_verify"
+                                                                       value="0">
+                                                                <input @if ($settings['require_user_verify'] == 1) checked
+                                                                       @endif
+                                                                       type="checkbox" name="require_user_verify"
+                                                                       value="1">
+                                                                <span class="custom-toggle-slider rounded-circle"></span>
+                                                            </label>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="border:0px;">
                                                             <p>{{ __('settings.anonymous') }}
                                                                 <i class="fa fa-question-circle"
                                                                    data-toggle="tooltip"

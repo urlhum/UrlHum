@@ -13,7 +13,7 @@ Route::get('/', 'HomeController@index')
 Route::get('privacy-policy', 'PagesController@privacy')->name('privacy');
 Route::get('terms-of-use', 'PagesController@tos')->name('tos');
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('user', 'UserController', ['except' => ['show']])->middleware('admin');
@@ -21,15 +21,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
     Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
 
+    Route::get('profile/verified', ['as' => 'profile.verified', 'uses' => 'ProfileController@verified'])
+        ->middleware('verified');
+
     Route::group(['middleware' => 'admin'], function () {
         Route::get('settings', ['as' => 'settings', 'uses' => 'SettingsController@show']);
         Route::post('settings/save', ['as' => 'settings.save', 'uses' => 'SettingsController@save']);
     });
 });
 
-Route::prefix('url')->group(function () {
-    Route::post('short', 'UrlController@checkExistingUrl')->name('short')->name('url.short');
-    Route::get('my', 'UrlController@getMyUrls')->middleware('auth')->name('url.my');
+Route::group(['prefix' => 'url'], function () {
+    Route::post('short', 'UrlController@checkExistingUrl')->name('short')->name('url.short')
+        ->middleware('verifycheck');
+    Route::get('my', 'UrlController@getMyUrls')->middleware('auth')->name('url.my')
+        ->middleware('verifycheck');
     Route::get('list', 'UrlController@showUrlsList')->middleware('admin')->name('url.list');
     Route::get('list-load', 'UrlController@loadUrlsList')->middleware('admin')->name('url.list-load');
     Route::get('public', 'UrlController@publicUrls')->name('url.public');
@@ -37,7 +42,7 @@ Route::prefix('url')->group(function () {
 });
 
 // We use "show" in place of "edit", because the "real" show is /{url}
-Route::resource('url', 'UrlController')->except(['edit', 'index']);
+Route::resource('url', 'UrlController')->except(['edit', 'index'])->middleware('verifycheck');
 
 Route::get('/{url}+', 'AnalyticsController@show');
 Route::get('/{url}', 'ViewUrlController@view');

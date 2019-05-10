@@ -61,6 +61,7 @@ class SettingsSetCommand extends Command
             "enable_privacy_policy" => 1,
             "terms_of_use" => " ",
             "enable_terms_of_use" => 1,
+            "require_user_verify" => 1,
         ];
     }
 

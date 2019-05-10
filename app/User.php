@@ -18,7 +18,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  *
  * @author Christian la Forgia <christian@optiroot.it>
  */
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
