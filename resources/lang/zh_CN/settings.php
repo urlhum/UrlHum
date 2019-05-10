@@ -30,6 +30,8 @@ return array (
   'reserved_restore' => '恢复默认',
   'privacy_policy_desc' => '在此处编辑您的隐私政策，可以使用HTML语言',
   'tos_desc' => '在此处编辑您的使用条款，可以使用HTML语言',
+  'require_user_verify' => 'Require users email verification to allow Short URLs management',
+  'require_user_verify_help' => 'Unverified users email address will not be allowed to create, edit and manage their Short URLs',
   'save_changes' => '保存更改',
   'success' => '设置已更新！',
 );
