@@ -32,6 +32,8 @@ return array (
   'tos_desc' => '在此处编辑您的使用条款，可以使用HTML语言',
   'require_user_verify' => 'Require users email verification to allow Short URLs management',
   'require_user_verify_help' => 'Unverified users email address will not be allowed to create, edit and manage their Short URLs',
+  'custom_html' => 'Custom HTML, JS and CSS',
+  'custom_html_help' => 'Write your custom script here. It will be loaded in the website footer.',
   'save_changes' => '保存更改',
   'success' => '设置已更新！',
 );
