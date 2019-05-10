@@ -30,6 +30,8 @@ return array (
   'reserved_restore' => 'Restaurar predeterminado',
   'privacy_policy_desc' => 'Escriba su política de privacidad aquí. Se permite HTML estándar.',
   'tos_desc' => 'Escriba sus Términos de Uso aquí. Se permite HTML estándar.',
+  'require_user_verify' => 'Require users email verification to allow Short URLs management',
+  'require_user_verify_help' => 'Unverified users email address will not be allowed to create, edit and manage their Short URLs',
   'save_changes' => 'Guardar cambios',
   'success' => 'Configuraciones exitosamente actualizadas!',
 );
