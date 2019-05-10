@@ -62,6 +62,7 @@ class SettingsSetCommand extends Command
             "terms_of_use" => " ",
             "enable_terms_of_use" => 1,
             "require_user_verify" => 1,
+            "custom_html" => " ",
         ];
     }
 

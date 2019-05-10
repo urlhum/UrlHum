@@ -58,7 +58,7 @@ class SettingsController extends Controller
             $data['website_favicon'] = Settings::saveImage($data['website_favicon']);
         }
 
-        // Check if Privacy Policy and TOS text is empty.
+        // Check if Privacy Policy, TOS and Custom HTML text is empty.
         // In that case, we set the content to an empty char so *setting()* doesn't delete the database field
         if ($data['privacy_policy'] == NULL)
         {
@@ -68,6 +68,11 @@ class SettingsController extends Controller
         if ($data['terms_of_use'] == NULL)
         {
             $data['terms_of_use'] = ' ';
+        }
+
+        if ($data['custom_html'] == NULL)
+        {
+            $data['custom_html'] = ' ';
         }
 
         Setting::set($data);

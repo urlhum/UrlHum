@@ -354,10 +354,21 @@
                                                                       rows="10">{{$settings['reservedShortUrls']}}</textarea>
                                                         </td>
                                                         <td>
-                                                            <button type="button" id="restoreDefaultReserved"
-                                                                    class="btn btn-default">{{ __('settings.reserved_restore') }}
-                                                            </button>
                                                         </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><p>{{ __('settings.custom_html') }}
+                                                                <i class="fa fa-question-circle"
+                                                                   data-toggle="tooltip"
+                                                                   data-placement="top"
+                                                                   title="{{ __('settings.custom_html_help') }}">
+                                                                </i></p>
+                                                            <textarea class="form-control" id="custom_html"
+                                                                      name="custom_html"
+                                                                      rows="10">{{$settings['custom_html']}}</textarea>
+                                                        </td>
+                                                        <td></td>
                                                     </tr>
 
 
@@ -449,18 +460,6 @@
     <script src="/js/app.js"></script>
     <script>
         $(document).ready(function () {
-            $('#restoreDefaultReserved').click(function () {
-                $('#reservedShortUrls').val('' +
-                    'privacy-policy\n' +
-                    'terms-of-use\n' +
-                    'login\n' +
-                    'register\n' +
-                    'password\n' +
-                    'profile\n' +
-                    'settings\n' +
-                    'url\n');
-            });
-
             if ($('#enablePrivacyPolicy').prop('checked') === true) {
                 $('#editPrivacyBtn').show();
             }

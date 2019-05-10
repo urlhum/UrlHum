@@ -37,7 +37,8 @@ class SettingsRequest extends FormRequest
             'enable_privacy_policy' => 'boolean',
             'terms_of_use' => 'max:10000',
             'enable_terms_of_use' => 'boolean',
-            'require_user_verify' => 'boolean'
+            'require_user_verify' => 'boolean',
+            'custom_html' => 'max:10000'
         ];
     }
 }

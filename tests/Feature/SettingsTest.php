@@ -37,7 +37,8 @@ class SettingsTest extends TestCase
             'privacy_policy' => '',
             'enable_privacy_policy' => 0,
             'terms_of_use' => '',
-            'enable_terms_of_use' => 0
+            'enable_terms_of_use' => 0,
+            'custom_html' => '',
         ];
     }
 

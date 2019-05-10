@@ -33,6 +33,7 @@
 
 
 @stack('js')
+{{ setting('custom_html') }}
 
 
 </body>
