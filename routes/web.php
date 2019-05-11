@@ -42,7 +42,7 @@ Route::group(['prefix' => 'url'], function () {
 });
 
 // We use "show" in place of "edit", because the "real" show is /{url}
-Route::resource('url', 'UrlController')->except(['edit', 'index'])->middleware('verifycheck');
+Route::resource('url', 'UrlController')->except(['edit', 'index'])->middleware(['verifycheck', 'honeypot']);
 
 Route::get('/{url}+', 'AnalyticsController@show');
 Route::get('/{url}', 'ViewUrlController@view');

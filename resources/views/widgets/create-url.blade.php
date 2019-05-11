@@ -52,6 +52,7 @@
                                 <div class="input-group-append">
                                     <input type="submit" class="btn btn-primary">
                                 </div>
+                                @honeypot
 
                             </div>
                             <a class="btn btn-sm btn-secondary mt-2" id="options-toggle"><i

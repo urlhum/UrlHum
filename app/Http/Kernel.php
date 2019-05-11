@@ -10,6 +10,7 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Spatie\Honeypot\ProtectAgainstSpam;
 
 class Kernel extends HttpKernel
 {
@@ -68,7 +69,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => \App\Http\Middleware\CheckAdmin::class,
-        'verifycheck' => \App\Http\Middleware\VerifyCheck::class
+        'verifycheck' => \App\Http\Middleware\VerifyCheck::class,
+        'honeypot' =>  ProtectAgainstSpam::class
     ];
 
     /**
