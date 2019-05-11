@@ -13,6 +13,7 @@ use App\Settings;
 use App\User;
 use App\Url;
 use Auth;
+use Hashids\Hashids;
 use Illuminate\Support\Str;
 
 
@@ -45,13 +46,35 @@ class UrlService
 
         // Iterate until a not-already-created short url is generated
         do {
-            $short_url = Str::random(6);
-            // ! because we need 'false', not 'true'
+            $short_url = $this->generateShortUrl();
         } while ($this->customUrlExisting($short_url));
 
         Url::createShortUrl($long_url, $short_url, $privateUrl, $hideUrlStats);
         return $short_url;
     }
+
+    /**
+     * Generate an unique short URL using hashids. Salt is the APP_KEY, which is always unique
+     *
+     * @return string
+     */
+    public function generateShortUrl()
+    {
+        $hashids = new Hashids(env('APP_KEY'), 4);
+
+        $current = Url::orderBy('id', 'desc')->lockForUpdate()->first();
+
+        // If this is the first Short URL, let's encode a 0
+        if ($current === null) {
+            return $hashids->encode(0);
+        }
+
+        $currentInc = $current->id;
+        $currentInc++;
+
+        return $hashids->encode($currentInc);
+    }
+
 
     /**
      * Check if is possible to use the Custom URL or not
