@@ -4,7 +4,8 @@
   <a href="https://travis-ci.org/urlhum/UrlHum"><img src="https://api.travis-ci.org/urlhum/UrlHum.svg" alt="Build Status"></a>
   <a href="https://github.styleci.io/repos/182127286"><img src="https://github.styleci.io/repos/182127286/shield" alt="StyleCI Status"></a>
   <a href="https://codecov.io/gh/urlhum/UrlHum"><img src="https://codecov.io/gh/urlhum/UrlHum/branch/master/graph/badge.svg" /></a>
-  <a href="https://github.com/urlhum/UrlHum/blob/master/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/urlhum/urlhum.svg"></a>
+    <a href="https://github.com/urlhum/UrlHum/blob/master/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/urlhum/urlhum.svg"></a>
+  <a href="https://github.com/urlhum/UrlHum/releases"><img alt="GitHub release" src="https://img.shields.io/github/release-pre/urlhum/urlhum.svg"></a>
 
 </p>
 
