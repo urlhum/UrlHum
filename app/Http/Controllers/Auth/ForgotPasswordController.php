@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum

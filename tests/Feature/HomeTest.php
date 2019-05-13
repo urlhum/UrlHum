@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -9,15 +10,16 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\User;
 
 class HomeTest extends TestCase
 {
     use DatabaseTransactions;
+
     /**
-     * Simply show the homepage to any user
+     * Simply show the homepage to any user.
      *
      * @return void
      */
@@ -29,7 +31,7 @@ class HomeTest extends TestCase
 
     /**
      * If "private site" setting is enabled, guests should be redirected
-     * to login page
+     * to login page.
      *
      * @return void
      */
@@ -41,9 +43,8 @@ class HomeTest extends TestCase
             ->assertRedirect('/login');
     }
 
-
     /**
-     * If Privacy Policy page is disabled, don't show it
+     * If Privacy Policy page is disabled, don't show it.
      *
      * @return void
      */
@@ -55,7 +56,7 @@ class HomeTest extends TestCase
     }
 
     /**
-     * If Privacy Policy page is enabled, show it
+     * If Privacy Policy page is enabled, show it.
      *
      * @return void
      */
@@ -67,7 +68,7 @@ class HomeTest extends TestCase
     }
 
     /**
-     * If TOS page is disabled, don't show it
+     * If TOS page is disabled, don't show it.
      *
      * @return void
      */
@@ -79,7 +80,7 @@ class HomeTest extends TestCase
     }
 
     /**
-     * If Privacy Policy page is enabled, show it
+     * If Privacy Policy page is enabled, show it.
      *
      * @return void
      */
@@ -91,7 +92,7 @@ class HomeTest extends TestCase
     }
 
     /**
-     * Visit Homepage with latest URLs widget disabled as anonymous
+     * Visit Homepage with latest URLs widget disabled as anonymous.
      *
      * @return void
      */
@@ -100,14 +101,14 @@ class HomeTest extends TestCase
         setting()->set('show_guests_latests_urls', 0);
 
         $this->post('/url', ['url' => 'https://youtube.com/testingifthisisvisible',
-            'customUrl' => 'youtube', 'privateUrl' => 0, 'hideUrlStats' => 0]);
+            'customUrl' => 'youtube', 'privateUrl' => 0, 'hideUrlStats' => 0, ]);
 
         $this->get('/')
             ->assertDontSee('https://youtube.com/testingifthisisvisible');
     }
 
     /**
-     * Visit Homepage with Referers enabled as admin, check if visibile: should
+     * Visit Homepage with Referers enabled as admin, check if visibile: should.
      *
      * @return void
      */
@@ -122,7 +123,7 @@ class HomeTest extends TestCase
     }
 
     /**
-     * Visit Homepage with Referers enabled as admin, check if visibile: shouldn't
+     * Visit Homepage with Referers enabled as admin, check if visibile: shouldn't.
      *
      * @return void
      */
@@ -135,7 +136,4 @@ class HomeTest extends TestCase
             ->get('/')
             ->assertDontSee('Best referers');
     }
-
-
-
 }

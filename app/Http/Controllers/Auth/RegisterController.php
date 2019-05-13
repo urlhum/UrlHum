@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -46,8 +47,8 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
 
-        if (!setting('registration')) {
-            abort (404);
+        if (! setting('registration')) {
+            abort(404);
         }
     }
 
@@ -60,7 +61,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         if (setting('enable_privacy_policy') || setting('enable_terms_of_use')) {
-           $checkValidation = 'required';
+            $checkValidation = 'required';
         } else {
             $checkValidation = 'nullable';
         }
@@ -69,10 +70,8 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
-            'signUpCheck' => [$checkValidation, 'boolean']
+            'signUpCheck' => [$checkValidation, 'boolean'],
         ]);
-
-
     }
 
     /**

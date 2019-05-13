@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -9,16 +10,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Http\Request;
 use App\Url;
-use Faker;
+use App\ViewUrl;
 use App\IpAnonymizer;
 use GeoIp2\Database\Reader;
-use App\ViewUrl;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 /**
- * Controller handling the actual page of the corresponding URL, that redirects the user
+ * Controller handling the actual page of the corresponding URL, that redirects the user.
  *
  * Class ViewUrlController
  * @author Christian la Forgia <christian@optiroot.it>
@@ -26,7 +26,7 @@ use App\ViewUrl;
 class ViewUrlController
 {
     /**
-     * The actual "url" page, redirects the user
+     * The actual "url" page, redirects the user.
      *
      * @param $url
      * @return \Illuminate\Http\RedirectResponse
@@ -42,14 +42,13 @@ class ViewUrlController
         $ip = request()->ip();
 
         if (setting('disable_referers')) {
-            $referer = NULL;
+            $referer = null;
         } else {
-            $referer = request()->server('HTTP_REFERER') ?? NULL;
+            $referer = request()->server('HTTP_REFERER') ?? null;
         }
 
         $hashed = 0;
         $anonymized = 0;
-
 
         if (setting('anonymize_ip')) {
             $Anonip = IpAnonymizer::anonymizeIp($ip);
@@ -72,29 +71,26 @@ class ViewUrlController
             $real_click = 1;
         }
 
-        if (!setting('hash_ip') && setting('anonymize_ip') ) {
+        if (! setting('hash_ip') && setting('anonymize_ip')) {
             $click = 1;
             $real_click = 0;
         }
 
-        $data = array(
+        $data = [
             'short_url' => $url,
             'click' => $click,
             'real_click' => $real_click,
             'country' => $countries['countryCode'],
             'country_full' => $countries['countryName'],
-            'referer' => $referer ?? NULL,
+            'referer' => $referer ?? null,
             'ip_address' => $ip,
             'ip_hashed' => $hashed,
-            'ip_anonymized' => $anonymized
-            );
+            'ip_anonymized' => $anonymized,
+            ];
 
         ViewUrl::store($data);
 
-
-
         return Redirect::away($externalUrl);
-
     }
 
     public function getCountries($ip)
@@ -103,16 +99,17 @@ class ViewUrlController
         // If it fails, because GeoLite2 doesn't know the IP country, we
         // will set it to Unknown
         try {
-            $reader = new Reader(app_path() . '/../database/GeoLite2-Country.mmdb');
+            $reader = new Reader(app_path().'/../database/GeoLite2-Country.mmdb');
             $record = $reader->country($ip);
             $countryCode = $record->country->isoCode;
             $countryName = $record->country->name;
-            return compact("countryCode", "countryName");
-        } catch(\Exception $e) {
+
+            return compact('countryCode', 'countryName');
+        } catch (\Exception $e) {
             $countryCode = 'N/A';
             $countryName = 'Unknown';
-            return compact("countryCode", "countryName");
+
+            return compact('countryCode', 'countryName');
         }
     }
-
 }

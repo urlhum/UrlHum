@@ -1,6 +1,14 @@
 <?php
 
-return array (
+/*
+ * UrlHum (https://urlhum.com)
+ *
+ * @link      https://github.com/urlhum/UrlHum
+ * @copyright Copyright (c) 2019 Christian la Forgia
+ * @license   https://github.com/urlhum/UrlHum/blob/master/LICENSE.md (MIT License)
+ */
+
+return [
   'settings' => '设置',
   'system' => '系统设置',
   'anon_hash_alert' => '注意：如果您对IP进行匿名处理而不进行哈希处理，则分析将无法统计实际点击次数，因为无法检测用户IP。',
@@ -36,4 +44,4 @@ return array (
   'custom_html_help' => 'Write your custom script here. It will be loaded in the website footer.',
   'save_changes' => '保存更改',
   'success' => '设置已更新！',
-);
+];

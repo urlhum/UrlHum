@@ -1,41 +1,45 @@
 <?php
 
-return array (
+/*
+ * UrlHum (https://urlhum.com)
+ *
+ * @link      https://github.com/urlhum/UrlHum
+ * @copyright Copyright (c) 2019 Christian la Forgia
+ * @license   https://github.com/urlhum/UrlHum/blob/master/LICENSE.md (MIT License)
+ */
+
+return [
   'list' => 'URLs list',
-  'edit' => 
-  array (
+  'edit' => [
     'edit' => 'Edit URL',
     'short' => 'Edit Short URL',
-  ),
+  ],
   'created' => 'URL created at :date',
   'url' => 'URL',
-  'my' => 
-  array (
+  'my' => [
     'my' => 'My Short URLs',
     'list' => 'Showing :firstItem - :lastItem Short URLs of :num total',
-  ),
+  ],
   'public' => 'Latest public URLs',
   'short' => 'Short URL',
   'new' => 'New URL',
   'long' => 'Long URL',
-  'delete' => 
-  array (
+  'delete' => [
     'confirm' => 'Are you sure you want to delete this Short URL? All related Analytics data will be lost.',
     'delete' => 'Delete URL',
-  ),
+  ],
   'listres' => 'Showing :firstItem - :lastItem Short URLs of :num total',
   'updated' => 'URL updated at :date',
   'destination' => 'Destination',
   'by' => 'Created By',
   'stats' => 'View stats',
-  'options' => 
-  array (
+  'options' => [
     'hide' => 'Hide from Public URLs page',
     'private_stats' => 'Make this URL statistics private',
     'destination' => 'Destination URL',
     'options' => 'Options',
     'custom' => 'Custom Short URL',
-  ),
+  ],
   'id' => 'ID',
   'createdStr' => 'Created',
   'action' => 'Action',
@@ -46,4 +50,4 @@ return array (
   'latest' => 'Latest URLs',
   'all' => 'See all',
   'urls' => 'URLs',
-);
+];

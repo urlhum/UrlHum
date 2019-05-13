@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * UrlHum (https://urlhum.com)
+ *
+ * @link      https://github.com/urlhum/UrlHum
+ * @copyright Copyright (c) 2019 Christian la Forgia
+ * @license   https://github.com/urlhum/UrlHum/blob/master/LICENSE.md (MIT License)
+ */
+
 return [
 
     /*
@@ -9,14 +17,14 @@ return [
      |
      | Debugbar is enabled by default, when debug is set to true in app.php.
      | You can override the value by setting enable to true or false instead of null.
-     | 
+     |
      | You can provide an array of URI's that must be ignored (eg. 'api/*')
      |
      */
 
     'enabled' => env('DEBUGBAR_ENABLED', null),
     'except' => [
-        'telescope*'
+        'telescope*',
     ],
 
     /*
@@ -36,7 +44,7 @@ return [
         'driver'     => 'file', // redis, file, pdo, custom
         'path'       => storage_path('debugbar'), // For file driver
         'connection' => null,   // Leave null for default connection (Redis/PDO)
-        'provider'   => '' // Instance of StorageInterface for custom driver
+        'provider'   => '', // Instance of StorageInterface for custom driver
     ],
 
     /*
@@ -79,7 +87,7 @@ return [
      |
      */
     'error_handler' => false,
-    
+
     /*
      |--------------------------------------------------------------------------
      | Clockwork integration
@@ -148,19 +156,19 @@ return [
             'hints'             => true,    // Show hints for common mistakes
         ],
         'mail' => [
-            'full_log' => false
+            'full_log' => false,
         ],
         'views' => [
             'data' => false,    //Note: Can slow down the application, because the data can be quite large..
         ],
         'route' => [
-            'label' => true  // show complete route on bar
+            'label' => true,  // show complete route on bar
         ],
         'logs' => [
-            'file' => null
+            'file' => null,
         ],
         'cache' => [
-            'values' => true // collect cache values
+            'values' => true, // collect cache values
         ],
     ],
 

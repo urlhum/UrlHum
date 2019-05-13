@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -9,15 +10,14 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * Model that saves and loads data when an User visits a Short URL
+ * Model that saves and loads data when an User visits a Short URL.
  *
  * Class ViewUrl
- * @package App
  */
 class ViewUrl extends Model
 {
@@ -29,23 +29,23 @@ class ViewUrl extends Model
      * @var array
      */
     protected $fillable = [
-        'short_url', 'click', 'real_click', 'country', 'country_full', 'referer', 'ip_address', 'ip_hashed', 'ip_anonymized'
+        'short_url', 'click', 'real_click', 'country', 'country_full', 'referer', 'ip_address', 'ip_hashed', 'ip_anonymized',
     ];
 
     /**
-     * Store a new View in database
+     * Store a new View in database.
      *
      * @param $data
      */
     public static function store($data)
     {
-        $viewUrl = new viewUrl;
+        $viewUrl = new self;
         $viewUrl->fill($data);
         $viewUrl->save();
     }
 
     /**
-     * Check if the click is actually real or not, based on the IP and datetime
+     * Check if the click is actually real or not, based on the IP and datetime.
      *
      * @param $short_url
      * @param $ip_address
@@ -73,13 +73,11 @@ class ViewUrl extends Model
             ->orderBy('created_at', 'desc')
             ->get();
 
-      return $view->isNotEmpty() ? false : true;
-
+        return $view->isNotEmpty() ? false : true;
     }
 
-
     /**
-     * Get the Short URL referers
+     * Get the Short URL referers.
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
@@ -93,7 +91,6 @@ class ViewUrl extends Model
 
         return $urls;
     }
-
 
     /**
      * Same as above, but with "limit" instead of "paginate".
@@ -113,16 +110,13 @@ class ViewUrl extends Model
         return $urls;
     }
 
-
     /**
-     * When a Short URL is deleted, we delete its analytical data too
+     * When a Short URL is deleted, we delete its analytical data too.
      *
      * @param $url
      */
     public static function deleteUrlsViews($url)
     {
-        ViewUrl::where('short_url', $url)->delete();
+        self::where('short_url', $url)->delete();
     }
-
-
 }

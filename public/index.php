@@ -1,10 +1,11 @@
 <?php
 
-/**
- * Laravel - A PHP Framework For Web Artisans
+/*
+ * UrlHum (https://urlhum.com)
  *
- * @package  Laravel
- * @author   Taylor Otwell <taylor@laravel.com>
+ * @link      https://github.com/urlhum/UrlHum
+ * @copyright Copyright (c) 2019 Christian la Forgia
+ * @license   https://github.com/urlhum/UrlHum/blob/master/LICENSE.md (MIT License)
  */
 
 define('LARAVEL_START', microtime(true));

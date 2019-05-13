@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -9,15 +10,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use App\Url;
-use App\ViewUrl;
 use App\User;
+use App\ViewUrl;
 use App\Services\Analytics;
+use Illuminate\Support\Facades\Auth;
 
 /**
- * Class HomeController
- * @package App\Http\Controllers
+ * Class HomeController.
  */
 class HomeController extends Controller
 {
@@ -47,22 +47,22 @@ class HomeController extends Controller
         // We initialize the anonymous var to verify later if the user is anonymous or not
         $anonymous = false;
 
-        if (!Auth::check()) {
-           $anonymous = true;
+        if (! Auth::check()) {
+            $anonymous = true;
         }
 
         $anonymousUrls = setting('anonymous_urls');
 
         // We null the referers Widget to enable it just if the user is an admin and has referers enabled
-        $referersWidget = NULL;
+        $referersWidget = null;
 
         $publicWidget = Url::publicUrlsWidget();
 
-        if(!setting('show_guests_latests_urls') && $anonymous) {
-            $publicWidget = NULL;
+        if (! setting('show_guests_latests_urls') && $anonymous) {
+            $publicWidget = null;
         }
 
-        if (!$anonymous && isAdmin() && !setting('disable_referers')) {
+        if (! $anonymous && isAdmin() && ! setting('disable_referers')) {
             $referersWidget = ViewUrl::referersWidget();
         }
 
@@ -75,7 +75,5 @@ class HomeController extends Controller
             'anonymous' => $anonymous,
             'anonymous_urls' => $anonymousUrls,
         ]);
-
     }
-
 }

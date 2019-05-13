@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -9,8 +10,8 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\User;
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SettingsTest extends TestCase
@@ -18,7 +19,7 @@ class SettingsTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * Useful function to reuse settings list in tests
+     * Useful function to reuse settings list in tests.
      *
      * @return array
      */
@@ -43,7 +44,7 @@ class SettingsTest extends TestCase
     }
 
     /**
-     * Show the settings page to an admin. Should be successfull
+     * Show the settings page to an admin. Should be successfull.
      *
      * @return void
      */
@@ -56,7 +57,7 @@ class SettingsTest extends TestCase
     }
 
     /**
-     * Show the settings page to an user. Should return to page not found
+     * Show the settings page to an user. Should return to page not found.
      *
      * @return void
      */
@@ -69,7 +70,7 @@ class SettingsTest extends TestCase
     }
 
     /**
-     * Show the settings page to a guest. Should redirect to login page
+     * Show the settings page to a guest. Should redirect to login page.
      *
      * @return void
      */
@@ -79,9 +80,8 @@ class SettingsTest extends TestCase
             ->assertStatus(302);
     }
 
-
     /**
-     * Update settings as admin. Should succeed
+     * Update settings as admin. Should succeed.
      *
      * @return void
      */
@@ -96,7 +96,7 @@ class SettingsTest extends TestCase
     }
 
     /**
-     * Update settings as user. Should return page not found for security reasons
+     * Update settings as user. Should return page not found for security reasons.
      *
      * @return void
      */
@@ -110,7 +110,7 @@ class SettingsTest extends TestCase
     }
 
     /**
-     * Update settings as guest. Should redirect to login
+     * Update settings as guest. Should redirect to login.
      *
      * @return void
      */
@@ -119,6 +119,4 @@ class SettingsTest extends TestCase
         $this->post('/settings/save', $this->settings_list())
             ->assertStatus(302);
     }
-
-
 }

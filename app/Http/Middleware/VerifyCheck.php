@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -10,8 +11,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Auth\Middleware\EnsureEmailIsVerified as Verified;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Middleware\EnsureEmailIsVerified as Verified;
 
 class VerifyCheck
 {

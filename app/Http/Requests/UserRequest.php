@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -34,14 +35,14 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => [
-                'required', 'min:3'
+                'required', 'min:3',
             ],
             'email' => [
-                'required', 'email', Rule::unique((new User)->getTable())->ignore($this->route()->user->id ?? null)
+                'required', 'email', Rule::unique((new User)->getTable())->ignore($this->route()->user->id ?? null),
             ],
             'password' => [
-                $this->route()->user ? 'nullable' : 'required', 'confirmed', 'min:6'
-            ]
+                $this->route()->user ? 'nullable' : 'required', 'confirmed', 'min:6',
+            ],
         ];
     }
 }

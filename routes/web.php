@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -46,5 +47,3 @@ Route::resource('url', 'UrlController')->except(['edit', 'index'])->middleware([
 
 Route::get('/{url}+', 'AnalyticsController@show');
 Route::get('/{url}', 'ViewUrlController@view');
-
-
