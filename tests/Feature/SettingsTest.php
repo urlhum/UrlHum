@@ -12,9 +12,8 @@ namespace Tests\Feature;
 
 use App\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SettingsTest extends TestCase
 {
@@ -139,6 +138,4 @@ class SettingsTest extends TestCase
             ->post('/settings/save', $settings)
             ->assertStatus(200);
     }
-
-
 }
