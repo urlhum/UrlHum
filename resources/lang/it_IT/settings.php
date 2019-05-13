@@ -1,6 +1,14 @@
 <?php
 
-return array (
+/*
+ * UrlHum (https://urlhum.com)
+ *
+ * @link      https://github.com/urlhum/UrlHum
+ * @copyright Copyright (c) 2019 Christian la Forgia
+ * @license   https://github.com/urlhum/UrlHum/blob/master/LICENSE.md (MIT License)
+ */
+
+return [
   'settings' => 'Impostazioni',
   'system' => 'Impostazioni di Sistema',
   'anon_hash_alert' => 'Attenzione: se anonimizzi l\'indirizzo IP senza effettuare il relativo hashing, le funzioni di analitica non potranno contare i click reali, in quanto sarebbe impossibile determinare l\'indirizzo IP dell\'utente.',
@@ -36,4 +44,4 @@ return array (
   'custom_html_help' => 'Write your custom script here. It will be loaded in the website footer.',
   'save_changes' => 'Salva cambiamenti',
   'success' => 'Impostazioni aggiornate con successo!',
-);
+];

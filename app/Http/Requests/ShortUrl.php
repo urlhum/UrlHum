@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -9,8 +10,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ShortUrl extends FormRequest
 {
@@ -21,7 +22,7 @@ class ShortUrl extends FormRequest
      */
     public function authorize()
     {
-        if (!Auth::check() && !setting('anonymous_urls')) {
+        if (! Auth::check() && ! setting('anonymous_urls')) {
             return false;
         }
 
@@ -40,7 +41,7 @@ class ShortUrl extends FormRequest
             // TODO: Better customUrl validation
             'customUrl' => 'nullable|min:4|max:15|regex:/^[-a-zA-Z0-9_]+$/',
             'privateUrl' => 'boolean',
-            'hideUrlStats' => 'boolean'
+            'hideUrlStats' => 'boolean',
         ];
     }
 }

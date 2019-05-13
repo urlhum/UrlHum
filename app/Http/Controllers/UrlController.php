@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -9,21 +10,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Url;
+use App\ViewUrl;
+use App\DeletedUrls;
+use App\Services\UrlService;
 use Illuminate\Http\Request;
 use App\Http\Requests\ShortUrl;
-use Illuminate\Support\Facades\Redirect;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
-use App\Services\UrlService;
-use App\DeletedUrls;
-use App\ViewUrl;
-use App\Url;
-use App;
-
+use Illuminate\Support\Facades\Redirect;
 
 /**
  * Class UrlController
- * Manage everything related to short URLs
+ * Manage everything related to short URLs.
  *
  * @author Christian la Forgia <christian@optiroot.it>
  */
@@ -43,11 +42,10 @@ class UrlController extends Controller
         $this->middleware('throttle:30', ['only' => ['store', 'update', 'checkExistingUrl']]);
 
         $this->url = $urlService;
-
     }
 
     /**
-     * Store the data the user sent to create the Short URL
+     * Store the data the user sent to create the Short URL.
      *
      * @param ShortUrl $request
      * @return \Illuminate\Http\RedirectResponse
@@ -59,7 +57,7 @@ class UrlController extends Controller
 
         // If user is not logged in, he can't set private statistics,
         // because otherwise they will not be available to anybody else but admin
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             $data['hideUrlStats'] = 0;
         }
 
@@ -83,14 +81,14 @@ class UrlController extends Controller
 
     /**
      * Show the "edit" form of the URL.
-     * This method actually shows the URL edit page. It is not actually "@show" URL. The URL show is in viewUrl@view
+     * This method actually shows the URL edit page. It is not actually "@show" URL. The URL show is in viewUrl@view.
      *
      * @param $url
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function show($url)
     {
-        if (!$this->url->OwnerOrAdmin($url)) {
+        if (! $this->url->OwnerOrAdmin($url)) {
             abort(403);
         }
 
@@ -100,9 +98,8 @@ class UrlController extends Controller
         return view('url.edit')->with('data', $data);
     }
 
-
     /**
-     * Update the URL on the user request
+     * Update the URL on the user request.
      *
      * @param $url
      * @param ShortUrl $request
@@ -113,7 +110,7 @@ class UrlController extends Controller
     {
         $url = Url::findOrFail($url);
 
-        if (!$this->url->OwnerOrAdmin($url->short_url)) {
+        if (! $this->url->OwnerOrAdmin($url->short_url)) {
             return response('Forbidden', 403);
         }
 
@@ -127,11 +124,10 @@ class UrlController extends Controller
 
         return Redirect::back()
             ->with('success', 'Short URL updated successfully.');
-
     }
 
     /**
-     * Delete a Short URL on user request
+     * Delete a Short URL on user request.
      *
      * @param $url
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
@@ -140,7 +136,7 @@ class UrlController extends Controller
     {
         Url::findOrFail($url);
 
-        if (!$this->url->OwnerOrAdmin($url)) {
+        if (! $this->url->OwnerOrAdmin($url)) {
             return response('Forbidden', 403);
         }
 
@@ -151,11 +147,11 @@ class UrlController extends Controller
         // Needed to use the setting 'allow deleted URLs to be created again'
         DeletedUrls::add($url);
 
-        return Redirect::route('url.my')->with(['success' => 'Short url "' . $url . '" deleted successfully. Its Analytics data has been deleted too.']);
+        return Redirect::route('url.my')->with(['success' => 'Short url "'.$url.'" deleted successfully. Its Analytics data has been deleted too.']);
     }
 
     /**
-     * Response to an AJAX request by the custom Short URL form
+     * Response to an AJAX request by the custom Short URL form.
      *
      * @param Request $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
@@ -163,8 +159,7 @@ class UrlController extends Controller
     public function checkExistingUrl(Request $request)
     {
         if (Url::where('short_url', $request->input)->exists() || $this->url->isUrlReserved($request->input) ||
-            (!setting('deleted_urls_can_be_recreated') && $this->url->isUrlAlreadyDeleted($request->input)) || $this->url->isShortUrlProtected($request->input)) {
-
+            (! setting('deleted_urls_can_be_recreated') && $this->url->isUrlAlreadyDeleted($request->input)) || $this->url->isShortUrlProtected($request->input)) {
             return response('Custom URL already existing', 409);
         }
 
@@ -172,19 +167,19 @@ class UrlController extends Controller
     }
 
     /**
-     * Show the user its own short URLs
+     * Show the user its own short URLs.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getMyUrls()
     {
         $urls = Url::getMyUrls();
+
         return view('url.my')->with('urls', $urls);
     }
 
-
     /**
-     * Show the admin all the Short URLs
+     * Show the admin all the Short URLs.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -194,7 +189,7 @@ class UrlController extends Controller
     }
 
     /**
-     * AJAX load of all the Short URLs to show in the admin URLs list
+     * AJAX load of all the Short URLs to show in the admin URLs list.
      *
      * @return mixed
      * @throws \Exception
@@ -206,8 +201,8 @@ class UrlController extends Controller
         // TODO: Really NEED to find a better way to handle this. It's horrible.
         $dataTable = Datatables::of(Url::getAllUrlsList())->
         addColumn('action', function ($row) {
-            return '<a href="/' . $row->short_url . '+"><button type="button" class="btn btn-secondary btn-sm btn-url-analytics"><i class="fa fa-chart-bar" alt="Analytics"> </i> ' . trans('analytics.analytics') . '</button></a> &nbsp;
-                   <a href="/url/' . $row->short_url . '"><button type="button" class="btn btn-success btn-sm btn-url-edit"><i class="fa fa-pencil-alt" alt="Edit"> </i>' . trans('urlhum.edit') . '</button></a>';
+            return '<a href="/'.$row->short_url.'+"><button type="button" class="btn btn-secondary btn-sm btn-url-analytics"><i class="fa fa-chart-bar" alt="Analytics"> </i> '.trans('analytics.analytics').'</button></a> &nbsp;
+                   <a href="/url/'.$row->short_url.'"><button type="button" class="btn btn-success btn-sm btn-url-edit"><i class="fa fa-pencil-alt" alt="Edit"> </i>'.trans('urlhum.edit').'</button></a>';
         })
             ->rawColumns(['action'])
             ->make(true);
@@ -215,23 +210,17 @@ class UrlController extends Controller
         return $dataTable;
     }
 
-
     /**
-     * Load the public URLs list to show
+     * Load the public URLs list to show.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function publicUrls()
     {
-        if (!setting('show_guests_latests_urls') && !isAdmin()) {
+        if (! setting('show_guests_latests_urls') && ! isAdmin()) {
             abort(404);
         }
 
         return view('url.public')->with('urls', Url::getLatestPublicUrls());
     }
-
-
 }
-
-
-

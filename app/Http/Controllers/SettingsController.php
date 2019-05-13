@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -9,33 +10,32 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use anlutro\LaravelSettings\Facade as Setting;
 use App\Settings;
 use App\Http\Requests\SettingsRequest;
+use anlutro\LaravelSettings\Facade as Setting;
 
 /**
  * Class SettingsController
- * Manage system settings for the admin
+ * Manage system settings for the admin.
  *
  * @author Christian la Forgia <christian@optiroot.it>
  */
 class SettingsController extends Controller
 {
     /**
-     * Show the settings page to users
+     * Show the settings page to users.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show()
     {
         $settings = Settings::getAllSettings();
-       return view('settings')->with('settings', $settings);
 
+        return view('settings')->with('settings', $settings);
     }
 
     /**
-     * Save the settings
+     * Save the settings.
      *
      * @param SettingsRequest $request
      * @return \Illuminate\Http\RedirectResponse
@@ -60,18 +60,15 @@ class SettingsController extends Controller
 
         // Check if Privacy Policy, TOS and Custom HTML text is empty.
         // In that case, we set the content to an empty char so *setting()* doesn't delete the database field
-        if ($data['privacy_policy'] == NULL)
-        {
+        if ($data['privacy_policy'] == null) {
             $data['privacy_policy'] = ' ';
         }
 
-        if ($data['terms_of_use'] == NULL)
-        {
+        if ($data['terms_of_use'] == null) {
             $data['terms_of_use'] = ' ';
         }
 
-        if ($data['custom_html'] == NULL)
-        {
+        if ($data['custom_html'] == null) {
             $data['custom_html'] = ' ';
         }
 
@@ -80,5 +77,4 @@ class SettingsController extends Controller
 
         return redirect()->back()->with('success', trans('settings.success'));
     }
-
 }
