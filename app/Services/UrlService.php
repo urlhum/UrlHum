@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -9,16 +10,14 @@
 
 namespace App\Services;
 
-use App\Settings;
-use App\User;
-use App\Url;
 use Auth;
+use App\Url;
+use App\User;
+use App\Settings;
 use Hashids\Hashids;
-use Illuminate\Support\Str;
-
 
 /**
- * Useful functions to use in the Whole App for Short URLs
+ * Useful functions to use in the Whole App for Short URLs.
  *
  * Class UrlService
  *
@@ -26,9 +25,8 @@ use Illuminate\Support\Str;
  */
 class UrlService
 {
-
     /**
-     * Actually creates a short URL if there is no custom URL. Otherwise, use the custom
+     * Actually creates a short URL if there is no custom URL. Otherwise, use the custom.
      *
      * @param $long_url
      * @param $short_url
@@ -38,9 +36,10 @@ class UrlService
      */
     public function shortenUrl($long_url, $short_url, $privateUrl, $hideUrlStats)
     {
-        if (!empty($short_url)) {
+        if (! empty($short_url)) {
             // Set the short url as custom url sent by user
             Url::createShortUrl($long_url, $short_url, $privateUrl, $hideUrlStats);
+
             return $short_url;
         }
 
@@ -50,11 +49,12 @@ class UrlService
         } while ($this->customUrlExisting($short_url));
 
         Url::createShortUrl($long_url, $short_url, $privateUrl, $hideUrlStats);
+
         return $short_url;
     }
 
     /**
-     * Generate an unique short URL using hashids. Salt is the APP_KEY, which is always unique
+     * Generate an unique short URL using hashids. Salt is the APP_KEY, which is always unique.
      *
      * @return string
      */
@@ -75,9 +75,8 @@ class UrlService
         return $hashids->encode($currentInc);
     }
 
-
     /**
-     * Check if is possible to use the Custom URL or not
+     * Check if is possible to use the Custom URL or not.
      *
      * @param $url
      * @return bool
@@ -85,9 +84,9 @@ class UrlService
     public function customUrlExisting($url)
     {
         if ($this->checkExistingCustomUrl($url) ||
-            $this->isShortUrlProtected($url)    ||
-            $this->isUrlReserved($url)          ||
-            (!setting('deleted_urls_can_be_recreated') && ($this->isUrlAlreadyDeleted($url)))) {
+            $this->isShortUrlProtected($url) ||
+            $this->isUrlReserved($url) ||
+            (! setting('deleted_urls_can_be_recreated') && ($this->isUrlAlreadyDeleted($url)))) {
             return true;
         }
 
@@ -95,7 +94,7 @@ class UrlService
     }
 
     /**
-     * Check if the logged in user is the URL Owner or an Admin
+     * Check if the logged in user is the URL Owner or an Admin.
      *
      * @param $url
      * @return bool
@@ -106,14 +105,16 @@ class UrlService
     }
 
     /**
-     * Check if the logged in user is the Short URL owner
+     * Check if the logged in user is the Short URL owner.
      *
      * @param $url
      * @return bool
      */
     public function isOwner($url)
     {
-        if (!Auth::check()) { return false; }
+        if (! Auth::check()) {
+            return false;
+        }
 
         $urlUser = Url::find($url);
 
@@ -125,7 +126,7 @@ class UrlService
     }
 
     /**
-     * Check if the Custom URL already exists
+     * Check if the Custom URL already exists.
      *
      * @param $custom_url
      * @return bool
@@ -141,7 +142,7 @@ class UrlService
     }
 
     /**
-     * Check if the long URL exists on database. If so, return the short URL
+     * Check if the long URL exists on database. If so, return the short URL.
      *
      * @param $long_url
      * @return mixed|null
@@ -155,7 +156,7 @@ class UrlService
 
     /**
      * Check if Short URL is protected / cannot be created
-     * because it is a path
+     * because it is a path.
      *
      * @param url
      * @return array|null
@@ -171,9 +172,8 @@ class UrlService
         return in_array($url, $routes);
     }
 
-
     /**
-     * Check if the URL is reserved, based on the system setting
+     * Check if the URL is reserved, based on the system setting.
      *
      * @param $url
      * @return bool
@@ -182,7 +182,7 @@ class UrlService
     {
         $reservedUrls = Settings::getReservedUrls();
         // Check if there are any reserved URLs or if the custom URL isn't set
-        if (gettype($reservedUrls) !== 'array' || $url === NULL) {
+        if (gettype($reservedUrls) !== 'array' || $url === null) {
             return false;
         }
 
@@ -190,7 +190,7 @@ class UrlService
     }
 
     /**
-     * Check if the typed URL has already been deleted before
+     * Check if the typed URL has already been deleted before.
      *
      * @param $url
      * @return bool

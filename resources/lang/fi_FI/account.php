@@ -1,9 +1,16 @@
 <?php
 
-return array (
+/*
+ * UrlHum (https://urlhum.com)
+ *
+ * @link      https://github.com/urlhum/UrlHum
+ * @copyright Copyright (c) 2019 Christian la Forgia
+ * @license   https://github.com/urlhum/UrlHum/blob/master/LICENSE.md (MIT License)
+ */
+
+return [
   'update_success' => 'Account successfully updated!',
-  'password' => 
-  array (
+  'password' => [
     'success' => 'Password successfully updated!',
     'current' => 'Current Password',
     'not_match' => 'The current password field does not match your password',
@@ -15,7 +22,7 @@ return array (
     'change' => 'Change Password',
     'old' => 'Old Password',
     'send' => 'Send Password Reset Link',
-  ),
+  ],
   'user_created' => 'User successfully created',
   'user_updated' => 'User successfully updated',
   'user_deleted' => 'User successfully deleted',
@@ -44,9 +51,8 @@ return array (
   'users' => 'Users',
   'add' => 'Add User',
   'creation_date' => 'Creation date',
-  'delete' => 
-  array (
+  'delete' => [
     'confirm' => 'Are you sure you want to delete this user?',
     'delete' => 'Delete User',
-  ),
-);
+  ],
+];

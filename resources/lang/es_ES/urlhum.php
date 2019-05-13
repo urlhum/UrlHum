@@ -1,6 +1,14 @@
 <?php
 
-return array (
+/*
+ * UrlHum (https://urlhum.com)
+ *
+ * @link      https://github.com/urlhum/UrlHum
+ * @copyright Copyright (c) 2019 Christian la Forgia
+ * @license   https://github.com/urlhum/UrlHum/blob/master/LICENSE.md (MIT License)
+ */
+
+return [
   'privacypolicy' => 'Políticas de privacidad',
   'and' => 'y',
   'termsofuse' => 'Términos de uso',
@@ -21,4 +29,4 @@ return array (
   'close' => 'Cerrar',
   'edit' => 'Editar',
   'user' => 'Usuario',
-);
+];

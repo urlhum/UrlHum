@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -9,16 +10,14 @@
 
 namespace Tests\Feature;
 
-use App\DeletedUrls;
+use App\Url;
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\User;
-use App\Url;
 
 class ShortUrlTest extends TestCase
 {
     use DatabaseTransactions;
-
 
     public function getUrlId($url)
     {
@@ -29,7 +28,7 @@ class ShortUrlTest extends TestCase
     }
 
     /**
-     * Try to edit a Short URL as an anonymous user. Should fail
+     * Try to edit a Short URL as an anonymous user. Should fail.
      *
      * @return void
      */
@@ -40,12 +39,12 @@ class ShortUrlTest extends TestCase
         $this->get('/url/inst')
             ->assertStatus(403);
 
-        $this->put("/url/inst", ['url' => 'https://aaa.com'])
+        $this->put('/url/inst', ['url' => 'https://aaa.com'])
             ->assertStatus(403);
     }
 
     /**
-     * Try to edit a Short URL as an owner. Should succeed
+     * Try to edit a Short URL as an owner. Should succeed.
      *
      * @return void
      */
@@ -61,14 +60,13 @@ class ShortUrlTest extends TestCase
             ->assertStatus(200);
 
         $this->actingAs($user)
-            ->put("/url/inst", ['url' => 'https://aaa.com', 'privateUrl' => 0, 'hideUrlStats' => 0])
+            ->put('/url/inst', ['url' => 'https://aaa.com', 'privateUrl' => 0, 'hideUrlStats' => 0])
             ->assertStatus(302);
     }
 
-
     /**
      * If users set the Short Url as hidden from public URLs page,
-     * the list shouldn't have the Short URL
+     * the list shouldn't have the Short URL.
      *
      * @return void
      */
@@ -86,13 +84,13 @@ class ShortUrlTest extends TestCase
             ->assertSessionHas('success');
 
         $urls = Url::getLatestPublicUrls();
-        $url = $urls[0]->short_url ?? NULL;
+        $url = $urls[0]->short_url ?? null;
 
         $this->assertNotEquals($url, $data['customUrl']);
     }
 
     /**
-     * Delete Short URL as Owner, should succeed
+     * Delete Short URL as Owner, should succeed.
      *
      * @return void
      */
@@ -104,14 +102,14 @@ class ShortUrlTest extends TestCase
             ->post('/url', ['url' => 'https://urlhum.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
 
         $this->actingAs($user)
-            ->delete("/url/inst")
+            ->delete('/url/inst')
             ->assertStatus(302);
 
         $this->assertNull(Url::find('inst'));
     }
 
     /**
-     * Delete Short URL as Anonymous user. Should fail
+     * Delete Short URL as Anonymous user. Should fail.
      *
      * @return void
      */
@@ -130,9 +128,8 @@ class ShortUrlTest extends TestCase
         $this->assertNotNull(Url::find('inst'));
     }
 
-
     /**
-     * Delete Short URL as Admin. Should succeed
+     * Delete Short URL as Admin. Should succeed.
      *
      * @return void
      */
@@ -155,7 +152,7 @@ class ShortUrlTest extends TestCase
     }
 
     /**
-     * Show the user his own short URLs page
+     * Show the user his own short URLs page.
      *
      * @return void
      */
@@ -168,7 +165,7 @@ class ShortUrlTest extends TestCase
     }
 
     /**
-     * Show to guest user his own short URLs page (should return 302)
+     * Show to guest user his own short URLs page (should return 302).
      *
      * @return void
      */
@@ -179,7 +176,7 @@ class ShortUrlTest extends TestCase
     }
 
     /**
-     * Show URLs List page to admin. Should return 200
+     * Show URLs List page to admin. Should return 200.
      *
      * @return void
      */
@@ -192,7 +189,7 @@ class ShortUrlTest extends TestCase
     }
 
     /**
-     * Show URLs List page to user. Should fail to 404
+     * Show URLs List page to user. Should fail to 404.
      *
      * @return void
      */
@@ -218,7 +215,7 @@ class ShortUrlTest extends TestCase
     }
 
     /**
-     * View the public URLs page as guest, with option disabled
+     * View the public URLs page as guest, with option disabled.
      *
      * @return void
      */
@@ -230,7 +227,7 @@ class ShortUrlTest extends TestCase
     }
 
     /**
-     * View public URLs page as guest, with option enabled
+     * View public URLs page as guest, with option enabled.
      *
      * @return void
      */
@@ -240,7 +237,4 @@ class ShortUrlTest extends TestCase
         $this->get('/url/public')
             ->assertStatus(200);
     }
-
-
 }
-

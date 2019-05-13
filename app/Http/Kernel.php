@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -9,8 +10,8 @@
 
 namespace App\Http;
 
-use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Spatie\Honeypot\ProtectAgainstSpam;
+use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
 {
@@ -70,7 +71,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => \App\Http\Middleware\CheckAdmin::class,
         'verifycheck' => \App\Http\Middleware\VerifyCheck::class,
-        'honeypot' =>  ProtectAgainstSpam::class
+        'honeypot' =>  ProtectAgainstSpam::class,
     ];
 
     /**

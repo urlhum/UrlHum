@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -9,23 +10,22 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Url;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\ViewUrl;
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ViewUrlTest extends TestCase
 {
     use DatabaseTransactions;
 
     /**
-     * Test if viewing an URL with a fresh and not-saved IP address will result as a real click
+     * Test if viewing an URL with a fresh and not-saved IP address will result as a real click.
      *
      * @return void
      */
     public function url_view_fresh_ip_address()
     {
-
         $ip = '216.58.205.205';
 
         $this->post('/url', ['url' => 'https://reddit.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
@@ -40,17 +40,15 @@ class ViewUrlTest extends TestCase
             ->real_click;
 
         $this->assertEquals(true, $realClick);
-
     }
 
     /**
-     * Test if viewing an URL with a repeated IP address will result as a click
+     * Test if viewing an URL with a repeated IP address will result as a click.
      *
      * @return void
      */
     public function test_url_view_repeat_ip_address()
     {
-
         $ip = '216.58.205.204';
 
         $this->post('/url', ['url' => 'https://instagram.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
@@ -71,14 +69,13 @@ class ViewUrlTest extends TestCase
     }
 
     /**
-     * If hash ip option is enabled, let's verify if the IP gets hashed
+     * If hash ip option is enabled, let's verify if the IP gets hashed.
      *
      * @return void
      */
     public function test_option_ip_hash_enabled_verify_if_ip_hashed()
     {
-
-        $ip = "216.58.205.205";
+        $ip = '216.58.205.205';
         setting()->set('hash_ip', 1);
 
         $this->post('/url', ['url' => 'https://google.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
@@ -90,12 +87,12 @@ class ViewUrlTest extends TestCase
             ->orderBy('id', 'desc')
             ->first()
             ->ip_address;
-        
+
         $this->assertEquals(hash('sha1', $ip), $hashedIp);
     }
 
     /**
-     * Check if Referer gets saved after an User clicks a Short URL
+     * Check if Referer gets saved after an User clicks a Short URL.
      *
      * @return void
      */
@@ -103,8 +100,8 @@ class ViewUrlTest extends TestCase
     {
         setting()->set('disable_referers', 0);
 
-        $ip =  "216.58.205.205";
-        $referer = "https://github.com/urlhum";
+        $ip = '216.58.205.205';
+        $referer = 'https://github.com/urlhum';
 
         $this->post('/url', ['url' => 'https://google.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
 
@@ -120,7 +117,7 @@ class ViewUrlTest extends TestCase
     }
 
     /**
-     * Disable referers setting is enabled, so verify if the new view data doesn't contain the referer
+     * Disable referers setting is enabled, so verify if the new view data doesn't contain the referer.
      *
      * @return void
      */
@@ -131,7 +128,7 @@ class ViewUrlTest extends TestCase
         $this->post('/url', ['url' => 'https://stackoverflow.com', 'customUrl' => 'stack', 'privateUrl' => 0, 'hideUrlStats' => 0])
             ->assertStatus(302);
 
-        $this->withHeader('HTTP_REFERER','https://google.com')
+        $this->withHeader('HTTP_REFERER', 'https://google.com')
             ->get('/stack')
             ->assertStatus(302);
 
@@ -143,7 +140,7 @@ class ViewUrlTest extends TestCase
     }
 
     /**
-     * Visit a non-existing Short URL. Return 404
+     * Visit a non-existing Short URL. Return 404.
      *
      * @return void
      */
@@ -155,7 +152,7 @@ class ViewUrlTest extends TestCase
 
     /**
      * Visit a short URL with anonymous and hash disabled
-     * Check if actually IP address is not anonymized
+     * Check if actually IP address is not anonymized.
      *
      * @return void
      */
@@ -172,6 +169,5 @@ class ViewUrlTest extends TestCase
         $viewIp = \DB::table('views')->latest()->first()->ip_address;
 
         $this->assertEquals($ip, $viewIp);
-
     }
 }

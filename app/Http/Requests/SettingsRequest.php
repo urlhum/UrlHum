@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -38,7 +39,7 @@ class SettingsRequest extends FormRequest
             'terms_of_use' => 'max:10000',
             'enable_terms_of_use' => 'boolean',
             'require_user_verify' => 'boolean',
-            'custom_html' => 'max:10000'
+            'custom_html' => 'max:10000',
         ];
     }
 }

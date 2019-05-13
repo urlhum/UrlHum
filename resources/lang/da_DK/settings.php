@@ -1,6 +1,14 @@
 <?php
 
-return array (
+/*
+ * UrlHum (https://urlhum.com)
+ *
+ * @link      https://github.com/urlhum/UrlHum
+ * @copyright Copyright (c) 2019 Christian la Forgia
+ * @license   https://github.com/urlhum/UrlHum/blob/master/LICENSE.md (MIT License)
+ */
+
+return [
   'settings' => 'Settings',
   'system' => 'System Settings',
   'anon_hash_alert' => 'Attention: if you anonymize the IP without hashing it, Analytics will not be able to count Real Clicks, because it is impossible to check the user IP.',
@@ -36,4 +44,4 @@ return array (
   'custom_html_help' => 'Write your custom script here. It will be loaded in the website footer.',
   'save_changes' => 'Save changes',
   'success' => 'Settings successfully updated!',
-);
+];

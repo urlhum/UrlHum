@@ -1,17 +1,23 @@
 <?php
 
+/*
+ * UrlHum (https://urlhum.com)
+ *
+ * @link      https://github.com/urlhum/UrlHum
+ * @copyright Copyright (c) 2019 Christian la Forgia
+ * @license   https://github.com/urlhum/UrlHum/blob/master/LICENSE.md (MIT License)
+ */
+
 namespace Tests\Feature;
 
-use App\Console\Commands\SettingsSetCommand;
 use Tests\TestCase;
+use App\Console\Commands\SettingsSetCommand;
 use anlutro\LaravelSettings\Facade as Setting;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CommandsTest extends TestCase
 {
     /**
-     * Check if running "settings:set" actually sets new settings
+     * Check if running "settings:set" actually sets new settings.
      *
      * @return void
      */
@@ -28,7 +34,7 @@ class CommandsTest extends TestCase
     }
 
     /**
-     * Check if running "settings:reset" works
+     * Check if running "settings:reset" works.
      *
      * @return void
      */
