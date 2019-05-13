@@ -170,4 +170,25 @@ class ViewUrlTest extends TestCase
 
         $this->assertEquals($ip, $viewIp);
     }
+
+    /**
+     * Visit a short URL with hashing disabled and and
+     * anonymization enabled. Should be a click (not real)
+     * in any case, because this is the normal behavior.
+     *
+     * @return void
+     */
+    public function test_visit_url_hash_disabled_anonymous_enabled()
+    {
+        $ip = '192.161.1.1';
+        setting()->set('anonymize_ip', 1);
+        setting()->set('hash_ip', 0);
+        $this->post('/url', ['url' => 'https://stackoverflow.com', 'customUrl' => 'stack', 'privateUrl' => 0, 'hideUrlStats' => 0])
+            ->assertStatus(302);
+
+        $this->get('stack', ['REMOTE_ADDR' => $ip]);
+
+        $click = \DB::table('views')->latest()->first()->click;
+        $this->assertEquals(1, $click);
+    }
 }

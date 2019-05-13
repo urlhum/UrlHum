@@ -71,7 +71,6 @@ class SettingsController extends Controller
         if ($data['custom_html'] == null) {
             $data['custom_html'] = ' ';
         }
-
         Setting::set($data);
         Setting::save();
 

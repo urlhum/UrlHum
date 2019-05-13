@@ -13,6 +13,8 @@ namespace Tests\Feature;
 use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class SettingsTest extends TestCase
 {
@@ -119,4 +121,24 @@ class SettingsTest extends TestCase
         $this->post('/settings/save', $this->settings_list())
             ->assertStatus(302);
     }
+
+    /**
+     * Set Website Image and Favicon.
+     *
+     * @return void
+     */
+    public function test_set_image_and_favicon()
+    {
+        $settings = $this->settings_list();
+        $settings['website_image'] = UploadedFile::fake()->image('logo.jpg');
+        $settings['website_favicon'] = UploadedFile::fake()->image('favicon.ico');
+
+        $admin = User::find(1);
+        $this->followingRedirects()
+            ->actingAs($admin)
+            ->post('/settings/save', $settings)
+            ->assertStatus(200);
+    }
+
+
 }
