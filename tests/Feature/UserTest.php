@@ -10,16 +10,16 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
 use App\User;
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserTest extends TestCase
 {
     use DatabaseTransactions;
 
     /**
-     * View the users list page, as admin
+     * View the users list page, as admin.
      *
      * @return void
      */
@@ -31,7 +31,7 @@ class UserTest extends TestCase
     }
 
     /**
-     * View the form for new user creation, as admin
+     * View the form for new user creation, as admin.
      *
      * @return void
      */
@@ -43,7 +43,7 @@ class UserTest extends TestCase
     }
 
     /**
-     * Create an user using the form. Post request, as admin
+     * Create an user using the form. Post request, as admin.
      *
      * @return void
      */
@@ -58,7 +58,7 @@ class UserTest extends TestCase
     }
 
     /**
-     * Show the edit user form
+     * Show the edit user form.
      *
      * @return void
      */
@@ -67,12 +67,12 @@ class UserTest extends TestCase
         $user = factory(User::class)->create();
         $userId = $user->id;
         $this->actingAs(User::find(1))
-            ->get('/user/' . $userId . '/edit')
+            ->get('/user/'.$userId.'/edit')
             ->assertStatus(200);
     }
 
     /**
-     * Update an user as admin
+     * Update an user as admin.
      *
      * @return void
      */
@@ -81,7 +81,7 @@ class UserTest extends TestCase
         $user = factory(User::class)->create();
         $userId = $user->id;
         $this->actingAs(User::find(1))
-            ->put('/user/' . $userId, ['name' => 'Testing', 'email' => 'hello@urlhum.com', 'password' => 'newsecret', 'password_confirmation' => 'newsecret'])
+            ->put('/user/'.$userId, ['name' => 'Testing', 'email' => 'hello@urlhum.com', 'password' => 'newsecret', 'password_confirmation' => 'newsecret'])
             ->assertStatus(302);
 
         $edited = User::find($userId);
@@ -90,7 +90,7 @@ class UserTest extends TestCase
     }
 
     /**
-     * Delete an user as admin
+     * Delete an user as admin.
      *
      * @return void
      */
@@ -99,7 +99,7 @@ class UserTest extends TestCase
         $user = factory(User::class)->create();
         $userId = $user->id;
         $this->actingAs(User::find(1))
-            ->delete('/user/' . $userId)
+            ->delete('/user/'.$userId)
             ->assertStatus(302);
 
         $deleted = User::find($userId);

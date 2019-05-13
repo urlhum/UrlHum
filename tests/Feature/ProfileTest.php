@@ -10,18 +10,16 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\Hash;
-use App\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProfileTest extends TestCase
 {
     use DatabaseTransactions;
 
     /**
-     * Get the "my profile" (account) page as authenticated user
+     * Get the "my profile" (account) page as authenticated user.
      *
      * @return void
      */
@@ -34,7 +32,7 @@ class ProfileTest extends TestCase
     }
 
     /**
-     * Get the account page as anonymous user. Should redirect
+     * Get the account page as anonymous user. Should redirect.
      *
      * @return void
      */
@@ -45,7 +43,7 @@ class ProfileTest extends TestCase
     }
 
     /**
-     * Update the user profile, as user. Should succeed
+     * Update the user profile, as user. Should succeed.
      *
      * @return void
      */
@@ -60,9 +58,8 @@ class ProfileTest extends TestCase
         $this->assertEquals('test@urlhum.com', $user->email);
     }
 
-
     /**
-     * Visit the verified page, which is shown after email verification
+     * Visit the verified page, which is shown after email verification.
      *
      * @return void
      */
@@ -75,7 +72,7 @@ class ProfileTest extends TestCase
     }
 
     /**
-     * Visit the verified page as anonymous, should redirect
+     * Visit the verified page as anonymous, should redirect.
      *
      * @return void
      */
@@ -84,6 +81,4 @@ class ProfileTest extends TestCase
         $this->get('/profile/verified')
             ->assertStatus(302);
     }
-
-
 }
