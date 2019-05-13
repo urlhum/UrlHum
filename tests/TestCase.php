@@ -8,7 +8,6 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
-    // Declaring void return type because
     public function setUp(): void
     {
         parent::setUp();
