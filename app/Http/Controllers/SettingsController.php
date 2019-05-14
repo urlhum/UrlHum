@@ -47,30 +47,20 @@ class SettingsController extends Controller
         // We convert reservedShortUrls new lines to array and json-ize the array to save in Database
         $data['reservedShortUrls'] = json_encode(explode(PHP_EOL, $data['reservedShortUrls']));
 
-        // TODO: These checks are repeated. To clear up a bit
-        // We get the image, if uploaded by the user, then move it in the /images public folder
-        if ($request->exists('website_image')) {
-            $data['website_image'] = Settings::saveImage($data['website_image']);
+        $imagesVars = ['website_image', 'website_favicon'];
+        foreach ($imagesVars as &$var) {
+            if ($request->exists($var)) {
+                $data[$var] = Settings::saveImage($data[$var]);
+            }
         }
 
-        // We get the favicon, if uploaded by the user, then move it in the /images public folder
-        if ($request->exists('website_favicon')) {
-            $data['website_favicon'] = Settings::saveImage($data['website_favicon']);
+        $textareaVars = ['privacy_policy', 'terms_of_use', 'custom_html'];
+        foreach ($textareaVars as &$var) {
+            if ($data[$var] == null) {
+                $data[$var] = ' ';
+            }
         }
 
-        // Check if Privacy Policy, TOS and Custom HTML text is empty.
-        // In that case, we set the content to an empty char so *setting()* doesn't delete the database field
-        if ($data['privacy_policy'] == null) {
-            $data['privacy_policy'] = ' ';
-        }
-
-        if ($data['terms_of_use'] == null) {
-            $data['terms_of_use'] = ' ';
-        }
-
-        if ($data['custom_html'] == null) {
-            $data['custom_html'] = ' ';
-        }
         Setting::set($data);
         Setting::save();
 
