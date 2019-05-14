@@ -1,9 +1,9 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: "[REQUEST]"
+title: "[Request]"
 labels: feature request
-assignees: optiroot
+assignees: ''
 
 ---
 
