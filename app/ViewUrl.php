@@ -77,13 +77,13 @@ class ViewUrl extends Model
     }
 
     /**
-     * Get the referers list
+     * Get the referers list.
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public static function getReferersList()
     {
-        $urls = ViewUrl::select('referer', \DB::raw('sum(click+real_click) as clicks') , \DB::raw('sum(real_click) as real_clicks'))
+        $urls = self::select('referer', \DB::raw('sum(click+real_click) as clicks'), \DB::raw('sum(real_click) as real_clicks'))
             ->groupBy('referer')
             ->orderBy('real_clicks', 'DESC')
             ->paginate(40);
@@ -99,7 +99,7 @@ class ViewUrl extends Model
      */
     public static function referersWidget()
     {
-        $urls = ViewUrl::select('referer', \DB::raw('sum(click+real_click) as clicks') , \DB::raw('sum(real_click) as real_clicks'))
+        $urls = self::select('referer', \DB::raw('sum(click+real_click) as clicks'), \DB::raw('sum(real_click) as real_clicks'))
             ->groupBy('referer')
             ->orderBy('real_clicks', 'DESC')
             ->limit(9)
@@ -120,6 +120,6 @@ class ViewUrl extends Model
 
     public function url()
     {
-       return $this->belongsTo('App\Url', 'short_url', 'short_url');
+        return $this->belongsTo('App\Url', 'short_url', 'short_url');
     }
 }

@@ -92,6 +92,7 @@ class UrlController extends Controller
             abort(403);
         }
         $data = Url::with('user:id,name,email')->findOrFail($url);
+
         return view('url.edit')->with('data', $data);
     }
 
