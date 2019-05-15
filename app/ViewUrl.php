@@ -77,16 +77,15 @@ class ViewUrl extends Model
     }
 
     /**
-     * Get the Short URL referers.
+     * Get the referers list
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public static function getReferrers()
+    public static function getReferersList()
     {
-        $urls = DB::table('views')
-            ->select(\DB::raw('IFNULL(referer, \'Direct / Unknown\') AS referer'), \DB::raw('sum(click) as clicks'), \DB::raw('sum(real_click) as real_clicks'))
+        $urls = ViewUrl::select('referer', \DB::raw('sum(click+real_click) as clicks') , \DB::raw('sum(real_click) as real_clicks'))
             ->groupBy('referer')
-            ->orderBy('clicks', 'DESC')
+            ->orderBy('real_clicks', 'DESC')
             ->paginate(40);
 
         return $urls;
@@ -100,10 +99,9 @@ class ViewUrl extends Model
      */
     public static function referersWidget()
     {
-        $urls = DB::table('views')
-            ->select(\DB::raw('IFNULL(referer, \'Direct / Unknown\') AS referer'), \DB::raw('sum(click) as clicks'), \DB::raw('sum(real_click) as real_clicks'))
+        $urls = ViewUrl::select('referer', \DB::raw('sum(click+real_click) as clicks') , \DB::raw('sum(real_click) as real_clicks'))
             ->groupBy('referer')
-            ->orderBy('clicks', 'DESC')
+            ->orderBy('real_clicks', 'DESC')
             ->limit(9)
             ->get();
 
@@ -118,5 +116,10 @@ class ViewUrl extends Model
     public static function deleteUrlsViews($url)
     {
         self::where('short_url', $url)->delete();
+    }
+
+    public function url()
+    {
+       return $this->belongsTo('App\Url', 'short_url', 'short_url');
     }
 }

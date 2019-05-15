@@ -99,28 +99,29 @@
                                 <div style="display: flex; justify-content: space-between" id="referrers-table">
                                     <h1>{{ __('analytics.referer.referers') }}</h1>
                                     <p> {{ __('analytics.referer.list.results', [
-                                        'firstItem' => $referrers->firstItem(),
-                                        'lastItem' => $referrers->lastItem(),
-                                        'num' => $referrers->total()
+                                        'firstItem' => $referers->firstItem(),
+                                        'lastItem' => $referers->lastItem(),
+                                        'num' => $referers->total()
                                         ]) }}</p>
                                 </div>
                                 <div id="table-component" class="tab-pane tab-example-result fade active show"
                                      role="tabpanel" aria-labelledby="table-component-tab">
                                     <div class="table-responsive">
-                                        @if ($referrers->count())
+                                        @if ($referers->count())
                                             <table class="table align-items-center">
                                                 <thead class="thead-light">
                                                 <tr>
                                                     <th scope="col">{{ __('url.url') }}</th>
+                                                    <th scope="col">{{ __('analytics.view.views') }}</th>
                                                     <th scope="col">{{ __('analytics.view.reals') }}</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                @foreach ($referrers as $referer)
+                                                @foreach ($referers as $referer)
                                                     <tr>
                                                         <th scope="row">
-                                                            @if ($referer->referer == 'Direct / Unknown')
-                                                                <p>{{$referer->referer}}</p>
+                                                            @if (empty($referer->referer))
+                                                                <p>{{ __('analytics.referer.direct_unknown') }}</p>
                                                             @else
                                                                 <p>
                                                                     <a href="{{$referer->referer}}">{{$referer->referer}}</a>
@@ -128,7 +129,10 @@
                                                             @endif
                                                         </th>
                                                         <td>
-                                                            <p>{{$referer->total}}</p>
+                                                            <p>{{$referer->clicks}}</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>{{$referer->real_clicks}}</p>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -139,7 +143,7 @@
                                         @endif
                                     </div>
                                 </div>
-                                {{ $referrers->fragment('referrers-table')->links() }}
+                                {{ $referers->fragment('referrers-table')->links() }}
                             </div>
                         </div>
                     </div>

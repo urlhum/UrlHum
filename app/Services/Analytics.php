@@ -71,7 +71,7 @@ class Analytics
             foreach (['r', 'g', 'b'] as $color) {
                 $rgbColor[$color] = mt_rand(0, 255);
             }
-            $countriesColor[] = $rgbColor['r'].', '.$rgbColor['g'].', '.$rgbColor['b'];
+            $countriesColor[] = $rgbColor['r'] . ', ' . $rgbColor['g'] . ', ' . $rgbColor['b'];
         }
 
         return $countriesColor;
@@ -85,12 +85,11 @@ class Analytics
      */
     public static function getReferrers($url)
     {
-        $referrers = ViewUrl::where('short_url', $url)
-            ->where('real_click', 1)
-            ->select(\DB::raw('IFNULL(referer, \'Direct / Unknown\') AS referer'), \DB::raw('sum(real_click) as total'))
-            ->groupBy('real_click', 'referer')
-            ->orderBy('total', 'DESC')
-            ->paginate('20');
+        $referrers = ViewUrl::where(['short_url' => $url])
+            ->select('referer', \DB::raw('sum(click+real_click) as clicks') , \DB::raw('sum(real_click) as real_clicks'))
+            ->groupBy('referer')
+            ->orderBy('real_clicks', 'DESC')
+            ->paginate(20);
 
         return $referrers;
     }

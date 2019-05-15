@@ -55,38 +55,6 @@ class Url extends Model
     }
 
     /**
-     * Load all URLs to show them in a table.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public static function getAllUrlsList()
-    {
-        $result = DB::table('urls')
-            ->select('urls.id', \DB::raw('IFNULL(users.email, \'Anonymous\') AS email'), 'urls.short_url', 'urls.long_url', 'urls.created_at')
-            ->leftJoin('users', 'urls.user_id', '=', 'users.id')
-            ->get();
-
-        return $result;
-    }
-
-    /**
-     * Get the URL data to allow user to edit it.
-     *
-     * @param $url
-     * @return Model|\Illuminate\Database\Query\Builder|null|object
-     */
-    public static function getUrlForEdit($url)
-    {
-        $data = DB::table('urls')
-            ->select(\DB::raw('urls.id AS urlid'), 'users.name', \DB::raw('users.id AS userid'), \DB::raw('IFNULL(users.email, \'Anonymous\') AS email'), 'urls.short_url', 'urls.long_url', 'urls.created_at', 'urls.updated_at', 'urls.private', 'urls.hide_stats')
-            ->leftJoin('users', 'urls.user_id', '=', 'users.id')
-            ->where('urls.short_url', $url)
-            ->first();
-
-        return $data;
-    }
-
-    /**
      * Retrieve the latest URLs that are public.
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
@@ -148,5 +116,19 @@ class Url extends Model
     public function clicks()
     {
         return $this->hasMany('App\ViewUrl', 'short_url', 'short_url');
+    }
+
+    /**
+     * Eloquent relationship, which tells the user of the Short URL.
+     * If the user doesn't exist, email will be "Anonymous".
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'user_id', 'id')
+            ->withDefault(function ($user) {
+                $user->email = 'Anonymous';
+            });
     }
 }

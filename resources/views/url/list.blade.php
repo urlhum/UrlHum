@@ -67,7 +67,7 @@
                     {data: 'id', name: 'id'},
                     {data: 'long_url', name: 'long_url'},
                     {data: 'short_url', name: 'short_url'},
-                    {data: 'email', name: 'email'},
+                    {data: 'user.email', name: 'user.email'},
                     {data: 'created_at', name: 'created_at'},
                     {data: 'action', name: 'action'}
 

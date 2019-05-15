@@ -91,10 +91,7 @@ class UrlController extends Controller
         if (! $this->url->OwnerOrAdmin($url)) {
             abort(403);
         }
-
-        Url::where('short_url', $url)->firstOrFail();
-        $data = Url::getUrlForEdit($url);
-
+        $data = Url::with('user:id,name,email')->findOrFail($url);
         return view('url.edit')->with('data', $data);
     }
 
@@ -199,7 +196,7 @@ class UrlController extends Controller
         // Here we add a column with the buttons to show analytics and edit short URLs.
         // There could be a better way to do this.
         // TODO: Really NEED to find a better way to handle this. It's horrible.
-        $dataTable = Datatables::of(Url::getAllUrlsList())->
+        $dataTable = Datatables::of(Url::with('user:id,email')->get())->
         addColumn('action', function ($row) {
             return '<a href="/'.$row->short_url.'+"><button type="button" class="btn btn-secondary btn-sm btn-url-analytics"><i class="fa fa-chart-bar" alt="Analytics"> </i> '.trans('analytics.analytics').'</button></a> &nbsp;
                    <a href="/url/'.$row->short_url.'"><button type="button" class="btn btn-success btn-sm btn-url-edit"><i class="fa fa-pencil-alt" alt="Edit"> </i>'.trans('urlhum.edit').'</button></a>';

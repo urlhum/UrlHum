@@ -73,7 +73,7 @@ class AnalyticsController extends Controller
             'countriesViews' => $this->analytics->getCountriesViews($url),
             'countriesRealViews' => $this->analytics->getCountriesRealViews($url),
             'countriesColor' =>  $this->analytics->getCountriesColor($this->analytics->getCountriesViews($url)),
-            'referrers' =>  $this->analytics->getReferrers($url),
+            'referers' =>  $this->analytics->getReferrers($url),
             'creationDate' => $urlWithRelations->created_at->diffForHumans(),
             'isOwnerOrAdmin' => $this->url->OwnerOrAdmin($url),
         ];
@@ -92,6 +92,6 @@ class AnalyticsController extends Controller
             abort(404);
         }
 
-        return view('analytics.referrers')->with('referrers', ViewUrl::getReferrers());
+        return view('analytics.referrers')->with('referrers', ViewUrl::getReferersList());
     }
 }
