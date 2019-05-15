@@ -17,6 +17,7 @@ return [
     ],
     'na' => '仍无引荐网址，请分享这个链接！',
     'best' => '最佳来源',
+    'direct_unknown' => 'Direct / Unknown',
   ],
   'click' => [
     'click' => '点击量',

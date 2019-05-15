@@ -17,6 +17,7 @@ return [
     ],
     'na' => 'Still no referers to report. Share the URL to increase referrers!',
     'best' => 'Best referers',
+    'direct_unknown' => 'Direct / Unknown',
   ],
   'click' => [
     'click' => 'Click',
