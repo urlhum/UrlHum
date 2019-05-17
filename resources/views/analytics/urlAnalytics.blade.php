@@ -77,7 +77,7 @@
                                 </div>
                                 <hr>
                                 <h1>{{ __('analytics.country.real') }}</h1>
-                                @if (count($countriesRealViews) > 0)
+                                @if (count($countriesViews) > 0)
                                     <div class="chart">
                                         <!-- Chart wrapper -->
                                         <canvas id="chart-pie-countries-real"></canvas>
@@ -162,15 +162,15 @@
             type: 'bar',
             data: {
                 labels: [
-                    @foreach ($countriesRealViews as $country => $value)
-                        '{{$country}}',
+                    @foreach ($countriesViews as $country)
+                        '{{$country->country_full}}',
                     @endforeach
                 ],
                 datasets: [{
                     label: '# of Votes',
                     data: [
-                        @foreach ($countriesRealViews as $country => $value)
-                        {{$value}},
+                        @foreach ($countriesViews as $country)
+                        {{$country->real_views}},
                         @endforeach
                     ],
                     backgroundColor: [
@@ -194,15 +194,15 @@
             type: 'bar',
             data: {
                 labels: [
-                    @foreach ($countriesViews as $country => $value)
-                        '{{$country}}',
+                    @foreach ($countriesViews as $country)
+                        '{{$country->country_full}}',
                     @endforeach
                 ],
                 datasets: [{
                     label: '# of Votes',
                     data: [
-                        @foreach ($countriesViews as $country => $value)
-                        {{$value}},
+                        @foreach ($countriesViews as $country)
+                        {{$country->views}},
                         @endforeach
                     ],
                     backgroundColor: [

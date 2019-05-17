@@ -50,7 +50,6 @@ class AnalyticsController extends Controller
      */
     public function show($url)
     {
-        // Check if URL exists
         $urlWithRelations = Url::withCount([
             'clicks',
             'clicks as real_clicks_count' => function ($query) {
@@ -71,7 +70,6 @@ class AnalyticsController extends Controller
             'realClicks' => $urlWithRelations->real_clicks_count,
             'todayClicks' => $urlWithRelations->today_clicks_count,
             'countriesViews' => $this->analytics->getCountriesViews($url),
-            'countriesRealViews' => $this->analytics->getCountriesRealViews($url),
             'countriesColor' =>  $this->analytics->getCountriesColor($this->analytics->getCountriesViews($url)),
             'referers' =>  $this->analytics->getReferrers($url),
             'creationDate' => $urlWithRelations->created_at->diffForHumans(),

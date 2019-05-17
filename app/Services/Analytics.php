@@ -29,28 +29,11 @@ class Analytics
     public static function getCountriesViews($url)
     {
         $countriesViews = ViewUrl::where('short_url', $url)
-            ->select('country_full', \DB::raw('count(*) as total'))
+            ->select('country_full', \DB::raw('count(*) as views'), \DB::raw('sum(real_click) as real_views'))
             ->groupBy('country_full')
-            ->pluck('total', 'country_full')->all();
+            ->get();
 
         return $countriesViews;
-    }
-
-    /**
-     * Get the list of the URL's real visitors countries.
-     *
-     * @param $url
-     * @return array
-     */
-    public static function getCountriesRealViews($url)
-    {
-        $countriesRealViews = ViewUrl::where('short_url', $url)
-            ->where('real_click', 1)
-            ->select('country_full', \DB::raw('count(*) as total'))
-            ->groupBy('country_full')
-            ->pluck('total', 'country_full')->all();
-
-        return $countriesRealViews;
     }
 
     /**
