@@ -66,26 +66,14 @@ class Analytics
      * @param $url
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public static function getReferrers($url)
+    public static function getUrlReferers($url)
     {
-        $referrers = ViewUrl::where(['short_url' => $url])
+        $referers = ViewUrl::where(['short_url' => $url])
             ->select('referer', \DB::raw('sum(click+real_click) as clicks'), \DB::raw('sum(real_click) as real_clicks'))
             ->groupBy('referer')
             ->orderBy('real_clicks', 'DESC')
             ->paginate(20);
 
-        return $referrers;
-    }
-
-    /**
-     * Count how much referers we have in total.
-     *
-     * @return int
-     */
-    public static function getReferersCount()
-    {
-        $referersCount = ViewUrl::count(\DB::raw('DISTINCT referer'));
-
-        return $referersCount;
+        return $referers;
     }
 }

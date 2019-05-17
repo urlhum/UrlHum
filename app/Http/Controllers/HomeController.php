@@ -71,7 +71,7 @@ class HomeController extends Controller
             'referers' => $referersWidget,
             'urlsCount' => Url::count(),
             'usersCount' => User::count(),
-            'referersCount' => $this->analytics->getReferersCount(),
+            'referersCount' => ViewUrl::count(\DB::raw('DISTINCT referer')),
             'anonymous' => $anonymous,
             'anonymous_urls' => $anonymousUrls,
         ]);

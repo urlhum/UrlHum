@@ -118,6 +118,11 @@ class ViewUrl extends Model
         self::where('short_url', $url)->delete();
     }
 
+    /**
+     * Eloquent relationship for URL.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function url()
     {
         return $this->belongsTo('App\Url', 'short_url', 'short_url');
