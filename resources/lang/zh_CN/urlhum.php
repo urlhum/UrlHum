@@ -10,7 +10,7 @@
 
 return [
   'privacypolicy' => '隐私政策',
-  'and' => '与',
+  'and' => '和',
   'termsofuse' => '使用条款',
   'dashboard' => '控制台',
   'design_by' => 'Design by',
