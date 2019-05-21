@@ -17,7 +17,7 @@ return [
     ],
     'na' => 'Ancora nessun referer da mostrare. Condividi questo URL per aumentarli!',
     'best' => 'Migliori referers',
-    'direct_unknown' => 'Direct / Unknown',
+    'direct_unknown' => 'Diretto / Sconosciuto',
   ],
   'click' => [
     'click' => 'Click',
