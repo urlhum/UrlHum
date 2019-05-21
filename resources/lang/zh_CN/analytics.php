@@ -27,7 +27,7 @@ return [
     'real' => '真实点击量',
     'latest' => 'Latest Click',
     'latests' => 'Latest Clicks',
-    'na' => 'Sorry, we don\'t have enough data to display latest clicks.'
+    'na' => 'Sorry, we don\'t have enough data to display latest clicks.',
   ],
   'show' => [
     'title' => '短链接分析',
@@ -47,5 +47,5 @@ return [
     'created' => '短链接数量',
   ],
   'analytics' => '分析',
-  'time' => 'Time'
+  'time' => 'Time',
 ];
