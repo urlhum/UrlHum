@@ -71,6 +71,7 @@ class AnalyticsController extends Controller
             'todayClicks' => $urlWithRelations->today_clicks_count,
             'countriesViews' => $this->analytics->getCountriesViews($url),
             'countriesColor' =>  $this->analytics->getCountriesColor($this->analytics->getCountriesViews($url)),
+            'latestClicks' => $this->analytics->getLatestClicks($url),
             'referers' =>  $this->analytics->getUrlReferers($url),
             'creationDate' => $urlWithRelations->created_at->diffForHumans(),
             'isOwnerOrAdmin' => $this->url->OwnerOrAdmin($url),

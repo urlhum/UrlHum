@@ -75,6 +75,42 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <h1 class="mt-4">{{ __('analytics.click.latests') }}</h1>
+                                <div class="d-flex justify-content-between" id="latest-clicks">
+                                    @if ($latestClicks->count())
+                                        <div class="table-responsive">
+                                            <table class="table align-items-center">
+                                                <thead class="thead-light">
+                                                <tr>
+                                                    <th scope="col">{{ __('analytics.referer.referer') }}</th>
+                                                    <th scope="col">{{ __('analytics.time') }}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach ($latestClicks as $data => $click)
+                                                    <tr>
+                                                        <td>
+                                                            @if (empty($click->referer))
+                                                                {{ __('analytics.referer.direct_unknown') }}
+                                                            @else
+                                                                {{ $click->referer }}
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            {{ $click->created_at->diffForHumans() }}
+                                                        </td>
+                                                        @endforeach
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    @else
+                                        <p>{{ __('analytics.click.na') }}</p>
+                                    @endif
+                                </div>
+
                                 <hr>
                                 <h1>{{ __('analytics.country.real') }}</h1>
                                 @if (count($countriesViews) > 0)
@@ -96,6 +132,7 @@
                                     <p>{{ __('analytics.country.na') }}</p>
                                 @endif
                                 <hr>
+
                                 <div style="display: flex; justify-content: space-between" id="referrers-table">
                                     <h1>{{ __('analytics.referer.referers') }}</h1>
                                     <p> {{ __('analytics.referer.list.results', [

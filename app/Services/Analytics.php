@@ -76,4 +76,21 @@ class Analytics
 
         return $referers;
     }
+
+    /**
+     * Get latest Short URL Clicks, for dashboard widget.
+     *
+     * @param $url
+     * @return mixed
+     */
+    public static function getLatestClicks($url)
+    {
+        $clicks = ViewUrl::where(['short_url' => $url])
+            ->select('referer', 'created_at')
+            ->orderBy('created_at', 'DESC')
+            ->take(8)
+            ->get();
+
+        return $clicks;
+    }
 }
