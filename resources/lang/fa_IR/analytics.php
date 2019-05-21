@@ -27,7 +27,7 @@ return [
     'real' => 'Real Click',
     'latest' => 'Latest Click',
     'latests' => 'Latest Clicks',
-    'na' => 'Sorry, we don\'t have enough data to display latest clicks.'
+    'na' => 'Sorry, we don\'t have enough data to display latest clicks.',
   ],
   'show' => [
     'title' => 'Analytics for Short URL',
@@ -47,5 +47,5 @@ return [
     'created' => 'Short URLs created',
   ],
   'analytics' => 'Analytics',
-  'time' => 'Time'
+  'time' => 'Time',
 ];
