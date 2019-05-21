@@ -2,6 +2,10 @@
 /public/hot
 /public/storage
 /public/images
+/public/js
+/public/vendor
+/public/argon
+/public/css
 /storage/*.key
 /vendor
 .env
@@ -49,5 +53,4 @@ _ide_helper_models.php
 .env-example
 data/
 coverage.xml
-public/js/app.js
-public/js/app.js
+
