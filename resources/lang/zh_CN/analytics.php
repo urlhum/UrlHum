@@ -15,8 +15,8 @@ return [
     'list' => [
       'results' => ':firstItem / :lastItem 共 :num',
     ],
-    'na' => '仍无引荐网址，请分享这个链接来创建 Referers！',
-    'best' => '最佳引荐网址',
+    'na' => '仍无引荐网址，请分享这个链接！',
+    'best' => '最佳来源',
     'direct_unknown' => 'Direct / Unknown',
   ],
   'click' => [
@@ -25,6 +25,9 @@ return [
     'clicks' => '点击量',
     'today' => '今日点击量',
     'real' => '真实点击量',
+    'latest' => 'Latest Click',
+    'latests' => 'Latest Clicks',
+    'na' => 'Sorry, we don\'t have enough data to display latest clicks.'
   ],
   'show' => [
     'title' => '短链接分析',
@@ -44,4 +47,5 @@ return [
     'created' => '短链接数量',
   ],
   'analytics' => '分析',
+  'time' => 'Time'
 ];
