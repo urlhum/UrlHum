@@ -24,7 +24,7 @@
                                         <tr>
                                             <th scope="col">{{ __('url.short')  }}</th>
                                             <th scope="col">{{ __('url.long') }}</th>
-                                            <th scope="col">{{ __('analytics.view.views') }}</th>
+                                            <th scope="col">{{ __('analytics.analytics') }}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -36,7 +36,11 @@
                                                 <td>
                                                     <a href="{{$url->long_url}}">{{$url->long_url}}</a>
                                                 </td>
-                                                <td>{{$url->clicks}}</td>
+                                                <td>
+                                                    <a href="/{{$url->short_url}}+" class="mr-2">
+                                                        <i class="fa fa-chart-bar fa-2x"></i>
+                                                    </a>
+                                                    {{$url->clicks}} {{ __('analytics.view.views') }}</td>
                                             </tr>
                                         @endforeach
                                         </tbody>

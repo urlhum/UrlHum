@@ -41,15 +41,18 @@
                         <td>
                             {{$publicUrl->clicks}}
                         </td>
-                        @if (isAdmin())
                         <td>
+                            <a href="/{{$publicUrl->short_url}}+" class="mr-2">
+                                <i class="fa fa-chart-bar fa-2x"></i>
+                            </a>
+                        @if (isAdmin())
                             <a href="/url/{{$publicUrl->short_url}}">
                                 <button type="button" class="btn btn-success btn-sm btn-url-edit"><i
                                             class="fa fa-pencil-alt" alt="Edit"> </i> {{ __('urlhum.edit') }}
                                 </button>
                             </a>
-                        </td>
                         @endif
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
