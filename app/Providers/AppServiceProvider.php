@@ -11,6 +11,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Validator;
+use App\Services\UrlService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,7 +23,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+
+        Validator::extend('shortAvailable', function ($attribute, $value, $parameters, $validator) {
+            $url = new UrlService();
+            return ! $url->customUrlExisting($value);
+        });
+
+        Validator::replacer('shortAvailable', function ($message, $attribute, $rule, $parameters) {
+            return $parameters[0];
+        });
     }
 
     /**

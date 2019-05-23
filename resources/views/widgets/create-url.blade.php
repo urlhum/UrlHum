@@ -14,14 +14,20 @@
                         <div class="col-md-12">
                             @if ($errors->any())
                                 <div class="alert alert-danger">
-                                    {{ __('urlhum.error') }}:
                                     <ul>
                                         @foreach ($errors->all() as $error)
+
+                                            @if ($errors->has('customUrl'))
+                                                <li>{{ __('url.existing_custom', ['url' => $error]) }}</li>
+                                                @continue
+                                            @endif
+
                                             <li>{{ $error }}</li>
                                         @endforeach
                                     </ul>
                                 </div>
                             @endif
+
                             @if(Session::has('existing'))
                                 <div class="alert alert-success">
                                     {{ __('url.existing_long') }}: <a
@@ -36,13 +42,7 @@
                                 </div>
                             @endif
 
-                            @if(Session::has('existingCustom'))
-                                <div class="alert alert-danger">
-                                    {{ __('url.existing_custom', [
-                                    'url' => Session::get('existingCustom')
-                                    ]) }}
-                                </div>
-                            @endif
+
 
                             <h3 class="mb-0">{{ __('url.new_long_text') }}</h3>
                             <div class="input-group ml-2 mt-2">

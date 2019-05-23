@@ -10,6 +10,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ShortAvailable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -37,9 +38,14 @@ class ShortUrl extends FormRequest
     public function rules()
     {
         return [
-            'url' => 'required|max:500|url',
-            // TODO: Better customUrl validation
-            'customUrl' => 'nullable|min:4|max:15|regex:/^[-a-zA-Z0-9_]+$/',
+            'url' => ['required', 'max:500', 'url'],
+            'customUrl' => [
+                'nullable',
+                'min:4',
+                'max:15',
+                'regex:/^[-a-zA-Z0-9_]+$/',
+                'shortAvailable:' . $this->customUrl,
+                ],
             'privateUrl' => 'boolean',
             'hideUrlStats' => 'boolean',
         ];

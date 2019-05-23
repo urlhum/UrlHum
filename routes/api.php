@@ -25,7 +25,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('url/{url}', function ($url) {
-    echo \App\Url::findOrFail($url)->long_url;
+Route::group(['prefix' => 'v1',  'middleware' => 'auth:api'], function() {
 
-})->middleware('auth:api');
+    Route::apiResource('url', 'api\UrlController');
+
+});
