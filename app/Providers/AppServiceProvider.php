@@ -23,15 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-        Validator::extend('shortAvailable', function ($attribute, $value, $parameters, $validator) {
-            $url = new UrlService();
-            return ! $url->customUrlExisting($value);
-        });
-
-        Validator::replacer('shortAvailable', function ($message, $attribute, $rule, $parameters) {
-            return $parameters[0];
-        });
+        //
     }
 
     /**

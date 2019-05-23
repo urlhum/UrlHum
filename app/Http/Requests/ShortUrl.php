@@ -1,5 +1,4 @@
 <?php
-
 /*
  * UrlHum (https://urlhum.com)
  *
@@ -7,10 +6,7 @@
  * @copyright Copyright (c) 2019 Christian la Forgia
  * @license   https://github.com/urlhum/UrlHum/blob/master/LICENSE.md (MIT License)
  */
-
 namespace App\Http\Requests;
-
-use App\Rules\ShortAvailable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -26,10 +22,8 @@ class ShortUrl extends FormRequest
         if (! Auth::check() && ! setting('anonymous_urls')) {
             return false;
         }
-
         return true;
     }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -38,14 +32,8 @@ class ShortUrl extends FormRequest
     public function rules()
     {
         return [
-            'url' => ['required', 'max:500', 'url'],
-            'customUrl' => [
-                'nullable',
-                'min:4',
-                'max:15',
-                'regex:/^[-a-zA-Z0-9_]+$/',
-                'shortAvailable:' . $this->customUrl,
-                ],
+            'url' => 'required|max:500|url',
+            'customUrl' => 'nullable|min:4|max:15|regex:/^[-a-zA-Z0-9_]+$/',
             'privateUrl' => 'boolean',
             'hideUrlStats' => 'boolean',
         ];

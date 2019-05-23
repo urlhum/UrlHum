@@ -19,7 +19,6 @@ use App\Http\Requests\ShortUrl;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Validator;
 
 /**
  * Class UrlController
@@ -60,6 +59,11 @@ class UrlController extends Controller
         // because otherwise they will not be available to anybody else but admin
         if (! Auth::check()) {
             $data['hideUrlStats'] = 0;
+        }
+
+        if ($this->url->customUrlExisting($data['customUrl'])) {
+            return Redirect::route('home')
+                ->with('existingCustom', $data['customUrl']);
         }
 
         if ($existing = $this->url->checkExistingLongUrl($data['url'])) {

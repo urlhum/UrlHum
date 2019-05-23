@@ -3,10 +3,16 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Requests\ShortUrl;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use App\Http\Resources\UrlResource;
 use App\Services\UrlService;
 use Illuminate\Http\Request;
+use App\User;
 use App\Http\Controllers\Controller;
+use App\ViewUrl;
+use App\DeletedUrls;
+use App\Url;
 
 class UrlController extends Controller
 {
@@ -16,59 +22,91 @@ class UrlController extends Controller
     {
         $this->url = $url;
     }
-    
+
     /**
-     * Display a listing of the resource.
+     * Display the current user Short URLs
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        if (! Auth::check()) {
+            abort(403);
+        }
+        $user_id = Auth::user()->id;
+
+        return Url::where('user_id', $user_id)
+            ->select(['created_at', 'updated_at', 'long_url', 'short_url', 'private', 'hide_stats'])
+            ->paginate(25);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(ShortUrl $request)
     {
-        //
+        $data = $request->validated();
+
+        if (! Auth::check()) {
+            $data['hideUrlStats'] = 0;
+        }
+
+        if ($this->url->customUrlExisting($data['customUrl'])) {
+            return response()->json([
+                'message' => 'This Short URL already exists.',
+            ], 409);
+        }
+
+        if ($existing = $this->url->checkExistingLongUrl($data['url'])) {
+            return response()->json([
+                'message' => 'The Short URL for this destination already exists.',
+                'short_url' => $existing,
+            ], 409);
+        }
+
+        $short = $this->url->shortenUrl($data['url'], $data['customUrl'], $data['privateUrl'], $data['hideUrlStats']);
+
+        return response()->json([
+            'message' => 'Success! Short URL created.',
+            'short_url' => $short,
+        ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+    public function show($url)
     {
-        //
+        $selectStatement = ['long_url', 'short_url'];
+
+        if ($this->url->isOwner($url)) {
+            $selectStatement = ['created_at', 'updated_at', 'long_url', 'short_url', 'private', 'hide_stats'];
+        }
+
+        if (User::isAdmin()) {
+            $selectStatement = '*';
+        }
+
+        return Url::where('short_url', $url)->select($selectStatement)->get();
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+    public function destroy($url)
     {
-        //
+        Url::findOrFail($url);
+
+        if (! $this->url->OwnerOrAdmin($url)) {
+            abort(403);
+        }
+
+        ViewUrl::deleteUrlsViews($url);
+        Url::destroy($url);
+        DeletedUrls::add($url);
+
+        return response()->json([
+                'message' => 'Short URL deleted successfully!',
+            ], 200);
     }
 }
