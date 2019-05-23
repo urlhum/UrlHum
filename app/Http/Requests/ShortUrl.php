@@ -1,4 +1,5 @@
 <?php
+
 /*
  * UrlHum (https://urlhum.com)
  *
@@ -6,7 +7,9 @@
  * @copyright Copyright (c) 2019 Christian la Forgia
  * @license   https://github.com/urlhum/UrlHum/blob/master/LICENSE.md (MIT License)
  */
+
 namespace App\Http\Requests;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,8 +25,10 @@ class ShortUrl extends FormRequest
         if (! Auth::check() && ! setting('anonymous_urls')) {
             return false;
         }
+
         return true;
     }
+
     /**
      * Get the validation rules that apply to the request.
      *
