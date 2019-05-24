@@ -5,7 +5,6 @@ namespace App\Http\Controllers\api;
 use App\Http\Requests\ShortUrl;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use App\Http\Resources\UrlResource;
 use App\Services\UrlService;
 use Illuminate\Http\Request;
 use App\User;
@@ -55,6 +54,7 @@ class UrlController extends Controller
             return response()->json([
                 'message' => 'The Short URL for this destination already exists.',
                 'short_url' => $existing,
+                'long_url' => $data['url'],
             ], 409);
         }
 
@@ -79,7 +79,6 @@ class UrlController extends Controller
         if (User::isAdmin()) {
             $selectStatement = '*';
         }
-
 
         return Url::where('short_url', $url)->select($selectStatement)->get();
     }
