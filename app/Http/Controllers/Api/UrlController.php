@@ -1,17 +1,23 @@
 <?php
 
+/*
+ * UrlHum (https://urlhum.com)
+ *
+ * @link      https://github.com/urlhum/UrlHum
+ * @copyright Copyright (c) 2019 Christian la Forgia
+ * @license   https://github.com/urlhum/UrlHum/blob/master/LICENSE.md (MIT License)
+ */
+
 namespace App\Http\Controllers\api;
 
-use App\Http\Requests\ShortUrl;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use App\Services\UrlService;
-use Illuminate\Http\Request;
+use App\Url;
 use App\User;
-use App\Http\Controllers\Controller;
 use App\ViewUrl;
 use App\DeletedUrls;
-use App\Url;
+use App\Services\UrlService;
+use App\Http\Requests\ShortUrl;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class UrlController extends Controller
 {
@@ -23,13 +29,13 @@ class UrlController extends Controller
     }
 
     /**
-     * Return the current user Short URLs
+     * Return the current user Short URLs.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             abort(403);
         }
         $user_id = Auth::user()->id;
@@ -38,7 +44,6 @@ class UrlController extends Controller
             ->select(['created_at', 'updated_at', 'long_url', 'short_url', 'private', 'hide_stats'])
             ->paginate(25);
     }
-
 
     public function store(ShortUrl $request)
     {
@@ -66,7 +71,6 @@ class UrlController extends Controller
         ], 200);
     }
 
-
     public function show($url)
     {
         Url::findOrFail($url);
@@ -82,7 +86,6 @@ class UrlController extends Controller
 
         return Url::where('short_url', $url)->select($selectStatement)->get();
     }
-
 
     public function update($url, ShortUrl $request)
     {
@@ -108,17 +111,16 @@ class UrlController extends Controller
                 'long_url' => $url->long_url,
                 'short_url' => $url->short_url,
                 'private' => $url->private,
-                'hide_stats' => $url->hide_stats
+                'hide_stats' => $url->hide_stats,
             ],
         ], 200);
     }
-
 
     public function destroy($url)
     {
         Url::findOrFail($url);
 
-        if (!$this->url->OwnerOrAdmin($url)) {
+        if (! $this->url->OwnerOrAdmin($url)) {
             abort(403);
         }
 
@@ -127,7 +129,7 @@ class UrlController extends Controller
         DeletedUrls::add($url);
 
         return response()->json([
-            'message' => 'Short URL ' . $url . ' deleted successfully!',
+            'message' => 'Short URL '.$url.' deleted successfully!',
         ], 200);
     }
 }

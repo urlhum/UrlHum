@@ -11,8 +11,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Validator;
-use App\Services\UrlService;
 
 class AppServiceProvider extends ServiceProvider
 {
