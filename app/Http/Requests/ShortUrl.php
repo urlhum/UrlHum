@@ -38,7 +38,6 @@ class ShortUrl extends FormRequest
     {
         return [
             'url' => 'required|max:500|url',
-            // TODO: Better customUrl validation
             'customUrl' => 'nullable|min:4|max:15|regex:/^[-a-zA-Z0-9_]+$/',
             'privateUrl' => 'boolean',
             'hideUrlStats' => 'boolean',

@@ -10,6 +10,7 @@
 
 namespace App\Providers;
 
+use Laravel\Passport\Passport;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -32,6 +33,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        // We only need Personal Access Tokens. So we just set this route.
+        Passport::routes(function ($router) {
+            $router->forPersonalAccessTokens();
+        });
+
+        Passport::personalAccessClientId(1);
     }
 }
