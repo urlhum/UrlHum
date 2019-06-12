@@ -35,7 +35,7 @@ return [
   'deleted' => 'Can deleted URLs be created again?',
   'reserved' => 'Reserved Short URLs (one per line)',
   'reserved_help' => 'Users will not be able to create these custom Short Urls',
-  'reserved_restore' => 'Restore Default',
+  'reserved_restore' => 'Επαναφορά Προεπιλογών',
   'privacy_policy_desc' => 'Write your Privacy Policy here. Standard HTML is allowed.',
   'tos_desc' => 'Write your Terms Of Use here. Standard HTML is allowed.',
   'require_user_verify' => 'Require users email verification to allow Short URLs management',
