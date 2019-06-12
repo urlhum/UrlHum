@@ -9,9 +9,9 @@
  */
 
 return [
-  'update_success' => 'Account successfully updated!',
+  'update_success' => 'Ο λογαριασμός ενημερώθηκε επιτυχώς!',
   'password' => [
-    'success' => 'Password successfully updated!',
+    'success' => 'Ο κωδικός πρόσβασης ενημερώθηκε επιτυχώς!',
     'current' => 'Current Password',
     'not_match' => 'The current password field does not match your password',
     'password' => 'Password',
@@ -32,10 +32,10 @@ return [
   'login' => 'Sign in',
   'new' => 'Create new account',
   'sign_up' => 'Sign up to :site',
-  'name' => 'Name',
+  'name' => 'Όνομα',
   'agreement' => 'I agree with the',
   'agreement_error' => 'To proceed you must accept our TOS / Privacy Policy.',
-  'create' => 'Create account',
+  'create' => 'Δημιουργία λογαριασμού',
   'verify' => 'Verify Your Email Address',
   'verify_sent' => 'A fresh verification link has been sent to your email address.',
   'verify_proceed' => 'Before proceeding, please check your email for a verification link.',
@@ -45,12 +45,12 @@ return [
   'verified' => 'Great! You successfully verified your email address. You can now use all the website features.',
   'edit' => 'Edit Account',
   'information' => 'User information',
-  'user' => 'User',
-  'management' => 'Users Management',
+  'user' => 'Χρήστης',
+  'management' => 'Διαχείριση Χρηστών',
   'back_list' => 'Back to list',
-  'users' => 'Users',
-  'add' => 'Add User',
-  'creation_date' => 'Creation date',
+  'users' => 'Χρήστες',
+  'add' => 'Προσθήκη Χρήστη',
+  'creation_date' => 'Ημερομηνία δημιουργίας',
   'delete' => [
     'confirm' => 'Are you sure you want to delete this user?',
     'delete' => 'Delete User',
