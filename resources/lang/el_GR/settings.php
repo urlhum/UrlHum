@@ -9,10 +9,10 @@
  */
 
 return [
-  'settings' => 'Settings',
-  'system' => 'System Settings',
+  'settings' => 'Ρυθμίσεις',
+  'system' => 'Ρυθμίσεις Συστήματος',
   'anon_hash_alert' => 'Attention: if you anonymize the IP without hashing it, Analytics will not be able to count Real Clicks, because it is impossible to check the user IP.',
-  'general' => 'General',
+  'general' => 'Γενικά',
   'website_name' => 'Website name',
   'website_image' => 'Website image',
   'website_favicon' => 'Website favicon',
@@ -42,6 +42,6 @@ return [
   'require_user_verify_help' => 'Unverified users email address will not be allowed to create, edit and manage their Short URLs',
   'custom_html' => 'Custom HTML, JS and CSS',
   'custom_html_help' => 'Write your custom script here. It will be loaded in the website footer.',
-  'save_changes' => 'Save changes',
+  'save_changes' => 'Αποθήκευση αλλαγών',
   'success' => 'Settings successfully updated!',
 ];
