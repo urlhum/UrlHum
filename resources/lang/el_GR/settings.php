@@ -43,5 +43,5 @@ return [
   'custom_html' => 'Custom HTML, JS and CSS',
   'custom_html_help' => 'Write your custom script here. It will be loaded in the website footer.',
   'save_changes' => 'Αποθήκευση αλλαγών',
-  'success' => 'Settings successfully updated!',
+  'success' => 'Οι Ρυθμίσεις ενημερώθηκαν με επιτυχία!',
 ];
