@@ -32,7 +32,7 @@ return [
     'before' => 'The :attribute must be a date before :date.',
     'before_or_equal' => 'The :attribute must be a date before or equal to :date.',
     'between' => [
-        'numeric' => 'The :attribute must be between :min and :max.',
+        'numeric' => 'Το :attribute πρέπει να είναι μεταξύ :min και :max.',
         'file' => 'The :attribute must be between :min and :max kilobytes.',
         'string' => 'The :attribute must be between :min and :max characters.',
         'array' => 'The :attribute must have between :min and :max items.',
@@ -84,9 +84,9 @@ return [
         'array' => 'The :attribute must not have more than :value items.',
     ],
     'max' => [
-        'numeric' => 'The :attribute may not be greater than :max.',
-        'file' => 'The :attribute may not be greater than :max kilobytes.',
-        'string' => 'The :attribute may not be greater than :max characters.',
+        'numeric' => 'Το :attribute δεν μπορεί να είναι μεγαλύτερο από :max.',
+        'file' => 'To :attribute δεν μπορεί να είναι μεγαλύτερο από :max kilobytes.',
+        'string' => 'To :attribute δεν μπορεί να είναι μεγαλύτερο από :max χαρακτήρες.',
         'array' => 'The :attribute may not have more than :max items.',
     ],
     'mimes' => 'The :attribute must be a file of type: :values.',
