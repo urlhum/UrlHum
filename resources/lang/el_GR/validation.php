@@ -22,7 +22,7 @@ return [
     */
 
     'accepted' => 'The :attribute must be accepted.',
-    'active_url' => 'The :attribute is not a valid URL.',
+    'active_url' => 'Το :attribute δεν είναι ένα έγκυρο URL.',
     'after' => 'The :attribute must be a date after :date.',
     'after_or_equal' => 'The :attribute must be a date after or equal to :date.',
     'alpha' => 'The :attribute may only contain letters.',
@@ -32,7 +32,7 @@ return [
     'before' => 'The :attribute must be a date before :date.',
     'before_or_equal' => 'The :attribute must be a date before or equal to :date.',
     'between' => [
-        'numeric' => 'The :attribute must be between :min and :max.',
+        'numeric' => 'Το :attribute πρέπει να είναι μεταξύ :min και :max.',
         'file' => 'The :attribute must be between :min and :max kilobytes.',
         'string' => 'The :attribute must be between :min and :max characters.',
         'array' => 'The :attribute must have between :min and :max items.',
@@ -49,7 +49,7 @@ return [
     'distinct' => 'The :attribute field has a duplicate value.',
     'email' => 'The :attribute must be a valid email address.',
     'exists' => 'The selected :attribute is invalid.',
-    'file' => 'The :attribute must be a file.',
+    'file' => 'To :attribute πρέπει να είναι ένα αρχείο.',
     'filled' => 'The :attribute field must have a value.',
     'gt' => [
         'numeric' => 'The :attribute must be greater than :value.',
@@ -60,17 +60,17 @@ return [
     'gte' => [
         'numeric' => 'The :attribute must be greater than or equal :value.',
         'file' => 'The :attribute must be greater than or equal :value kilobytes.',
-        'string' => 'The :attribute must be greater than or equal :value characters.',
+        'string' => 'To :attribute πρέπει να είναι μεγαλύτερο ή ίσο από :max χαρακτήρες.',
         'array' => 'The :attribute must have :value items or more.',
     ],
     'image' => 'The :attribute must be an image.',
     'in' => 'The selected :attribute is invalid.',
     'in_array' => 'The :attribute field does not exist in :other.',
     'integer' => 'The :attribute must be an integer.',
-    'ip' => 'The :attribute must be a valid IP address.',
+    'ip' => 'H :attribute πρέπει να είναι μια έγκυρη διεύθυνση IP.',
     'ipv4' => 'The :attribute must be a valid IPv4 address.',
-    'ipv6' => 'The :attribute must be a valid IPv6 address.',
-    'json' => 'The :attribute must be a valid JSON string.',
+    'ipv6' => 'H :attribute πρέπει να είναι μια έγκυρη IPv6 διεύθυνση.',
+    'json' => 'H :attribute πρεπει να είναι μια έγκυρη συμβολοσειρά JSON.',
     'lt' => [
         'numeric' => 'The :attribute must be less than :value.',
         'file' => 'The :attribute must be less than :value kilobytes.',
@@ -84,9 +84,9 @@ return [
         'array' => 'The :attribute must not have more than :value items.',
     ],
     'max' => [
-        'numeric' => 'The :attribute may not be greater than :max.',
-        'file' => 'The :attribute may not be greater than :max kilobytes.',
-        'string' => 'The :attribute may not be greater than :max characters.',
+        'numeric' => 'Το :attribute δεν μπορεί να είναι μεγαλύτερο από :max.',
+        'file' => 'To :attribute δεν μπορεί να είναι μεγαλύτερο από :max kilobytes.',
+        'string' => 'To :attribute δεν μπορεί να είναι μεγαλύτερο από :max χαρακτήρες.',
         'array' => 'The :attribute may not have more than :max items.',
     ],
     'mimes' => 'The :attribute must be a file of type: :values.',

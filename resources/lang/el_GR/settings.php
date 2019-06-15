@@ -9,10 +9,10 @@
  */
 
 return [
-  'settings' => 'Settings',
-  'system' => 'System Settings',
+  'settings' => 'Ρυθμίσεις',
+  'system' => 'Ρυθμίσεις Συστήματος',
   'anon_hash_alert' => 'Attention: if you anonymize the IP without hashing it, Analytics will not be able to count Real Clicks, because it is impossible to check the user IP.',
-  'general' => 'General',
+  'general' => 'Γενικά',
   'website_name' => 'Website name',
   'website_image' => 'Website image',
   'website_favicon' => 'Website favicon',
@@ -35,13 +35,13 @@ return [
   'deleted' => 'Can deleted URLs be created again?',
   'reserved' => 'Reserved Short URLs (one per line)',
   'reserved_help' => 'Users will not be able to create these custom Short Urls',
-  'reserved_restore' => 'Restore Default',
+  'reserved_restore' => 'Επαναφορά Προεπιλογών',
   'privacy_policy_desc' => 'Write your Privacy Policy here. Standard HTML is allowed.',
   'tos_desc' => 'Write your Terms Of Use here. Standard HTML is allowed.',
   'require_user_verify' => 'Require users email verification to allow Short URLs management',
   'require_user_verify_help' => 'Unverified users email address will not be allowed to create, edit and manage their Short URLs',
   'custom_html' => 'Custom HTML, JS and CSS',
   'custom_html_help' => 'Write your custom script here. It will be loaded in the website footer.',
-  'save_changes' => 'Save changes',
-  'success' => 'Settings successfully updated!',
+  'save_changes' => 'Αποθήκευση αλλαγών',
+  'success' => 'Οι Ρυθμίσεις ενημερώθηκαν με επιτυχία!',
 ];

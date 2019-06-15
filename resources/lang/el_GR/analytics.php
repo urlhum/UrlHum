@@ -47,5 +47,5 @@ return [
     'created' => 'Short URLs created',
   ],
   'analytics' => 'Analytics',
-  'time' => 'Time',
+  'time' => 'Ώρα',
 ];
