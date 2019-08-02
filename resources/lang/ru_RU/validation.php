@@ -120,9 +120,9 @@ return [
     'string' => 'Поле :attribute должно быть строкой.',
     'timezone' => 'Поле :attribute должно быть действительным часовым поясом.',
     'unique' => ':attribute уже занят.',
-    'uploaded' => 'The :attribute failed to upload.',
-    'url' => 'The :attribute format is invalid.',
-    'uuid' => 'The :attribute must be a valid UUID.',
+    'uploaded' => 'Загрузка поля :attribute не удалась.',
+    'url' => 'Неправильный формат :attribute.',
+    'uuid' => ':attribute должен быть действительным UUID.',
 
     /*
     |--------------------------------------------------------------------------
@@ -137,7 +137,7 @@ return [
 
     'custom' => [
         'attribute-name' => [
-            'rule-name' => 'custom-message',
+            'rule-name' => 'настраиваемое сообщение',
         ],
     ],
 
