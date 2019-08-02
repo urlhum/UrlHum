@@ -12,9 +12,9 @@ return [
   'update_success' => 'Account successfully updated!',
   'password' => [
     'success' => 'Password successfully updated!',
-    'current' => 'Current Password',
-    'not_match' => 'The current password field does not match your password',
-    'password' => 'Password',
+    'current' => 'Текущий пароль',
+    'not_match' => 'Текущее поле пароля не совпадает с вашим паролем',
+    'password' => 'Пароль',
     'forgot' => 'Forgot Password?',
     'reset' => 'Reset Password',
     'confirm' => 'Confirm new Password',
@@ -53,6 +53,6 @@ return [
   'creation_date' => 'Creation date',
   'delete' => [
     'confirm' => 'Are you sure you want to delete this user?',
-    'delete' => 'Delete User',
+    'delete' => 'Удалить пользователя',
   ],
 ];
