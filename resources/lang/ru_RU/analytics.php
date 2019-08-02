@@ -10,14 +10,14 @@
 
 return [
   'referer' => [
-    'referers' => 'Referers',
-    'referer' => 'Referer',
+    'referers' => 'Рефереры',
+    'referer' => 'Реферер',
     'list' => [
-      'results' => 'Showing :firstItem - :lastItem referers of :num total',
+      'results' => 'Показано :firstItem - :lastItem рефереров всего :num ',
     ],
-    'na' => 'Still no referers to report. Share the URL to increase referrers!',
-    'best' => 'Best referers',
-    'direct_unknown' => 'Direct / Unknown',
+    'na' => 'Пока нет рефералов для отчета. Поделитесь URL для увеличения рефераторов!',
+    'best' => 'Лучшие рефераторы',
+    'direct_unknown' => 'Прямая / Неизвестная',
   ],
   'click' => [
     'click' => 'Click',
