@@ -9,24 +9,24 @@
  */
 
 return [
-  'list' => 'URLs list',
+  'list' => 'Список URL',
   'edit' => [
-    'edit' => 'Edit URL',
-    'short' => 'Edit Short URL',
+    'edit' => 'Изменить URL',
+    'short' => 'Изменить короткий URL',
   ],
-  'created' => 'URL created at :date',
-  'url' => 'URL',
+  'created' => 'URL создан в :date',
+  'url' => 'URL-адрес',
   'my' => [
-    'my' => 'My Short URLs',
-    'list' => 'Showing :firstItem - :lastItem Short URLs of :num total',
+    'my' => 'Мои короткие URL',
+    'list' => 'Показано :firstItem - :lastItem рефереров всего :num ',
   ],
-  'public' => 'Latest public URLs',
-  'short' => 'Short URL',
-  'new' => 'New URL',
-  'long' => 'Long URL',
+  'public' => 'Последние публичные URL',
+  'short' => 'Короткий URL',
+  'new' => 'Новый URL',
+  'long' => 'Длинный URL',
   'delete' => [
-    'confirm' => 'Are you sure you want to delete this Short URL? All related Analytics data will be lost.',
-    'delete' => 'Delete URL',
+    'confirm' => 'Вы уверены, что хотите удалить этот короткий URL? Все связанные данные Аналитикой будут потеряны.',
+    'delete' => 'Удалить URL',
   ],
   'listres' => 'Showing :firstItem - :lastItem Short URLs of :num total',
   'updated' => 'URL updated at :date',
