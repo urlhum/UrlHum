@@ -49,6 +49,7 @@ class SettingsSetCommand extends Command
             'anonymous_urls' => 1,
             'registration' => 1,
             'private_site' => 0,
+            'unauthorized_redirect' => '',
             'show_guests_latests_urls' => 1,
             'hash_ip' => 1,
             'anonymize_ip' => 1,
