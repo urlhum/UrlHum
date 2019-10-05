@@ -367,7 +367,7 @@
 
 
                                     <button type="submit"
-                                            class="btn btn-default">{{ __('urlhum.send') }}
+                                            class="btn btn-default">{{ __('urlhum.save') }}
                                     </button>
 
                                     <div class="modal fade" id="privacyModal" tabindex="-1" role="dialog"
