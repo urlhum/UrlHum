@@ -50,4 +50,7 @@ return [
   'latest' => 'Últimas URLs',
   'all' => 'Ver todo',
   'urls' => 'URLs',
+  'qrcode' => 'QR Code',
+  'qrcode_modal' => 'QR Code',
+  'qrcode_download' => 'Download',
 ];
