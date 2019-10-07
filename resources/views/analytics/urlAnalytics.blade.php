@@ -11,9 +11,15 @@
                                 <h1>{{ __('analytics.show.title') }}
                                     <a href="{{ url('/') }}/{{$url}}">{{ $url }}</a>
                                 </h1>
-                                @if ($isOwnerOrAdmin)
-                                    <a href="{{ url('/') }}/url/{{$url}}" class="btn btn-success">{{ __('url.edit.edit') }}</a>
-                                @endif
+
+                                <div>
+                                <button type="button" class="btn btn-info" id="qrModalButton" data-toggle="modal" data-target="#QRCodeModal">
+                                    <i class="fa fa-qrcode"></i> {{ __('url.qrcode') }}
+                                </button>
+                                    @if ($isOwnerOrAdmin)
+                                        <a href="{{ url('/') }}/url/{{$url}}" class="btn btn-success">{{ __('url.edit.edit') }}</a>
+                                    @endif
+                                </div>
                             </div>
                             <div class="card-body">
                                 <p>{{ __('url.created', ['date' => $creationDate]) }}</p>
@@ -182,6 +188,8 @@
                                 </div>
                                 {{ $referers->fragment('referrers-table')->links() }}
                             </div>
+
+                            @include('url.partials.qrcodemodal', ['url' => $url])
                         </div>
                     </div>
                 </div>
