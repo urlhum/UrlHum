@@ -4,6 +4,7 @@
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
+ * @copyright Copyright (c) 2019 Christian la Forgia
  * @license   https://github.com/urlhum/UrlHum/blob/master/LICENSE.md (MIT License)
  */
 
@@ -43,7 +44,7 @@ class QRCodeController
         return $this->qrCode($url, 'png', 'image/png');
     }
 
-    private function qrCode(Url $url, $format, $contentType) 
+    private function qrCode(Url $url, $format, $contentType)
     {
         $path = 'qrcodes/'.$url->short_url.'.'.$format;
         if (Storage::exists($path)) {
