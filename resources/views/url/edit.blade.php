@@ -61,6 +61,11 @@
                                 <a href="/{{$data->short_url}}+" class="btn btn-success">
                                     <i class="fa fa-chart-bar"></i> {{ __('url.stats') }}
                                 </a>
+
+                                <button type="button" class="btn btn-info" id="qrModalButton" data-toggle="modal" data-target="#QRCodeModal">
+                                    <i class="fa fa-qrcode"></i> {{ __('url.qrcode') }}
+                                </button>
+                                
                                 <hr>
                                 <div>
                                     <form method="POST" action="/url/{{$data->short_url}}">
@@ -93,6 +98,9 @@
                                     </form>
                                 </div>
                             </div>
+
+                            @include('url.partials.qrcodemodal', ['url' => $data])
+
                         </div>
                     </div>
                 </div>
