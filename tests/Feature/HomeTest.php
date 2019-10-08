@@ -44,6 +44,21 @@ class HomeTest extends TestCase
     }
 
     /**
+     * If "private site" setting is enabled, guests should be redirected
+     * to "unauthorized url" setting.
+     *
+     * @return void
+     */
+    public function test_setting_private_site_with_unauthorized_redirect_enabled()
+    {
+        setting()->set('private_site', 1);
+        setting()->set('unauthorized_redirect', 'https://urlhum.com');
+        $this->get('/')
+            ->assertStatus(302)
+            ->assertRedirect('https://urlhum.com');
+    }
+
+    /**
      * If Privacy Policy page is disabled, don't show it.
      *
      * @return void

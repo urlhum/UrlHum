@@ -26,6 +26,7 @@ class SettingsRequest extends FormRequest
             'anonymous_urls' => 'boolean',
             'registration' => 'boolean',
             'private_site' => 'boolean',
+            'unauthorized_redirect' => 'url|nullable',
             'show_guests_latests_urls' => 'boolean',
             'hash_ip' => 'boolean',
             'anonymize_ip' => 'boolean',
