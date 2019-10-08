@@ -9,10 +9,10 @@
  */
 
 return [
-  'update_success' => 'Account successfully updated!',
+  'update_success' => 'Konto wurde erfolgreich aktualisiert!',
   'password' => [
-    'success' => 'Password successfully updated!',
-    'current' => 'Current Password',
+    'success' => 'Passwort erfolgreich aktualisiert!',
+    'current' => 'Aktuelles Passwort',
     'not_match' => 'The current password field does not match your password',
     'password' => 'Password',
     'forgot' => 'Forgot Password?',
