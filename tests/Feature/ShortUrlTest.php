@@ -13,8 +13,8 @@ namespace Tests\Feature;
 use App\Url;
 use App\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ShortUrlTest extends TestCase
 {
@@ -245,7 +245,7 @@ class ShortUrlTest extends TestCase
      * @return void
      */
     public function test_svg_is_created_on_load()
-    {      
+    {
         Storage::fake();
 
         $this->post('/url', ['url' => 'https://instagram.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
