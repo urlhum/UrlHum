@@ -8,7 +8,11 @@
                     <div class="col">
                         <div class="card shadow">
                             <div class="card-header">
-                                <h1>{{ __('url.list') }}</h1>
+                                <div class="row align-items-center">
+                                    <div class="col-8">
+                                        <h3 class="mb-0">{{ __('url.list') }}</h3>
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">

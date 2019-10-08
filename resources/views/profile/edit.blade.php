@@ -11,7 +11,9 @@
                         <div class="card bg-secondary shadow">
                             <div class="card-header bg-white border-0">
                                 <div class="row align-items-center">
-                                    <h3 class="mb-0">{{ __('account.edit') }}</h3>
+                                    <div class="col-8">
+                                        <h3 class="mb-0">{{ __('account.edit') }}</h3>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-body">
