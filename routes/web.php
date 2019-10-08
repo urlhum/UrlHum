@@ -46,5 +46,7 @@ Route::group(['prefix' => 'url'], function () {
 // We use "show" in place of "edit", because the "real" show is /{url}
 Route::resource('url', 'UrlController')->except(['edit', 'index'])->middleware(['verifycheck', 'honeypot']);
 
-Route::get('/{url}+', 'AnalyticsController@show');
-Route::get('/{url}', 'ViewUrlController@view');
+Route::get('/{url}+', 'AnalyticsController@show')->name('stats');
+Route::get('/{url}.svg', 'QRCodeController@svg')->name('qrcode.svg');
+Route::get('/{url}.png', 'QRCodeController@png')->name('qrcode.png');
+Route::get('/{url}', 'ViewUrlController@view')->name('view');

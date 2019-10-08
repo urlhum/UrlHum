@@ -101,6 +101,24 @@
                                     </div>
 
                                     <div class="form-group row mb-5">
+                                        <label for="unauthorized_redirect"
+                                               class="col-sm-4 col-md-6 col-form-label">
+                                            {{ __('settings.unauthorized_redirect') }}
+                                            <i class="fa fa-question-circle"
+                                               data-toggle="tooltip"
+                                               data-placement="top"
+                                               title="{{ __('settings.unauthorized_redirect_help') }}">
+                                            </i>
+                                        </label>
+                                        <div class="col-sm-8 col-md-6">
+                                            <input class="form-control" type="text" name="unauthorized_redirect"
+                                                   value="{{ setting('unauthorized_redirect') }}"
+                                                   placeholder="{{ __('settings.unauthorized_redirect_placeholder') }}"
+                                                   >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row mb-5">
                                         <label for="registration"
                                                class="col-sm-4 col-md-6">
                                             {{ __('settings.registration') }}
@@ -367,7 +385,7 @@
 
 
                                     <button type="submit"
-                                            class="btn btn-default">{{ __('urlhum.send') }}
+                                            class="btn btn-default">{{ __('urlhum.save') }}
                                     </button>
 
                                     <div class="modal fade" id="privacyModal" tabindex="-1" role="dialog"

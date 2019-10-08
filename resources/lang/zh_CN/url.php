@@ -50,4 +50,7 @@ return [
   'latest' => '最新URL',
   'all' => '查看所有',
   'urls' => 'URL',
+  'qrcode' => 'QR Code',
+  'qrcode_modal' => 'QR Code',
+  'qrcode_download' => 'Download',
 ];

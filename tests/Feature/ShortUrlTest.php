@@ -14,6 +14,7 @@ use App\Url;
 use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Storage;
 
 class ShortUrlTest extends TestCase
 {
@@ -236,5 +237,21 @@ class ShortUrlTest extends TestCase
         setting()->set('show_guests_latests_urls', 1);
         $this->get('/url/public')
             ->assertStatus(200);
+    }
+
+    /**
+     * Create .svg file when when that url is hit.
+     *
+     * @return void
+     */
+    public function test_svg_is_created_on_load()
+    {      
+        Storage::fake();
+
+        $this->post('/url', ['url' => 'https://instagram.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
+
+        $this->get('/inst.svg')->assertStatus(200);
+
+        Storage::assertExists('qrcodes/inst.svg');
     }
 }
