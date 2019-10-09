@@ -9,13 +9,13 @@
  */
 
 return [
-  'settings' => 'Settings',
-  'system' => 'System Settings',
-  'anon_hash_alert' => 'Attention: if you anonymize the IP without hashing it, Analytics will not be able to count Real Clicks, because it is impossible to check the user IP.',
-  'general' => 'General',
-  'website_name' => 'Website name',
-  'website_image' => 'Website image',
-  'website_favicon' => 'Website favicon',
+  'settings' => 'Einstellungen',
+  'system' => 'Systemeinstellungen',
+  'anon_hash_alert' => 'Achtung: Wenn Sie die IP-Adresse anonymisieren ohne sie zu hashen, kann die Statistik keine echten Klicks auswerten, da es unmöglich ist, die IP-Adresse des Benutzers zu überprüfen.',
+  'general' => 'Allgemein',
+  'website_name' => 'Name der Website',
+  'website_image' => 'Bild der Website',
+  'website_favicon' => 'Favicon der Website',
   'private' => 'Make website private',
   'private_help' => 'The website homepage will redirect to the login',
   'unauthorized_redirect' => 'Unauthorized Redirect URL',
