@@ -22,7 +22,7 @@
                                 'site' => setting('website_name')
                             ]) }}</h3>
                         </div>
-                        <form role="form" method="POST" action="{{ route('register') }}">
+                        <form role="form" method="POST" action="{{ route('register') }}" id="register-form">
                             @csrf
 
                             <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
@@ -112,4 +112,16 @@
 @endsection
 @push('js')
     <script src="/js/app.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render={{ env("GOOGLE_SITE_KEY") }}"></script>
+    <script>
+        $('#register-form').submit(function(event) {
+            event.preventDefault();
+            grecaptcha.ready(function() {
+                grecaptcha.execute({{ env('GOOGLE_SITE_KEY') }}, {action: 'login'}).then(function(token) {
+                    $('#register-form').prepend('<input type="hidden" name="g-recaptcha-response" value="' + token + '">');
+                    $('#register-form').submit();
+                });
+            });
+        });
+    </script>
 @endpush
