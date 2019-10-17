@@ -60,7 +60,7 @@ class LoginController extends Controller
             'http' => [
                 'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
                 'method'  => 'POST',
-                'content' => http_build_query($data)
+                'content' => http_build_query($data),
             ]
         ];
         $context = stream_context_create($options);
@@ -72,6 +72,7 @@ class LoginController extends Controller
             $this->loginOverride($request);
         } else {
             session()->flash('You didn\'t pass the captcha, please try again.');
+
             return redirect()->back();
         }
     }

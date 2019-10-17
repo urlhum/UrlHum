@@ -104,10 +104,10 @@ class RegisterController extends Controller
             'http' => [
                 'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
                 'method'  => 'POST',
-                'content' => http_build_query($data)
+                'content' => http_build_query($data),
             ]
         ];
-        $context  = stream_context_create($options);
+        $context = stream_context_create($options);
         $response = file_get_contents($url, false, $context);
         $responseKeys = json_decode($response, true);
         header('Content-type: application/json');
@@ -116,6 +116,7 @@ class RegisterController extends Controller
             $this->registerOverride($request);
         } else {
             session()->flash('You didn\'t pass the captcha, please try again.');
+            
             return redirect()->back();
         }
     }
