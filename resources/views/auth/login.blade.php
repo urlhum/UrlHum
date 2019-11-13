@@ -11,7 +11,7 @@
                         <div class="text-center text-muted mb-4">
                             <h3>{{ __('account.sign_in') }}</h3><br>
                         </div>
-                        <form role="form" method="POST" action="{{ route('login') }}">
+                        <form role="form" method="POST" action="{{ route('login') }}" id="login-form">
                             @csrf
                             <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }} mb-3">
                                 <div class="input-group input-group-alternative">
@@ -71,4 +71,16 @@
 @endsection
 @push('js')
     <script src="/js/app.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render={{ env("GOOGLE_SITE_KEY") }}"></script>
+    <script>
+        $('#login-form').submit(function(event) {
+            event.preventDefault();
+            grecaptcha.ready(function() {
+                grecaptcha.execute({{ env('GOOGLE_SITE_KEY') }}, {action: 'login'}).then(function(token) {
+                    $('#login-form').prepend('<input type="hidden" name="g-recaptcha-response" value="' + token + '">');
+                    $('#login-form').submit();
+                });
+            });
+        });
+    </script>
 @endpush

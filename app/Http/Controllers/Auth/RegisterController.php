@@ -11,6 +11,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -29,7 +30,9 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    use RegistersUsers {
+        register as registerOverride;
+    }
 
     /**
      * Where to redirect users after registration.
@@ -87,5 +90,34 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    public function register(Request $request)
+    {
+        $captcha = $request->get('g-recaptcha-response');
+        $secretKey = env('GOOGLE_SECRET_KEY');
+
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        $data = ['secret' => $secretKey, 'response' => $captcha];
+
+        $options = [
+            'http' => [
+                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method'  => 'POST',
+                'content' => http_build_query($data),
+            ]
+        ];
+        $context = stream_context_create($options);
+        $response = file_get_contents($url, false, $context);
+        $responseKeys = json_decode($response, true);
+        header('Content-type: application/json');
+
+        if ($responseKeys['success']) {
+            $this->registerOverride($request);
+        } else {
+            session()->flash('You didn\'t pass the captcha, please try again.');
+            
+            return redirect()->back();
+        }
     }
 }
