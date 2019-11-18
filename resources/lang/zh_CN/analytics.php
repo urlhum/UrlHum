@@ -33,15 +33,9 @@ return [
     'title' => '短链接分析',
   ],
   'country' => [
-    'real' => '真实浏览量（按国家/地区排序）',
+    'real' => 'Real Clicks By Country',
     'na' => '抱歉，我们没有足够的数据来显示国家/地区的访问量，分享这个网址！',
-    'views' => '按国家/地区显示',
-  ],
-  'view' => [
-    'reals' => '真实浏览量',
-    'views' => '浏览量',
-    'view' => '浏览量',
-    'real' => '真实浏览量',
+    'views' => 'Clicks By Country',
   ],
   'url' => [
     'created' => '短链接数量',
