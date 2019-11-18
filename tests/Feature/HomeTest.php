@@ -31,20 +31,6 @@ class HomeTest extends TestCase
 
     /**
      * If "private site" setting is enabled, guests should be redirected
-     * to login page.
-     *
-     * @return void
-     */
-    public function test_setting_private_site_enabled_guest_redirect_to_login()
-    {
-        setting()->set('private_site', 1);
-        $this->get('/')
-            ->assertStatus(302)
-            ->assertRedirect('/login');
-    }
-
-    /**
-     * If "private site" setting is enabled, guests should be redirected
      * to "unauthorized url" setting.
      *
      * @return void
