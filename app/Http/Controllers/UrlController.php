@@ -11,7 +11,7 @@
 namespace App\Http\Controllers;
 
 use App\Url;
-use App\ViewUrl;
+use App\ClickUrl;
 use App\DeletedUrls;
 use App\Services\UrlService;
 use Illuminate\Http\Request;
@@ -81,7 +81,7 @@ class UrlController extends Controller
 
     /**
      * Show the "edit" form of the URL.
-     * This method actually shows the URL edit page. It is not actually "@show" URL. The URL show is in viewUrl@view.
+     * This method actually shows the URL edit page. It is not actually "@show" URL. The URL show is in clickUrl@view.
      *
      * @param $url
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
@@ -138,7 +138,7 @@ class UrlController extends Controller
             return response('Forbidden', 403);
         }
 
-        ViewUrl::deleteUrlsViews($url);
+        ClickUrl::deleteUrlsClicks($url);
         Url::destroy($url);
 
         // We add the Short URL to the DeletedUrls Database table.

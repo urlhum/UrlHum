@@ -11,11 +11,11 @@
 namespace Tests\Feature;
 
 use App\Url;
-use App\ViewUrl;
+use App\ClickUrl;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ViewUrlTest extends TestCase
+class ClickUrlTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -33,7 +33,7 @@ class ViewUrlTest extends TestCase
         $this->get('/inst', ['REMOTE_ADDR' => $ip])
                 ->assertStatus(302);
 
-        $realClick = ViewUrl::select('real_click')
+        $realClick = ClickUrl::select('real_click')
             ->where('short_url', 'inst')
             ->orderBy('id', 'desc')
             ->first()
@@ -59,7 +59,7 @@ class ViewUrlTest extends TestCase
         $this->get('/inst', ['REMOTE_ADDR' => $ip])
             ->assertStatus(302);
 
-        $click = ViewUrl::select('click')
+        $click = ClickUrl::select('click')
             ->where('short_url', 'inst')
             ->orderBy('id', 'desc')
             ->first()
@@ -83,7 +83,7 @@ class ViewUrlTest extends TestCase
         $this->get('/inst', ['REMOTE_ADDR' => $ip])
             ->assertStatus(302);
 
-        $hashedIp = ViewUrl::select('ip_address')
+        $hashedIp = ClickUrl::select('ip_address')
             ->orderBy('id', 'desc')
             ->first()
             ->ip_address;
@@ -108,7 +108,7 @@ class ViewUrlTest extends TestCase
         $this->get('/inst', ['REMOTE_ADDR' => $ip, 'HTTP_REFERER' => $referer])
             ->assertStatus(302);
 
-        $check = ViewUrl::select('referer')
+        $check = ClickUrl::select('referer')
             ->orderBy('id', 'desc')
             ->first()
             ->referer;
@@ -132,7 +132,7 @@ class ViewUrlTest extends TestCase
             ->get('/stack')
             ->assertStatus(302);
 
-        $referer = ViewUrl::where('short_url', 'stack')
+        $referer = ClickUrl::where('short_url', 'stack')
             ->first()
             ->referer;
 
@@ -166,7 +166,7 @@ class ViewUrlTest extends TestCase
 
         $this->get('stack', ['REMOTE_ADDR' => $ip]);
 
-        $viewIp = \DB::table('views')->latest()->first()->ip_address;
+        $viewIp = \DB::table('clicks')->latest()->first()->ip_address;
 
         $this->assertEquals($ip, $viewIp);
     }
@@ -188,7 +188,7 @@ class ViewUrlTest extends TestCase
 
         $this->get('stack', ['REMOTE_ADDR' => $ip]);
 
-        $click = \DB::table('views')->latest()->first()->click;
+        $click = \DB::table('clicks')->latest()->first()->click;
         $this->assertEquals(1, $click);
     }
 }

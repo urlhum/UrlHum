@@ -17,14 +17,14 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Model that saves and loads data when an User visits a Short URL.
  *
- * Class ViewUrl
+ * Class ClickUrl
  */
-class ViewUrl extends Model
+class ClickUrl extends Model
 {
     /**
      * @var string
      */
-    protected $table = 'views';
+    protected $table = 'clicks';
     /**
      * @var array
      */
@@ -33,15 +33,15 @@ class ViewUrl extends Model
     ];
 
     /**
-     * Store a new View in database.
+     * Store a new Click in database.
      *
      * @param $data
      */
     public static function store($data)
     {
-        $viewUrl = new self;
-        $viewUrl->fill($data);
-        $viewUrl->save();
+        $clickUrl = new self;
+        $clickUrl->fill($data);
+        $clickUrl->save();
     }
 
     /**
@@ -53,7 +53,7 @@ class ViewUrl extends Model
      */
     public static function realClick($short_url, $ip_address)
     {
-        $view = DB::table('views')
+        $click = DB::table('clicks')
             ->where('short_url', $short_url)
             ->where('ip_address', $ip_address)
             ->where('created_at', '>=', Carbon::now()->subDay())
@@ -73,7 +73,7 @@ class ViewUrl extends Model
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return $view->isNotEmpty() ? false : true;
+        return $click->isNotEmpty() ? false : true;
     }
 
     /**
@@ -113,7 +113,7 @@ class ViewUrl extends Model
      *
      * @param $url
      */
-    public static function deleteUrlsViews($url)
+    public static function deleteUrlsClicks($url)
     {
         self::where('short_url', $url)->delete();
     }

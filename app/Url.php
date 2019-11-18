@@ -62,8 +62,8 @@ class Url extends Model
     public static function getLatestPublicUrls()
     {
         $urls = DB::table('urls')
-            ->select('urls.short_url', 'urls.long_url', \DB::raw('count(views.short_url) as clicks'), 'urls.created_at')
-            ->leftJoin('views', 'urls.short_url', '=', 'views.short_url')
+            ->select('urls.short_url', 'urls.long_url', \DB::raw('count(clicks.short_url) as clicks'), 'urls.created_at')
+            ->leftJoin('clicks', 'urls.short_url', '=', 'clicks.short_url')
             ->groupBy('urls.short_url', 'urls.long_url', 'urls.created_at')
             ->orderBy('urls.created_at', 'DESC')
             ->where('private', '=', 0)
@@ -81,8 +81,8 @@ class Url extends Model
     public static function publicUrlsWidget()
     {
         $urls = DB::table('urls')
-          ->select('urls.short_url', 'urls.long_url', \DB::raw('count(views.short_url) as clicks'), 'urls.created_at')
-          ->leftJoin('views', 'urls.short_url', '=', 'views.short_url')
+          ->select('urls.short_url', 'urls.long_url', \DB::raw('count(clicks.short_url) as clicks'), 'urls.created_at')
+          ->leftJoin('clicks', 'urls.short_url', '=', 'clicks.short_url')
           ->groupBy('urls.short_url', 'urls.long_url', 'urls.created_at')
           ->orderBy('urls.created_at', 'DESC')
           ->where('private', '=', 0)
@@ -115,7 +115,7 @@ class Url extends Model
      */
     public function clicks()
     {
-        return $this->hasMany('App\ViewUrl', 'short_url', 'short_url');
+        return $this->hasMany('App\ClickUrl', 'short_url', 'short_url');
     }
 
     /**

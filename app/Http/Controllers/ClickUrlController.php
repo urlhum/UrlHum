@@ -11,7 +11,7 @@
 namespace App\Http\Controllers;
 
 use App\Url;
-use App\ViewUrl;
+use App\ClickUrl;
 use App\IpAnonymizer;
 use GeoIp2\Database\Reader;
 use Illuminate\Http\Request;
@@ -20,10 +20,10 @@ use Illuminate\Support\Facades\Redirect;
 /**
  * Controller handling the actual page of the corresponding URL, that redirects the user.
  *
- * Class ViewUrlController
+ * Class ClickUrlController
  * @author Christian la Forgia <christian@optiroot.it>
  */
-class ViewUrlController
+class ClickUrlController
 {
     /**
      * The actual "url" page, redirects the user.
@@ -31,7 +31,7 @@ class ViewUrlController
      * @param $url
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function view($url)
+    public function click($url)
     {
         if ($result = Url::find($url)) {
             $externalUrl = $result->long_url;
@@ -66,7 +66,7 @@ class ViewUrlController
         $click = 1;
         $real_click = 0;
 
-        if (ViewUrl::realClick($url, $ip)) {
+        if (ClickUrl::realClick($url, $ip)) {
             $click = 0;
             $real_click = 1;
         }
@@ -88,7 +88,7 @@ class ViewUrlController
             'ip_anonymized' => $anonymized,
             ];
 
-        ViewUrl::store($data);
+        ClickUrl::store($data);
 
         return Redirect::away($externalUrl);
     }

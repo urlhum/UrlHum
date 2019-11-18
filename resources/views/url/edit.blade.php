@@ -94,7 +94,7 @@
                                             <input type="url" class="form-control" id="destinationUrl"
                                                    name="url" value="{{$data->long_url}}">
                                         </div>
-                                        <button type="submit" class="btn btn-secondary">{{ __('urlhum.send') }}</button>
+                                        <button type="submit" class="btn btn-secondary">{{ __('urlhum.save') }}</button>
                                     </form>
                                 </div>
                             </div>

@@ -119,7 +119,7 @@
 
                                 <hr>
                                 <h1>{{ __('analytics.country.real') }}</h1>
-                                @if (count($countriesViews) > 0)
+                                @if (count($countriesClicks) > 0)
                                     <div class="chart">
                                         <!-- Chart wrapper -->
                                         <canvas id="chart-pie-countries-real"></canvas>
@@ -129,7 +129,7 @@
                                 @endif
                                 <hr>
                                 <h1>{{ __('analytics.country.views') }}</h1>
-                                @if (count($countriesViews) > 0)
+                                @if (count($countriesClicks) > 0)
                                     <div class="chart">
                                         <!-- Chart wrapper -->
                                         <canvas id="chart-pie-countries"></canvas>
@@ -155,8 +155,8 @@
                                                 <thead class="thead-light">
                                                 <tr>
                                                     <th scope="col">{{ __('url.url') }}</th>
-                                                    <th scope="col">{{ __('analytics.view.views') }}</th>
-                                                    <th scope="col">{{ __('analytics.view.reals') }}</th>
+                                                    <th scope="col">{{ __('analytics.click.clicks') }}</th>
+                                                    <th scope="col">{{ __('analytics.click.reals') }}</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -207,15 +207,15 @@
             type: 'bar',
             data: {
                 labels: [
-                    @foreach ($countriesViews as $country)
+                    @foreach ($countriesClicks as $country)
                         '{{$country->country_full}}',
                     @endforeach
                 ],
                 datasets: [{
                     label: '# of Votes',
                     data: [
-                        @foreach ($countriesViews as $country)
-                        {{$country->real_views}},
+                        @foreach ($countriesClicks as $country)
+                        {{$country->real_clicks}},
                         @endforeach
                     ],
                     backgroundColor: [
@@ -239,15 +239,15 @@
             type: 'bar',
             data: {
                 labels: [
-                    @foreach ($countriesViews as $country)
+                    @foreach ($countriesClicks as $country)
                         '{{$country->country_full}}',
                     @endforeach
                 ],
                 datasets: [{
                     label: '# of Votes',
                     data: [
-                        @foreach ($countriesViews as $country)
-                        {{$country->views}},
+                        @foreach ($countriesClicks as $country)
+                        {{$country->clicks}},
                         @endforeach
                     ],
                     backgroundColor: [

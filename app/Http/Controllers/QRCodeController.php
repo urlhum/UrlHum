@@ -17,7 +17,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 /**
  * Controller handling creating/fetching the QR code associated with the short URL.
  *
- * Class ViewUrlController
+ * Class QRCodeController
  * @author Michael Lindahl <me@michaellindahl.com>
  */
 class QRCodeController
@@ -50,7 +50,7 @@ class QRCodeController
         if (Storage::exists($path)) {
             $qrCode = Storage::get($path);
         } else {
-            $qrCode = QrCode::format($format)->size(300)->generate(route('view', $url));
+            $qrCode = QrCode::format($format)->size(300)->generate(route('click', $url));
             Storage::put($path, $qrCode);
         }
 

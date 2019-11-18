@@ -11,7 +11,7 @@
 namespace App\Http\Controllers;
 
 use App\Url;
-use App\ViewUrl;
+use App\ClickUrl;
 use Carbon\Carbon;
 use App\Services\Analytics;
 use App\Services\UrlService;
@@ -69,8 +69,8 @@ class AnalyticsController extends Controller
             'clicks' => $urlWithRelations->clicks_count,
             'realClicks' => $urlWithRelations->real_clicks_count,
             'todayClicks' => $urlWithRelations->today_clicks_count,
-            'countriesViews' => $this->analytics->getCountriesViews($url),
-            'countriesColor' =>  $this->analytics->getCountriesColor($this->analytics->getCountriesViews($url)),
+            'countriesClicks' => $this->analytics->getCountriesClicks($url),
+            'countriesColor' =>  $this->analytics->getCountriesColor($this->analytics->getCountriesClicks($url)),
             'latestClicks' => $this->analytics->getLatestClicks($url),
             'referers' =>  $this->analytics->getUrlReferers($url),
             'creationDate' => $urlWithRelations->created_at->diffForHumans(),
@@ -91,6 +91,6 @@ class AnalyticsController extends Controller
             abort(404);
         }
 
-        return view('analytics.referrers')->with('referrers', ViewUrl::getReferersList());
+        return view('analytics.referrers')->with('referrers', ClickUrl::getReferersList());
     }
 }

@@ -23,7 +23,7 @@
                 <tr>
                     <th scope="col">{{ __('url.short') }}</th>
                     <th scope="col">{{ __('url.long') }}</th>
-                    <th scope="col">{{ __('analytics.view.views') }}</th>
+                    <th scope="col">{{ __('analytics.click.clicks') }}</th>
                     @if (isAdmin())
                     <th scope="col">{{ __('url.action') }}</th>
                     @endif

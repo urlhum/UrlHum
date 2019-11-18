@@ -12,7 +12,7 @@ namespace App\Http\Controllers;
 
 use App\Url;
 use App\User;
-use App\ViewUrl;
+use App\ClickUrl;
 use App\Services\Analytics;
 use Illuminate\Support\Facades\Auth;
 
@@ -63,7 +63,7 @@ class HomeController extends Controller
         }
 
         if (! $anonymous && isAdmin() && ! setting('disable_referers')) {
-            $referersWidget = ViewUrl::referersWidget();
+            $referersWidget = ClickUrl::referersWidget();
         }
 
         return view('dashboard', [
@@ -71,7 +71,7 @@ class HomeController extends Controller
             'referers' => $referersWidget,
             'urlsCount' => Url::count(),
             'usersCount' => User::count(),
-            'referersCount' => ViewUrl::count(\DB::raw('DISTINCT referer')),
+            'referersCount' => ClickUrl::count(\DB::raw('DISTINCT referer')),
             'anonymous' => $anonymous,
             'anonymous_urls' => $anonymousUrls,
         ]);

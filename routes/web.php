@@ -49,4 +49,4 @@ Route::resource('url', 'UrlController')->except(['edit', 'index'])->middleware([
 Route::get('/{url}+', 'AnalyticsController@show')->name('stats');
 Route::get('/{url}.svg', 'QRCodeController@svg')->name('qrcode.svg');
 Route::get('/{url}.png', 'QRCodeController@png')->name('qrcode.png');
-Route::get('/{url}', 'ViewUrlController@view')->name('view');
+Route::get('/{url}', 'ClickUrlController@click')->name('click');

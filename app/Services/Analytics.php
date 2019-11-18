@@ -10,7 +10,7 @@
 
 namespace App\Services;
 
-use App\ViewUrl;
+use App\ClickUrl;
 
 /**
  * Class Analytics, used to retrieve analytics data about Short URLs.
@@ -26,14 +26,14 @@ class Analytics
      * @param $url
      * @return array
      */
-    public static function getCountriesViews($url)
+    public static function getCountriesClicks($url)
     {
-        $countriesViews = ViewUrl::where('short_url', $url)
+        $countriesClicks = ClickUrl::where('short_url', $url)
             ->select('country_full', \DB::raw('count(*) as views'), \DB::raw('sum(real_click) as real_views'))
             ->groupBy('country_full')
             ->get();
 
-        return $countriesViews;
+        return $countriesClicks;
     }
 
     /**
@@ -43,11 +43,11 @@ class Analytics
      * @param $countriesViews
      * @return array
      */
-    public static function getCountriesColor($countriesViews)
+    public static function getCountriesColor($countriesClicks)
     {
         $rgbColor = [];
         $countriesColor = [];
-        $countriesNum = count($countriesViews);
+        $countriesNum = count($countriesClicks);
 
         // Iterate same time as the number of the countries
         for ($i = 0; $i <= $countriesNum; $i++) {
@@ -68,7 +68,7 @@ class Analytics
      */
     public static function getUrlReferers($url)
     {
-        $referers = ViewUrl::where(['short_url' => $url])
+        $referers = ClickUrl::where(['short_url' => $url])
             ->select('referer', \DB::raw('sum(click+real_click) as clicks'), \DB::raw('sum(real_click) as real_clicks'))
             ->groupBy('referer')
             ->orderBy('real_clicks', 'DESC')
@@ -85,7 +85,7 @@ class Analytics
      */
     public static function getLatestClicks($url)
     {
-        $clicks = ViewUrl::where(['short_url' => $url])
+        $clicks = ClickUrl::where(['short_url' => $url])
             ->select('referer', 'created_at')
             ->orderBy('created_at', 'DESC')
             ->take(8)

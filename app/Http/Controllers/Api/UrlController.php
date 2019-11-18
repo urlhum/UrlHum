@@ -12,7 +12,7 @@ namespace App\Http\Controllers\api;
 
 use App\Url;
 use App\User;
-use App\ViewUrl;
+use App\ClickUrl;
 use App\DeletedUrls;
 use App\Services\UrlService;
 use App\Http\Requests\ShortUrl;
@@ -124,7 +124,7 @@ class UrlController extends Controller
             abort(403);
         }
 
-        ViewUrl::deleteUrlsViews($url);
+        ClickUrl::deleteUrlsClicks($url);
         Url::destroy($url);
         DeletedUrls::add($url);
 

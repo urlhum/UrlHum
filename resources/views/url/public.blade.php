@@ -39,7 +39,7 @@
                                                 <a href="/{{$url->short_url}}+" class="mr-2">
                                                     <i class="fa fa-chart-bar fa-2x"></i>
                                                 </a>
-                                                {{$url->clicks}} {{ __('analytics.view.views') }}</td>
+                                                {{$url->clicks}} {{ __('analytics.click.clicks') }}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>
