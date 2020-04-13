@@ -151,7 +151,7 @@ class UrlService
     {
         $long_url_check = Url::where('long_url', $long_url)->first();
 
-        return $long_url_check['short_url'];
+        return $long_url_check === null ? null : $long_url_check['short_url'];
     }
 
     /**
