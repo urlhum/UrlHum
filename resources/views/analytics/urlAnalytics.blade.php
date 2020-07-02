@@ -215,7 +215,7 @@
                     label: '# of Votes',
                     data: [
                         @foreach ($countriesClicks as $country)
-                        {{$country->real_clicks}},
+                        {{$country->real_views}},
                         @endforeach
                     ],
                     backgroundColor: [
@@ -247,7 +247,7 @@
                     label: '# of Votes',
                     data: [
                         @foreach ($countriesClicks as $country)
-                        {{$country->clicks}},
+                        {{$country->views}},
                         @endforeach
                     ],
                     backgroundColor: [
