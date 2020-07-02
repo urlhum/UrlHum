@@ -33,15 +33,9 @@ return [
     'title' => 'Statistik zu Kurz-URL',
   ],
   'country' => [
-    'real' => 'Echte Views nach Land',
+    'real' => 'Real Clicks By Country',
     'na' => 'Leider haben wir nicht genug Daten, um Besuche aus Ländern anzuzeigen. Teilen Sie diese URL!',
-    'views' => 'Views nach Land',
-  ],
-  'view' => [
-    'reals' => 'Echte Views',
-    'views' => 'Views',
-    'view' => 'View',
-    'real' => 'Echter View',
+    'views' => 'Clicks By Country',
   ],
   'url' => [
     'created' => 'Kurz-URLs erstellt',

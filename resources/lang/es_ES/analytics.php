@@ -33,15 +33,9 @@ return [
     'title' => 'Analytics para shorts URL',
   ],
   'country' => [
-    'real' => 'Vistas reales por país',
+    'real' => 'Real Clicks By Country',
     'na' => 'Lo sentimos, no tenemos suficientes datos para mostrar las visitas por país. Comparte esta URL!',
-    'views' => 'Vistas por país',
-  ],
-  'view' => [
-    'reals' => 'Vistas reales',
-    'views' => 'Vistas',
-    'view' => 'Vista',
-    'real' => 'Vista real',
+    'views' => 'Clicks By Country',
   ],
   'url' => [
     'created' => 'Short URLs creadas',

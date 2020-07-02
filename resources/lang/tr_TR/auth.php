@@ -9,6 +9,6 @@
  */
 
 return [
-  'failed' => 'Bu bilgiler kayıtlarımızla eşleşmiyor.',
-  'throttle' => 'Çok fazla giriş denemesi yaptın. Lütfen <b> :seconds </b> saniye sonra tekrar deneyin.',
+  'failed' => 'These credentials do not match our records.',
+  'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 ];
