@@ -54,9 +54,9 @@
                                 <p>
                                     <span class="badge badge-danger">{{ __('url.by') }}</span> &nbsp;
                                     @if($data['url']->user->email != "Anonymous")
-                                        <a href="/user/{{$data['url']->userid}}/edit">{{$data['url']->user->name}}</a> -
+                                        <a href="/user/{{$data['url']->user->id}}/edit">{{$data['url']->user->name}}</a> -
                                     @endif
-                                    {{$data['url']->email}}
+                                    {{$data['url']->user->email}}
                                 </p>
                                 <a href="/{{$data['url']->short_url}}+" class="btn btn-success">
                                     <i class="fa fa-chart-bar"></i> {{ __('url.stats') }}

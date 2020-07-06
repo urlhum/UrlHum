@@ -164,6 +164,7 @@ class UrlController extends Controller
         }
 
         ClickUrl::deleteUrlsClicks($url);
+        Url::find($url)->deviceTargets()->delete();
         Url::destroy($url);
 
         // We add the Short URL to the DeletedUrls Database table.
