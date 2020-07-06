@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -9,9 +10,9 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Auth;
-use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AnalyticsTest extends TestCase
@@ -19,7 +20,7 @@ class AnalyticsTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * Simply get the analytics of a just created Short URL
+     * Simply get the analytics of a just created Short URL.
      *
      * @return void
      */
@@ -32,7 +33,7 @@ class AnalyticsTest extends TestCase
 
     /**
      * A logged-in user created Short URL with 'hide url stats' enabled
-     * So, a guest user visited the analytics and received 403
+     * So, a guest user visited the analytics and received 403.
      *
      * @return void
      */
@@ -51,7 +52,7 @@ class AnalyticsTest extends TestCase
 
     /**
      * A logged-in user created Short URL with 'hide url stats' enabled
-     * so, an he visited the Short URL analytics and received 200
+     * so, an he visited the Short URL analytics and received 200.
      *
      * @return void
      */
@@ -70,7 +71,7 @@ class AnalyticsTest extends TestCase
     /**
      * A logged-in user created Short URL with 'hide url stats' enabled
      * so, an admin visited the analytics and received 200, because
-     * admins can see an URL analytics even if its stats are hidden
+     * admins can see an URL analytics even if its stats are hidden.
      *
      * @return void
      */
@@ -90,4 +91,44 @@ class AnalyticsTest extends TestCase
             ->assertStatus(200);
     }
 
+    /**
+     * Admin that visits the referers page, with referers enabled. Expects 200.
+     *
+     * @return void
+     */
+    public function test_referers_enabled_views_as_admin()
+    {
+        setting()->set('disable_referers', 0);
+        $admin = User::find(1);
+        $this->actingAs($admin)
+            ->get('/url/referers')
+            ->assertStatus(200);
+    }
+
+    /**
+     * Admin that visits the referer page, with referers disabled. Expects 404.
+     *
+     * @return void
+     */
+    public function test_referers_disabled_view_as_admin()
+    {
+        setting()->set('disable_referers', 1);
+        $admin = User::find(1);
+        $this->actingAs($admin)
+            ->get('/url/referers')
+            ->assertStatus(404);
+    }
+
+    /**
+     * User that visits the referer page, expect 404.
+     *
+     * @return void
+     */
+    public function test_referers_view_as_user()
+    {
+        $user = factory(User::class)->create();
+        $this->actingAs($user)
+            ->get('/url/referers')
+            ->assertStatus(404);
+    }
 }

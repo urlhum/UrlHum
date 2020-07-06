@@ -1,6 +1,10 @@
 /node_modules
 /public/hot
 /public/storage
+/public/js
+/public/vendor
+/public/argon
+/public/css
 /storage/*.key
 /vendor
 .env
@@ -44,5 +48,6 @@ fabric.properties
 .phpstorm.meta.php
 _ide_helper.php
 _ide_helper_models.php
+data/
+coverage.xml
 
-.env-example

@@ -1,7 +1,7 @@
 @extends('layouts.app', ['title' => trans('analytics.show.title') . ' ' . $url ])
 @section('content')
     <div class="header bg-gradient-primary mb-3 pt-6 	d-none d-lg-block d-md-block pt-md-7"></div>
-    <div class="container-fluid">
+    <div class="container-fluid col-lg-10 col-md-12">
         <div class="header-body">
             <div class="row">
                 <div class="container-fluid">
@@ -11,9 +11,15 @@
                                 <h1>{{ __('analytics.show.title') }}
                                     <a href="{{ url('/') }}/{{$url}}">{{ $url }}</a>
                                 </h1>
-                                @if ($isOwnerOrAdmin)
-                                    <a href="{{ url('/') }}/url/{{$url}}" class="btn btn-success">{{ __('url.edit.edit') }}</a>
-                                @endif
+
+                                <div>
+                                <button type="button" class="btn btn-info" id="qrModalButton" data-toggle="modal" data-target="#QRCodeModal">
+                                    <i class="fa fa-qrcode"></i> {{ __('url.qrcode') }}
+                                </button>
+                                    @if ($isOwnerOrAdmin)
+                                        <a href="{{ url('/') }}/url/{{$url}}" class="btn btn-success">{{ __('url.edit.edit') }}</a>
+                                    @endif
+                                </div>
                             </div>
                             <div class="card-body">
                                 <p>{{ __('url.created', ['date' => $creationDate]) }}</p>
@@ -75,9 +81,45 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <h1 class="mt-4">{{ __('analytics.click.latests') }}</h1>
+                                <div class="d-flex justify-content-between" id="latest-clicks">
+                                    @if ($latestClicks->count())
+                                        <div class="table-responsive">
+                                            <table class="table align-items-center">
+                                                <thead class="thead-light">
+                                                <tr>
+                                                    <th scope="col">{{ __('analytics.referer.referer') }}</th>
+                                                    <th scope="col">{{ __('analytics.time') }}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach ($latestClicks as $data => $click)
+                                                    <tr>
+                                                        <td>
+                                                            @if (empty($click->referer))
+                                                                {{ __('analytics.referer.direct_unknown') }}
+                                                            @else
+                                                                {{ $click->referer }}
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            {{ $click->created_at->diffForHumans() }}
+                                                        </td>
+                                                        @endforeach
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    @else
+                                        <p>{{ __('analytics.click.na') }}</p>
+                                    @endif
+                                </div>
+
                                 <hr>
                                 <h1>{{ __('analytics.country.real') }}</h1>
-                                @if (count($countriesRealViews) > 0)
+                                @if (count($countriesClicks) > 0)
                                     <div class="chart">
                                         <!-- Chart wrapper -->
                                         <canvas id="chart-pie-countries-real"></canvas>
@@ -87,7 +129,7 @@
                                 @endif
                                 <hr>
                                 <h1>{{ __('analytics.country.views') }}</h1>
-                                @if (count($countriesViews) > 0)
+                                @if (count($countriesClicks) > 0)
                                     <div class="chart">
                                         <!-- Chart wrapper -->
                                         <canvas id="chart-pie-countries"></canvas>
@@ -96,31 +138,33 @@
                                     <p>{{ __('analytics.country.na') }}</p>
                                 @endif
                                 <hr>
+
                                 <div style="display: flex; justify-content: space-between" id="referrers-table">
                                     <h1>{{ __('analytics.referer.referers') }}</h1>
                                     <p> {{ __('analytics.referer.list.results', [
-                                        'firstItem' => $referrers->firstItem(),
-                                        'lastItem' => $referrers->lastItem(),
-                                        'num' => $referrers->total()
+                                        'firstItem' => $referers->firstItem(),
+                                        'lastItem' => $referers->lastItem(),
+                                        'num' => $referers->total()
                                         ]) }}</p>
                                 </div>
                                 <div id="table-component" class="tab-pane tab-example-result fade active show"
                                      role="tabpanel" aria-labelledby="table-component-tab">
                                     <div class="table-responsive">
-                                        @if ($referrers->count())
+                                        @if ($referers->count())
                                             <table class="table align-items-center">
                                                 <thead class="thead-light">
                                                 <tr>
                                                     <th scope="col">{{ __('url.url') }}</th>
-                                                    <th scope="col">{{ __('analytics.view.reals') }}</th>
+                                                    <th scope="col">{{ __('analytics.click.clicks') }}</th>
+                                                    <th scope="col">{{ __('analytics.click.reals') }}</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                @foreach ($referrers as $referer)
+                                                @foreach ($referers as $referer)
                                                     <tr>
                                                         <th scope="row">
-                                                            @if ($referer->referer == 'Direct / Unknown')
-                                                                <p>{{$referer->referer}}</p>
+                                                            @if (empty($referer->referer))
+                                                                <p>{{ __('analytics.referer.direct_unknown') }}</p>
                                                             @else
                                                                 <p>
                                                                     <a href="{{$referer->referer}}">{{$referer->referer}}</a>
@@ -128,7 +172,10 @@
                                                             @endif
                                                         </th>
                                                         <td>
-                                                            <p>{{$referer->total}}</p>
+                                                            <p>{{$referer->clicks}}</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>{{$referer->real_clicks}}</p>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -139,8 +186,10 @@
                                         @endif
                                     </div>
                                 </div>
-                                {{ $referrers->fragment('referrers-table')->links() }}
+                                {{ $referers->fragment('referrers-table')->links() }}
                             </div>
+
+                            @include('url.partials.qrcodemodal', ['url' => $url])
                         </div>
                     </div>
                 </div>
@@ -158,15 +207,15 @@
             type: 'bar',
             data: {
                 labels: [
-                    @foreach ($countriesRealViews as $country => $value)
-                        '{{$country}}',
+                    @foreach ($countriesClicks as $country)
+                        '{{$country->country_full}}',
                     @endforeach
                 ],
                 datasets: [{
                     label: '# of Votes',
                     data: [
-                        @foreach ($countriesRealViews as $country => $value)
-                        {{$value}},
+                        @foreach ($countriesClicks as $country)
+                        {{$country->real_views}},
                         @endforeach
                     ],
                     backgroundColor: [
@@ -190,15 +239,15 @@
             type: 'bar',
             data: {
                 labels: [
-                    @foreach ($countriesViews as $country => $value)
-                        '{{$country}}',
+                    @foreach ($countriesClicks as $country)
+                        '{{$country->country_full}}',
                     @endforeach
                 ],
                 datasets: [{
                     label: '# of Votes',
                     data: [
-                        @foreach ($countriesViews as $country => $value)
-                        {{$value}},
+                        @foreach ($countriesClicks as $country)
+                        {{$country->views}},
                         @endforeach
                     ],
                     backgroundColor: [

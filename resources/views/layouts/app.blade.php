@@ -9,7 +9,7 @@
 
     <title> {{ $title ?? ''}} - {{ setting('website_name') }}</title>
     <!-- Favicon -->
-    <link href="/images/favicon.ico" rel="icon" type="image/png">
+    <link href="{{ setting('website_favicon') }}" rel="icon" type="image/png">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <!-- Icons -->
@@ -33,6 +33,7 @@
 
 
 @stack('js')
+{!! setting('custom_html') !!}
 
 
 </body>

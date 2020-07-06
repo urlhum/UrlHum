@@ -1,14 +1,14 @@
 <form method="POST" action="/url">
     <div class="row">
         <div class="col
-            @if ($data['anonymous'])
+            @if ($anonymous)
                 anonymous-box-container
             @endif">
 
             <div class="card shadow
-            @if ($data['anonymous'])
-                anonymous-create-box
-            @endif">
+            @if ($anonymous)
+                    anonymous-create-box
+@endif">
                 <div class="card-header border-0">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -52,6 +52,7 @@
                                 <div class="input-group-append">
                                     <input type="submit" class="btn btn-primary">
                                 </div>
+                                @honeypot
 
                             </div>
                             <a class="btn btn-sm btn-secondary mt-2" id="options-toggle"><i
@@ -60,6 +61,9 @@
                             <div id="options-panel" class="card mt-3" style="display:none;">
                                 <div class="card-body">
                                     <label class="text-left" for="customUrl" style="float:left;">{{ __('url.options.custom') }}</label>
+                                        <a id="retarget-device" data-toggle="modal" data-target="#targetModal" class="ml-4 btn btn-sm btn-info text-white">
+                                            Retarget
+                                        <i class="ni ni-mobile-button"></i></a>
                                     <p class="text-right" id="customUrlResult"></p>
                                     <div class="form-group" id="customUrlcontainer">
                                         <input type="text" class="form-control" id="customUrl" name="customUrl">
@@ -68,6 +72,7 @@
                                     <label class="text-left" for="privateUrl" style="float:left;">{{ __('url.options.hide') }}</label>
                                     <div class="form-group text-right" id="privateUrlcontainer">
                                         <label class="custom-toggle">
+                                            <input type="hidden" name="privateUrl" value="0">
                                             <input type="checkbox" name="privateUrl" value="1">
                                             <span class="custom-toggle-slider rounded-circle"></span>
                                         </label>
@@ -77,6 +82,7 @@
                                         <label class="text-left" for="hideUrlStats" style="float:left;">{{ __('url.options.private_stats') }}</label>
                                         <div class="form-group text-right" id="hideUrlStatscontainer">
                                             <label class="custom-toggle">
+                                                <input type="hidden" name="hideUrlStats" value="0">
                                                 <input type="checkbox" name="hideUrlStats" value="1">
                                                 <span class="custom-toggle-slider rounded-circle"></span>
                                             </label>
@@ -84,6 +90,44 @@
                                     @endif
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" tabindex="-1" role="dialog" id="targetModal">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Imposta targetizzazione dispositivo</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="text-left" style="float:left;">Windows (PC)</label>
+                                <input type="url" class="form-control" name="windows"
+                                       placeholder="https://website.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="text-left" style="float:left;">Mac OS (PC)</label>
+                                <input type="url" class="form-control" name="macos"
+                                       placeholder="https://website.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="text-left" style="float:left;">Android</label>
+                                <input type="url" class="form-control"  name="android"
+                                       placeholder="https://website.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="text-left" style="float:left;">iOS</label>
+                                <input type="url" class="form-control" name="ios"
+                                       placeholder="https://website.com">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">Salva</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
                         </div>
                     </div>
                 </div>

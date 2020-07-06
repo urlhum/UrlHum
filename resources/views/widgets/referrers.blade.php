@@ -21,10 +21,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($data['referers'] as $referer)
+                @foreach ($referers as $referer)
                 <tr>
                     <th scope="row">
-                        {{$referer->referer}}
+                        @if (empty($referer->referer))
+                            {{ __('analytics.referer.direct_unknown') }}
+                        @else
+                            {{$referer->referer}}
+                        @endif
                     </th>
                     <td>
                         {{$referer->clicks}}

@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * UrlHum (https://urlhum.com)
+ *
+ * @link      https://github.com/urlhum/UrlHum
+ * @copyright Copyright (c) 2019 Christian la Forgia
+ * @license   https://github.com/urlhum/UrlHum/blob/master/LICENSE.md (MIT License)
+ */
+
 return [
 
     /*
@@ -80,8 +88,8 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
-    'locales' => ['en', 'it'],
+    'locale' => env('APP_LOCALE', 'en_US'),
+    'locales' => ['en_US', 'it_IT', 'es_ES', 'zh_CN'],
 
     /*
     |--------------------------------------------------------------------------
@@ -94,7 +102,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'en_US',
 
     /*
     |--------------------------------------------------------------------------
@@ -176,9 +184,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-
-
-
+        Jenssegers\Agent\AgentServiceProvider::class,
 
     ],
 
@@ -229,8 +235,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
-        'Setting' => 'anlutro\LaravelSettings\Facade'
-
+        'Setting' => 'anlutro\LaravelSettings\Facade',
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
     ],
 
 ];

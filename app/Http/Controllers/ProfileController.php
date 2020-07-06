@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -9,17 +10,16 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
-use Illuminate\Support\Facades\Hash;
 
 /**
  * Class ProfileController
- * Show profile pages to users
+ * Show profile pages to users.
  *
  * @author Christian la Forgia <christian@optiroot.it>
  */
-
 class ProfileController extends Controller
 {
     /**
@@ -33,7 +33,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update the profile
+     * Update the profile.
      *
      * @param  \App\Http\Requests\ProfileRequest  $request
      * @return \Illuminate\Http\RedirectResponse
@@ -46,7 +46,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Change the password
+     * Change the password.
      *
      * @param  \App\Http\Requests\PasswordRequest  $request
      * @return \Illuminate\Http\RedirectResponse
@@ -55,6 +55,11 @@ class ProfileController extends Controller
     {
         auth()->user()->update(['password' => Hash::make($request->get('password'))]);
 
-        return back()->withPasswordStatus( __('account.password.success'));
+        return back()->withPasswordStatus(__('account.password.success'));
+    }
+
+    public function verified()
+    {
+        return view('profile.verified');
     }
 }

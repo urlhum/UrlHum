@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -11,7 +12,6 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CreateShortUrlTest extends TestCase
@@ -20,7 +20,7 @@ class CreateShortUrlTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * Test to check if a Short Url with an automatically generated URL works
+     * Test to check if a Short Url with an automatically generated URL works.
      *
      * @return void
      */
@@ -41,7 +41,7 @@ class CreateShortUrlTest extends TestCase
     }
 
     /**
-     * Check if the long URL typed is valid or not. Example with a mistype http
+     * Check if the long URL typed is valid or not. Example with a mistype http.
      *
      * @return void
      */
@@ -60,7 +60,7 @@ class CreateShortUrlTest extends TestCase
     }
 
     /**
-     * Test for a custom, valid, short URL
+     * Test for a custom, valid, short URL.
      *
      * @return void
      */
@@ -79,7 +79,7 @@ class CreateShortUrlTest extends TestCase
     }
 
     /**
-     * Test with a Custom URL too short
+     * Test with a Custom URL too short.
      *
      * @return void
      */
@@ -97,11 +97,9 @@ class CreateShortUrlTest extends TestCase
             ->assertSessionHasErrors('customUrl');
     }
 
-
-
     /**
      * If system setting is set to disallow anonymous URLs, guests
-     * users shouldn't be allowed to create Short URLs
+     * users shouldn't be allowed to create Short URLs.
      *
      * @return void
      */
@@ -111,12 +109,92 @@ class CreateShortUrlTest extends TestCase
 
         $data = [
             'url' => 'https://google.com',
-            'customUrl' => ''
+            'customUrl' => '',
         ];
 
         $this->post('/url', $data)
             ->assertStatus(403);
     }
 
+    /**
+     * If a custom URL is existing, verify the response.
+     *
+     * @return void
+     */
+    public function test_existing_custom_url()
+    {
+        $data = [
+            'url' => 'https://reddit.com',
+            'customUrl' => 'reddit',
+            'privateUrl' => 0,
+            'hideUrlStats' => 0,
+        ];
 
+        $this->post('/url', $data)
+            ->assertStatus(302);
+
+        $this->post('/url', $data)
+            ->assertSessionHas('existingCustom');
+    }
+
+    /**
+     * If a long url exists, verify the response.
+     *
+     * @return void
+     */
+    public function test_existing_long_url()
+    {
+        $data = [
+            'url' => 'https://reddit.com',
+            'customUrl' => null,
+            'privateUrl' => 0,
+            'hideUrlStats' => 0,
+        ];
+
+        $this->post('/url', $data)
+            ->assertStatus(302);
+
+        $this->post('/url', $data)
+            ->assertSessionHas('existing');
+    }
+
+    /**
+     * Ajax-check existing Custom URL. Should return 409 (existing).
+     *
+     * @return void
+     */
+    public function test_ajax_existing_custom_url()
+    {
+        $data = [
+            'url' => 'https://reddit.com',
+            'customUrl' => 'reddit',
+            'privateUrl' => 0,
+            'hideUrlStats' => 0,
+        ];
+        $this->post('/url', $data)
+            ->assertStatus(302);
+
+        $this->post('/url/short', ['input' => 'reddit'])
+            ->assertStatus(409);
+    }
+
+    /**
+     * Ajax-check not-existing Custom URL. Should return 200 (ok).
+     *
+     * @return void
+     */
+    public function test_ajax_not_existing_custom_url()
+    {
+        $data = [
+            'url' => 'https://reddit.com',
+            'customUrl' => 'reddit',
+            'privateUrl' => 0,
+            'hideUrlStats' => 0,
+        ];
+        $this->post('/url', $data)
+            ->assertStatus(302);
+
+        $this->post('/url/short', ['input' => 'test'])
+            ->assertStatus(200);
+    }
 }

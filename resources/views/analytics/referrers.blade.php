@@ -1,8 +1,8 @@
 @extends('layouts.app', ['title' => trans('analytics.referer.referers')])
 @section('content')
 
-    <div class="header bg-gradient-primary mb-3 pt-6 	d-none d-lg-block d-md-block pt-md-7"></div>
-    <div class="container-fluid">
+    <div class="header bg-gradient-primary mb-3 pt-6 d-none d-lg-block d-md-block pt-md-7"></div>
+    <div class="container-fluid col-lg-6 col-md-8 col-sm-10 col-12">
         <div class="header-body">
             <div class="card">
                 <div class="row">
@@ -23,15 +23,20 @@
                                     <thead class="thead-light">
                                     <tr>
                                         <th scope="col">{{ __('analytics.referer.referer') }}</th>
-                                        <th scope="col">{{ __('analytics.click.click') }}</th>
+                                        <th scope="col">{{ __('analytics.click.clicks') }}</th>
                                         <th scope="col">{{ __('analytics.click.reals') }}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach ($referrers as $referrer)
-
                                         <tr>
-                                            <td>{{$referrer->referer}}</td>
+                                            <td>
+                                                @if (empty($referrer->referer))
+                                                    {{ __('analytics.referer.direct_unknown') }}
+                                                @else
+                                                    {{$referrer->referer}}
+                                                @endif
+                                            </td>
                                             <td>{{$referrer->clicks}}</td>
                                             <td>{{$referrer->real_clicks}}</td>
                                         </tr>

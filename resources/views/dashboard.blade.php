@@ -2,14 +2,16 @@
 
 @section('content')
     @include('layouts.headers.cards')
-    <div class="container-fluid mt--7">
+    <div class="container-fluid col-lg-8  col-md-10 col-sm-12 mt--7">
         @if (Auth::check() || setting('anonymous_urls'))
             @include('widgets/create-url')
         @endif
         <div class="row mt-5">
-            @include('widgets/latests-urls')
+            @isset($publicUrls)
+                @include('widgets/latests-urls')
+            @endisset
 
-            @isset($data['referers'])
+            @isset($referers)
                 @include('widgets/referrers')
             @endisset
         </div>

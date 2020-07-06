@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * UrlHum (https://urlhum.com)
+ *
+ * @link      https://github.com/urlhum/UrlHum
+ * @copyright Copyright (c) 2019 Christian la Forgia
+ * @license   https://github.com/urlhum/UrlHum/blob/master/LICENSE.md (MIT License)
+ */
+
 use Illuminate\Http\Request;
 
 /*
@@ -15,4 +23,8 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::group(['prefix' => 'v1',  'middleware' => 'auth:api'], function () {
+    Route::apiResource('url', 'api\UrlController');
 });

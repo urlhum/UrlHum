@@ -1,5 +1,6 @@
 <?php
-/**
+
+/*
  * UrlHum (https://urlhum.com)
  *
  * @link      https://github.com/urlhum/UrlHum
@@ -14,8 +15,7 @@ use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * Class UserController
- * @package App\Http\Controllers
+ * Class UserController.
  */
 class UserController extends Controller
 {
@@ -25,7 +25,7 @@ class UserController extends Controller
     protected $redirectPath = '/';
 
     /**
-     * Display a listing of the users
+     * Display a listing of the users.
      *
      * @param  \App\User  $model
      * @return \Illuminate\View\View
@@ -36,7 +36,7 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new user
+     * Show the form for creating a new user.
      *
      * @return \Illuminate\View\View
      */
@@ -46,7 +46,7 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created user in storage
+     * Store a newly created user in storage.
      *
      * @param  \App\Http\Requests\UserRequest  $request
      * @param  \App\User  $model
@@ -60,7 +60,7 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified user
+     * Show the form for editing the specified user.
      *
      * @param  \App\User  $user
      * @return \Illuminate\View\View
@@ -71,7 +71,7 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified user in storage
+     * Update the specified user in storage.
      *
      * @param  \App\Http\Requests\UserRequest  $request
      * @param  \App\User  $user
@@ -88,7 +88,7 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified user from storage
+     * Remove the specified user from storage.
      *
      * @param  \App\User  $user
      * @return \Illuminate\Http\RedirectResponse

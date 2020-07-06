@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * UrlHum (https://urlhum.com)
+ *
+ * @link      https://github.com/urlhum/UrlHum
+ * @copyright Copyright (c) 2019 Christian la Forgia
+ * @license   https://github.com/urlhum/UrlHum/blob/master/LICENSE.md (MIT License)
+ */
+
 namespace LaravelFrontendPresets\ArgonPreset;
 
 use Illuminate\Support\ServiceProvider;
@@ -16,7 +24,7 @@ class ArgonPresetServiceProvider extends ServiceProvider
     {
         PresetCommand::macro('argon', function ($command) {
             ArgonPreset::install();
-            
+
             $command->info('Argon scaffolding installed successfully.');
         });
     }

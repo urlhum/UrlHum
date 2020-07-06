@@ -42,7 +42,7 @@
                 <div class="row">
                     <div class="col-6 collapse-brand">
                         <a href="{{ route('home') }}">
-                            <img src="/images/urlhum.png">
+                            <img src="{{ setting('website_image') }}">
                         </a>
                     </div>
                     <div class="col-6 collapse-close">
@@ -102,11 +102,13 @@
                     </a>
                 </li>
 
+                @if (!setting('disable_referers'))
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('url.referers')}} ">
                         <i class="fa fa-hand-point-up text-purple"></i> {{ __('analytics.referer.referers') }}
                     </a>
                 </li>
+                @endif
 
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('user.index')}} ">

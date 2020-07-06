@@ -12,7 +12,7 @@
                 <div class="row">
                     <div class="col-6 collapse-brand">
                         <a href="{{ route('home') }}">
-                            <img src="/images/urlhum.png" style="background:white; border-radius: 20px;">
+                            <img src="{{ setting('website_image') }}" style="background:white; border-radius: 20px;">
                         </a>
                     </div>
                     <div class="col-6 collapse-close">

@@ -1,5 +1,5 @@
 <div class="
-@if ($data['anonymous'] OR !isAdmin())
+@if ($anonymous OR !isAdmin() OR setting('disable_referers'))
         col-12
 @else
         col-xl-7
@@ -23,14 +23,14 @@
                 <tr>
                     <th scope="col">{{ __('url.short') }}</th>
                     <th scope="col">{{ __('url.long') }}</th>
-                    <th scope="col">{{ __('analytics.view.views') }}</th>
+                    <th scope="col">{{ __('analytics.click.clicks') }}</th>
                     @if (isAdmin())
                     <th scope="col">{{ __('url.action') }}</th>
                     @endif
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($data['publicUrls'] as $publicUrl)
+                @foreach ($publicUrls as $publicUrl)
                     <tr>
                         <th scope="row">
                             {{$publicUrl->short_url}}
@@ -41,15 +41,18 @@
                         <td>
                             {{$publicUrl->clicks}}
                         </td>
-                        @if (isAdmin())
                         <td>
+                            <a href="/{{$publicUrl->short_url}}+" class="mr-2">
+                                <i class="fa fa-chart-bar fa-2x"></i>
+                            </a>
+                        @if (isAdmin())
                             <a href="/url/{{$publicUrl->short_url}}">
                                 <button type="button" class="btn btn-success btn-sm btn-url-edit"><i
                                             class="fa fa-pencil-alt" alt="Edit"> </i> {{ __('urlhum.edit') }}
                                 </button>
                             </a>
-                        </td>
                         @endif
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>

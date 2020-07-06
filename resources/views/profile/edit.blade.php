@@ -3,7 +3,7 @@
 @section('content')
     <div class="header bg-gradient-primary mb-3 pt-6 	d-none d-lg-block d-md-block pt-md-7">
     </div>
-    <div class="container-fluid">
+    <div class="container-fluid col-lg-6 col-sm-10 m-auto">
         <div class="header-body">
             <div class="row">
                 <div class="container-fluid">
@@ -11,7 +11,9 @@
                         <div class="card bg-secondary shadow">
                             <div class="card-header bg-white border-0">
                                 <div class="row align-items-center">
-                                    <h3 class="mb-0">{{ __('account.edit') }}</h3>
+                                    <div class="col-8">
+                                        <h3 class="mb-0">{{ __('account.edit') }}</h3>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -128,6 +130,6 @@
                 </div>
             </div>
         </div>
-        @include('layouts.footers.auth')
     </div>
+    @include('layouts.footers.auth')
 @endsection
