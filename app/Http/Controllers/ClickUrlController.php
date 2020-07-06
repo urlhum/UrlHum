@@ -10,6 +10,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\UrlService;
 use App\Url;
 use App\ClickUrl;
 use App\IpAnonymizer;
@@ -33,10 +34,10 @@ class ClickUrlController
      */
     public function click($url)
     {
-        if ($result = Url::find($url)) {
-            $externalUrl = $result->long_url;
-        } else {
-            abort(404);
+        $urlService = new UrlService();
+
+        if ($result = Url::findOrFail($url)) {
+            $externalUrl = $urlService->getLongUrl($result);
         }
 
         $ip = request()->ip();
@@ -44,7 +45,7 @@ class ClickUrlController
         if (setting('disable_referers')) {
             $referer = null;
         } else {
-            $referer = request()->server('HTTP_REFERER') ?? null;
+            $referer = request()->server('HTTP_REFERER');
         }
 
         $hashed = 0;

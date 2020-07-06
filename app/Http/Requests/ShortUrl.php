@@ -41,6 +41,11 @@ class ShortUrl extends FormRequest
             'customUrl' => 'nullable|min:4|max:15|regex:/^[-a-zA-Z0-9_]+$/',
             'privateUrl' => 'boolean',
             'hideUrlStats' => 'boolean',
+            'windows' => 'nullable|string|max:500|url',
+            'macos' => 'nullable|string|max:500|url',
+            'ios' => 'nullable|string|max:500|url',
+            'android' => 'nullable|string|max:500|url',
         ];
+
     }
 }

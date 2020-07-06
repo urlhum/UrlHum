@@ -10,9 +10,15 @@
 
 namespace App;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use App\DeviceTarget;
+use App\ClickUrl;
+use App\User;
 
 /**
  * Model for the Url table, used for advanced functions too.
@@ -26,8 +32,14 @@ class Url extends Model
      */
     protected $table = 'urls';
 
+    /**
+     * @var string
+     */
     protected $primaryKey = 'short_url';
 
+    /**
+     * @var bool
+     */
     public $incrementing = false;
 
     /**
@@ -52,12 +64,14 @@ class Url extends Model
         $url->private = $privateUrl;
         $url->hide_stats = $hideUrlStats;
         $url->save();
+
+
     }
 
     /**
      * Retrieve the latest URLs that are public.
      *
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return LengthAwarePaginator
      */
     public static function getLatestPublicUrls()
     {
@@ -76,7 +90,7 @@ class Url extends Model
      * Same as above, but with "limit" instead of "paginate".
      * This is for a widget.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public static function publicUrlsWidget()
     {
@@ -95,7 +109,7 @@ class Url extends Model
     /**
      * Load the URLs of the currently logged in user.
      *
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return LengthAwarePaginator
      */
     public static function getMyUrls()
     {
@@ -111,11 +125,11 @@ class Url extends Model
     /**
      * Url Eloquent hasMany relationship with ViewUrl.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function clicks()
     {
-        return $this->hasMany('App\ClickUrl', 'short_url', 'short_url');
+        return $this->hasMany(ClickUrl::class, 'short_url', 'short_url');
     }
 
     /**
@@ -126,9 +140,17 @@ class Url extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\User', 'user_id', 'id')
+        return $this->belongsTo(User::class, 'user_id', 'id')
             ->withDefault(function ($user) {
                 $user->email = 'Anonymous';
             });
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function deviceTargets()
+    {
+        return $this->hasMany(DeviceTarget::class, 'short_url_id', 'id');
     }
 }

@@ -10,12 +10,17 @@
 
 namespace App\Http\Controllers;
 
+use App\DeviceTarget;
+use App\Services\DeviceDetection;
 use App\Url;
 use App\ClickUrl;
 use App\DeletedUrls;
 use App\Services\UrlService;
+use Hashids\Hashids;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\ShortUrl;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -32,6 +37,7 @@ class UrlController extends Controller
      * @var UrlService
      */
     protected $url;
+    protected $deviceDetection;
 
     /**
      * UrlController constructor.
@@ -42,13 +48,14 @@ class UrlController extends Controller
         $this->middleware('throttle:30', ['only' => ['store', 'update', 'checkExistingUrl']]);
 
         $this->url = $urlService;
+        $this->deviceDetection = new DeviceDetection();
     }
 
     /**
      * Store the data the user sent to create the Short URL.
      *
      * @param ShortUrl $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function store(ShortUrl $request)
     {
@@ -74,6 +81,12 @@ class UrlController extends Controller
 
         $short = $this->url->shortenUrl($data['url'], $data['customUrl'], $data['privateUrl'], $data['hideUrlStats']);
 
+        $hashids = new Hashids(env('APP_KEY'), 4);
+
+        $short_url_id = $hashids->decode($short)[0];
+
+        $this->url->assignDeviceTargetUrl($data, $short_url_id);
+
         return Redirect::route('home')
             ->with('success', $short)
             ->with('siteUrl', $siteUrl);
@@ -88,10 +101,17 @@ class UrlController extends Controller
      */
     public function show($url)
     {
-        if (! $this->url->OwnerOrAdmin($url)) {
+        if (! $this->url->OwnerOrAdmin($url) ) {
             abort(403);
         }
-        $data = Url::with('user:id,name,email')->findOrFail($url);
+
+        $short_url = Url::with('user:id,name,email')->findOrFail($url);
+
+        $targets = $this->url->getTargets($short_url);
+
+        $data['url'] = $short_url;
+
+        $data['targets'] = $targets;
 
         return view('url.edit')->with('data', $data);
     }
@@ -102,7 +122,7 @@ class UrlController extends Controller
      * @param $url
      * @param ShortUrl $request
      *
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|RedirectResponse|\Illuminate\Http\Response
      */
     public function update($url, ShortUrl $request)
     {
@@ -117,8 +137,13 @@ class UrlController extends Controller
         $url->private = $data['privateUrl'];
         $url->hide_stats = $data['hideUrlStats'];
         $url->long_url = $data['url'];
-
         $url->update();
+
+        $hashids = new Hashids(env('APP_KEY'), 4);
+
+        $url->deviceTargets()->delete();
+
+        $this->url->assignDeviceTargetUrl($data, $url->id);
 
         return Redirect::back()
             ->with('success', 'Short URL updated successfully.');
@@ -128,7 +153,7 @@ class UrlController extends Controller
      * Delete a Short URL on user request.
      *
      * @param $url
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|RedirectResponse|\Illuminate\Http\Response
      */
     public function destroy($url)
     {

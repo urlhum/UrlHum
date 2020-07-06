@@ -4,7 +4,7 @@
     <div class="header bg-gradient-primary mb-3 pt-6 	d-none d-lg-block d-md-block pt-md-7">
     </div>
 
-    <div class="container mt-6">
+    <div class="container mt-6 col-lg-8 col-md-10 col-sm-12 m-auto">
         <div class="row justify-content-center">
             <div class="col-lg-5 col-md-7">
                 <div class="border-0">

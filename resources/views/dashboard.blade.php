@@ -2,7 +2,7 @@
 
 @section('content')
     @include('layouts.headers.cards')
-    <div class="container-fluid mt--7">
+    <div class="container-fluid col-lg-8  col-md-10 col-sm-12 mt--7">
         @if (Auth::check() || setting('anonymous_urls'))
             @include('widgets/create-url')
         @endif

@@ -37,7 +37,7 @@ class Settings extends Model
 
         // Check if there are actually any reserved Short URLs
         // In case there aren't, we don't treat $reserved like an array
-        if (gettype($reserved) == 'array') {
+        if (is_array($reserved)) {
             $reserved = implode(PHP_EOL, $reserved);
         }
         $settings['reservedShortUrls'] = $reserved;

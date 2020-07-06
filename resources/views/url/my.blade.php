@@ -1,7 +1,7 @@
 @extends('layouts.app',  ['title' => trans('url.my.my')])
 @section('content')
     <div class="header bg-gradient-primary mb-3 pt-6 	d-none d-lg-block d-md-block pt-md-7"></div>
-    <div class="container-fluid">
+    <div class="container-fluid col-lg-8 col-md-10 col-sm-12">
         <div class="header-body">
             <div class="card">
                 <div class="row">
