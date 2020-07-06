@@ -83,7 +83,7 @@ class UrlController extends Controller
 
         $hashids = new Hashids(env('APP_KEY'), 4);
 
-        $short_url_id = $hashids->decode($short)[0];
+        $short_url_id = $hashids->decode($short)[0] ?? Url::where('short_url', $short)->first()->id;
 
         $this->url->assignDeviceTargetUrl($data, $short_url_id);
 
