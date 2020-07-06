@@ -9,7 +9,7 @@
  */
 
 return [
-  'list' => 'URLs list',
+  'list' => '短縮URLリスト',
   'edit' => [
     'edit' => 'Edit URL',
     'short' => 'Edit Short URL',

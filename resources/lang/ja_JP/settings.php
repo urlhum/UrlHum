@@ -9,11 +9,11 @@
  */
 
 return [
-  'settings' => 'Settings',
-  'system' => 'System Settings',
+  'settings' => '設定',
+  'system' => 'システム設定',
   'anon_hash_alert' => 'Attention: if you anonymize the IP without hashing it, Analytics will not be able to count Real Clicks, because it is impossible to check the user IP.',
-  'general' => 'General',
-  'website_name' => 'Website name',
+  'general' => '全般',
+  'website_name' => 'Webサイト名',
   'website_image' => 'Website image',
   'website_favicon' => 'Website favicon',
   'private' => 'Make website private',
@@ -45,6 +45,6 @@ return [
   'require_user_verify_help' => 'Unverified users email address will not be allowed to create, edit and manage their Short URLs',
   'custom_html' => 'Custom HTML, JS and CSS',
   'custom_html_help' => 'Write your custom script here. It will be loaded in the website footer.',
-  'save_changes' => 'Save changes',
+  'save_changes' => '変更を保存',
   'success' => 'Settings successfully updated!',
 ];
