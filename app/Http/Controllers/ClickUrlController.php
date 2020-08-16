@@ -17,6 +17,10 @@ use App\IpAnonymizer;
 use GeoIp2\Database\Reader;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use BrowscapPHP\Browscap;
+use BrowscapPHP\Exception;
+use Doctrine\Common\Cache\FilesystemCache;
+use Roave\DoctrineSimpleCache\SimpleCacheAdapter;
 
 /**
  * Controller handling the actual page of the corresponding URL, that redirects the user.
@@ -77,17 +81,24 @@ class ClickUrlController
             $real_click = 0;
         }
 
+        $userAgent = request()->server('HTTP_USER_AGENT');
+        $browser = $this->getBrowser($userAgent);
+
         $data = [
             'short_url' => $url,
             'click' => $click,
             'real_click' => $real_click,
             'country' => $countries['countryCode'],
             'country_full' => $countries['countryName'],
+            'user_agent' => $userAgent,
+            'browser' => $browser['browser'],
+            'browser_version' => $browser['browserVersion'],
+            'os' => $browser['os'],
             'referer' => $referer ?? null,
             'ip_address' => $ip,
             'ip_hashed' => $hashed,
             'ip_anonymized' => $anonymized,
-            ];
+        ];
 
         ClickUrl::store($data);
 
@@ -112,5 +123,28 @@ class ClickUrlController
 
             return compact('countryCode', 'countryName');
         }
+    }
+
+    protected function getBrowser($userAgent)
+    {
+        $fileCache = new FilesystemCache(config('browscap.cache'));
+        $cache = new SimpleCacheAdapter($fileCache);
+        $browscap = new Browscap($cache, logger()->driver());
+
+        try {
+            $result = $browscap->getBrowser($userAgent);
+        } catch (Exception $e) {
+            return [
+                'browser' => null,
+                'browserVersion' => null,
+                'os' => null
+            ];
+        }
+
+        return [
+            'browser' => $result->browser,
+            'browserVersion' => $result->version,
+            'os' => $result->platform
+        ];
     }
 }

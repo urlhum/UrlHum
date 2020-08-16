@@ -185,7 +185,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
-
+        Propa\BrowscapPHP\BrowscapServiceProvider::class,
     ],
 
     /*
@@ -237,6 +237,7 @@ return [
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Setting' => 'anlutro\LaravelSettings\Facade',
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
+        'Browscap' => Propa\BrowscapPHP\Facades\Browscap::class,
     ],
 
 ];
