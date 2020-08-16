@@ -5,6 +5,7 @@
 /public/vendor
 /public/argon
 /public/css
+/public/images
 /storage/*.key
 /vendor
 .env
