@@ -29,7 +29,7 @@ class ClickUrl extends Model
      * @var array
      */
     protected $fillable = [
-        'short_url', 'click', 'real_click', 'country', 'country_full', 'referer', 'ip_address', 'ip_hashed', 'ip_anonymized',
+        'short_url', 'click', 'real_click', 'country', 'country_full', 'user_agent', 'browser', 'browser_version', 'os', 'referer', 'ip_address', 'ip_hashed', 'ip_anonymized',
     ];
 
     /**
