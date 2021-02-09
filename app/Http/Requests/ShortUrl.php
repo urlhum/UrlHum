@@ -20,7 +20,7 @@ class ShortUrl extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         if (! Auth::check() && ! setting('anonymous_urls')) {
             return false;
@@ -34,7 +34,7 @@ class ShortUrl extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'url' => 'required|max:500|url',

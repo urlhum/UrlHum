@@ -19,10 +19,21 @@ use App\Http\Requests\ShortUrl;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class UrlController
+ * @package App\Http\Controllers\api
+ */
 class UrlController extends Controller
 {
+    /**
+     * @var UrlService
+     */
     protected $url;
 
+    /**
+     * UrlController constructor.
+     * @param UrlService $url
+     */
     public function __construct(UrlService $url)
     {
         $this->url = $url;
@@ -45,6 +56,10 @@ class UrlController extends Controller
             ->paginate(25);
     }
 
+    /**
+     * @param ShortUrl $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(ShortUrl $request)
     {
         $data = $request->validated();
@@ -71,7 +86,11 @@ class UrlController extends Controller
         ], 200);
     }
 
-    public function show($url)
+    /**
+     * @param $url
+     * @return mixed
+     */
+    public function show(Url $url)
     {
         Url::findOrFail($url);
         $selectStatement = ['long_url', 'short_url'];
@@ -87,6 +106,11 @@ class UrlController extends Controller
         return Url::where('short_url', $url)->select($selectStatement)->get();
     }
 
+    /**
+     * @param $url
+     * @param ShortUrl $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update($url, ShortUrl $request)
     {
         $url = Url::findOrFail($url);
@@ -116,6 +140,10 @@ class UrlController extends Controller
         ], 200);
     }
 
+    /**
+     * @param $url
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy($url)
     {
         Url::findOrFail($url);

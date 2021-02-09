@@ -11,6 +11,7 @@
 namespace App\Http\Controllers;
 
 use App\DeviceTarget;
+use App\Http\Requests\MultipleUrls;
 use App\Services\DeviceDetection;
 use App\Url;
 use App\ClickUrl;
@@ -21,6 +22,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\ShortUrl;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -49,6 +51,57 @@ class UrlController extends Controller
 
         $this->url = $urlService;
         $this->deviceDetection = new DeviceDetection();
+    }
+
+    public function createMultiple()
+    {
+        return view ('url.multiple');
+    }
+
+    public function storeMultiple(MultipleUrls $multipleUrls): RedirectResponse
+    {
+        $data = $multipleUrls->validated();
+        $siteUrl = request()->getHttpHost();
+
+        // Split every URL by \n\r
+        $urls = preg_split('/$\R?^/m', $data['urls']);
+
+        foreach ($urls as $key => $url) {
+            $urls[$key] = trim($url);
+        }
+
+        $errors = [];
+        $existing = 0;
+        $shortened = [];
+
+        foreach ($urls as $key => $url) {
+            $validator = Validator::make([$url], [$key => 'url']);
+            if ($validator->fails()) {
+                $errors[] = 'The URL ' . $url . ' is not valid.';
+            }
+        }
+
+        if (count($errors) > 0) {
+            $multipleUrls->flash();
+            return Redirect::route('multiple')
+                ->with('errors', $errors);
+        }
+
+        foreach ($urls as $key => $url) {
+            if ($shortUrl = $this->url->checkExistingLongUrl($url)) {
+                $shortened[] = $shortUrl;
+                $existing++;
+            } else {
+                $short = $this->url->shortenUrl($url, null, $data['privateUrl'], $data['hideUrlStats']);
+                $shortened[] = $short;
+            }
+        }
+
+        return Redirect::route('multiple')
+            ->with('shortened', $shortened)
+            ->with('existing', $existing)
+            ->with('siteUrl', $siteUrl)
+        ;
     }
 
     /**

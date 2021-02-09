@@ -117,7 +117,7 @@ class HomeTest extends TestCase
     {
         setting()->set('disable_referers', 0);
 
-        $admin = User::find(1);
+        $admin =  User::factory()->create(['role' => 'admin']);
         $this->actingAs($admin)
             ->get('/')
             ->assertSee('Best referers');
@@ -132,7 +132,7 @@ class HomeTest extends TestCase
     {
         setting()->set('disable_referers', 1);
 
-        $admin = User::find(1);
+        $admin =  User::factory()->create(['role' => 'admin']);
         $this->actingAs($admin)
             ->get('/')
             ->assertDontSee('Best referers');

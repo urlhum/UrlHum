@@ -10,6 +10,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -19,6 +20,12 @@ class CreateShortUrlTest extends TestCase
     use WithFaker;
     use DatabaseTransactions;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+        Artisan::call('settings:reset');
+    }
+
     /**
      * Test to check if a Short Url with an automatically generated URL works.
      *
@@ -27,15 +34,14 @@ class CreateShortUrlTest extends TestCase
     public function test_normal_short_url()
     {
         $data = [
-            'url' => 'https://google.com',
+            'url' => $this->faker->url,
             'customUrl' => null,
             'privateUrl' => 0,
             'hideUrlStats' => 0,
         ];
 
         $response = $this->json('POST', '/url', $data);
-
-        $this->assertEquals(302, $response->status());
+        self::assertEquals(302, $response->status());
 
         $response->assertSessionHas('success');
     }
@@ -194,7 +200,7 @@ class CreateShortUrlTest extends TestCase
         $this->post('/url', $data)
             ->assertStatus(302);
 
-        $this->post('/url/short', ['input' => 'test'])
+        $this->post('/url/short', ['input' => $this->faker->word])
             ->assertStatus(200);
     }
 }

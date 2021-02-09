@@ -13,6 +13,7 @@ namespace App\Services;
 use App\DeviceTarget;
 use App\DeviceTargetsEnum;
 use App\Http\Requests\ShortUrl;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use App\Url;
@@ -123,11 +124,7 @@ class UrlService
 
         $urlUser = Url::find($url);
 
-        if ($urlUser->user_id == Auth::user()->id) {
-            return true;
-        }
-
-        return false;
+        return $urlUser->user_id === Auth::user()->id;
     }
 
     /**
@@ -164,17 +161,17 @@ class UrlService
      * because it is a path.
      *
      * @param url
-     * @return array|null
+     * @return bool
      */
-    public function isShortUrlProtected($url)
+    public function isShortUrlProtected($url): bool
     {
         $routes = array_map(
-            function (\Illuminate\Routing\Route $route) {
+            static function (Route $route) {
                 return $route->uri;
             }, (array) \Route::getRoutes()->getIterator()
         );
 
-        return in_array($url, $routes);
+        return in_array($url, $routes, true);
     }
 
     /**
@@ -183,7 +180,7 @@ class UrlService
      * @param $url
      * @return bool
      */
-    public function isUrlReserved($url)
+    public function isUrlReserved($url): bool
     {
         $reservedUrls = Settings::getReservedUrls();
         // Check if there are any reserved URLs or if the custom URL isn't set
@@ -191,7 +188,7 @@ class UrlService
             return false;
         }
 
-        return in_array($url, $reservedUrls);
+        return in_array($url, $reservedUrls, true);
     }
 
     /**

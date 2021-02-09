@@ -11,6 +11,7 @@
 namespace Tests\Feature;
 
 use App\User;
+use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -18,6 +19,12 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class SettingsTest extends TestCase
 {
     use DatabaseTransactions;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        Artisan::call('settings:set');
+    }
 
     /**
      * Useful function to reuse settings list in tests.
@@ -52,7 +59,7 @@ class SettingsTest extends TestCase
      */
     public function test_edit_settings_page_show_as_admin()
     {
-        $admin = User::find(1);
+        $admin =  User::factory()->create(['role' => 'admin']);
         $this->actingAs($admin)
             ->get('/settings')
             ->assertStatus(200);
@@ -65,7 +72,7 @@ class SettingsTest extends TestCase
      */
     public function test_edit_settings_page_show_as_user()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->actingAs($user)
             ->get('/settings')
             ->assertStatus(404);
@@ -89,7 +96,7 @@ class SettingsTest extends TestCase
      */
     public function test_edit_settings_send_as_admin()
     {
-        $admin = User::find(1);
+        $admin =  User::factory()->create(['role' => 'admin']);
 
         $this->actingAs($admin)
             ->post('/settings/save', $this->settings_list())
@@ -104,7 +111,7 @@ class SettingsTest extends TestCase
      */
     public function test_edit_settings_send_as_user()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->actingAs($user)
             ->post('/settings/save', $this->settings_list())
@@ -133,7 +140,7 @@ class SettingsTest extends TestCase
         $settings['website_image'] = UploadedFile::fake()->image('logo.jpg');
         $settings['website_favicon'] = UploadedFile::fake()->image('favicon.ico');
 
-        $admin = User::find(1);
+        $admin =  User::factory()->create(['role' => 'admin']);
         $this->followingRedirects()
             ->actingAs($admin)
             ->post('/settings/save', $settings)

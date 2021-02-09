@@ -25,7 +25,7 @@ class ProfileTest extends TestCase
      */
     public function test_get_my_profile()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->actingAs($user)
             ->get('/profile')
             ->assertStatus(200);
@@ -49,7 +49,7 @@ class ProfileTest extends TestCase
      */
     public function test_update_profile_as_user()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->actingAs($user)
             ->put('/profile', ['name' => 'Test', 'email' => 'test@urlhum.com'])
             ->assertStatus(302);
@@ -65,7 +65,7 @@ class ProfileTest extends TestCase
      */
     public function test_visit_verified_page()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->actingAs($user)
             ->get('/profile/verified')
             ->assertStatus(200);

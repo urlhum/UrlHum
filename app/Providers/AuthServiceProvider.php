@@ -32,12 +32,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        // We only need Personal Access Tokens. So we just set this route.
-        Passport::routes(function ($router) {
-            $router->forPersonalAccessTokens();
-        });
-
-        Passport::personalAccessClientId(1);
     }
 }

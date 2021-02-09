@@ -8,8 +8,12 @@
  * @license   https://github.com/urlhum/UrlHum/blob/master/LICENSE.md (MIT License)
  */
 
+use App\Http\Controllers\UrlController;
+
 Route::get('/', 'HomeController@index')
     ->name('home');
+
+Route::get('test', 'UrlController@createMultiple');
 
 Route::get('privacy-policy', 'PagesController@privacy')->name('privacy');
 Route::get('terms-of-use', 'PagesController@tos')->name('tos');
@@ -33,6 +37,8 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::group(['prefix' => 'url'], function () {
+    Route::get('multiple', 'UrlController@createMultiple')->name('multiple');
+    Route::post('multiple', 'UrlController@storeMultiple')->name('store-multiple');
     Route::post('short', 'UrlController@checkExistingUrl')->name('short')->name('url.short')
         ->middleware('verifycheck');
     Route::get('my', 'UrlController@getMyUrls')->middleware('auth')->name('url.my')

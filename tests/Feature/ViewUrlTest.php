@@ -12,23 +12,32 @@ namespace Tests\Feature;
 
 use App\Url;
 use App\ClickUrl;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ClickUrlTest extends TestCase
+class ViewUrlTest extends TestCase
 {
     use DatabaseTransactions;
+    use WithFaker;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        Artisan::call('settings:set');
+    }
 
     /**
      * Test if viewing an URL with a fresh and not-saved IP address will result as a real click.
      *
      * @return void
      */
-    public function url_view_fresh_ip_address()
+    public function test_url_view_fresh_ip_address()
     {
         $ip = '216.58.205.205';
 
-        $this->post('/url', ['url' => 'https://reddit.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
+        $this->post('/url', ['url' => $this->faker->url, 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
 
         $this->get('/inst', ['REMOTE_ADDR' => $ip])
                 ->assertStatus(302);
@@ -146,7 +155,7 @@ class ClickUrlTest extends TestCase
      */
     public function test_visit_non_existing_url()
     {
-        $this->get('/test')
+        $this->get($this->faker->word)
             ->assertStatus(404);
     }
 

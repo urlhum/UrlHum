@@ -11,20 +11,31 @@
 namespace Tests\Feature;
 
 use App\User;
-use Tests\TestCase;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
+/**
+ * @method post(string $string, array $array)
+ * @method get(string $string)
+ */
 class AnalyticsTest extends TestCase
 {
     use DatabaseTransactions;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        Artisan::call('settings:set');
+    }
 
     /**
      * Simply get the analytics of a just created Short URL.
      *
      * @return void
      */
-    public function test_get_sample_url_analytics()
+    public function test_get_sample_url_analytics(): void
     {
         $this->post('/url', ['url' => 'https://stackoverflow.com', 'customUrl' => 'stack', 'privateUrl' => 0, 'hideUrlStats' => 0]);
         $this->get('/stack+')
@@ -37,9 +48,9 @@ class AnalyticsTest extends TestCase
      *
      * @return void
      */
-    public function test_get_as_guest_hidden_url_analytics()
+    public function test_get_as_guest_hidden_url_analytics(): void
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->actingAs($user)
             ->post('/url', ['url' => 'https://youtube.com', 'customUrl' => 'youtube', 'privateUrl' => 0, 'hideUrlStats' => 1]);
@@ -56,9 +67,9 @@ class AnalyticsTest extends TestCase
      *
      * @return void
      */
-    public function test_get_as_owner_hidden_url_analytics()
+    public function test_get_as_owner_hidden_url_analytics(): void
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->actingAs($user)
             ->post('/url', ['url' => 'https://youtube.com', 'customUrl' => 'youtube', 'privateUrl' => 0, 'hideUrlStats' => 1]);
@@ -77,14 +88,14 @@ class AnalyticsTest extends TestCase
      */
     public function test_get_as_admin_hidden_url_analytics()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $this->actingAs($user)
             ->post('/url', ['url' => 'https://youtube.com', 'customUrl' => 'youtube', 'privateUrl' => 0, 'hideUrlStats' => 1]);
 
         Auth::logout();
 
-        $admin = User::find(1);
+        $admin =  User::factory()->create(['role' => 'admin']);
 
         $this->actingAs($admin)
             ->get('/youtube+')
@@ -99,7 +110,7 @@ class AnalyticsTest extends TestCase
     public function test_referers_enabled_views_as_admin()
     {
         setting()->set('disable_referers', 0);
-        $admin = User::find(1);
+        $admin =  User::factory()->create(['role' => 'admin']);
         $this->actingAs($admin)
             ->get('/url/referers')
             ->assertStatus(200);
@@ -113,7 +124,7 @@ class AnalyticsTest extends TestCase
     public function test_referers_disabled_view_as_admin()
     {
         setting()->set('disable_referers', 1);
-        $admin = User::find(1);
+        $admin =  User::factory()->create(['role' => 'admin']);
         $this->actingAs($admin)
             ->get('/url/referers')
             ->assertStatus(404);
@@ -126,7 +137,7 @@ class AnalyticsTest extends TestCase
      */
     public function test_referers_view_as_user()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->actingAs($user)
             ->get('/url/referers')
             ->assertStatus(404);

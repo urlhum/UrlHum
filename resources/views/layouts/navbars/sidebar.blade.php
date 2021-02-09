@@ -84,6 +84,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('multiple') }}">
+                        <i class="fa fa-expand-arrows-alt text-info"></i> Bulk creation
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ route('url.public')}} ">
                         <i class="fa fa-clock text-blue"></i> {{ __('url.public') }}
                     </a>

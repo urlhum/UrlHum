@@ -10,8 +10,11 @@
 
 namespace Tests\Feature;
 
+use App\Http\Requests\ShortUrl;
 use App\Url;
 use App\User;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -19,6 +22,13 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class ShortUrlTest extends TestCase
 {
     use DatabaseTransactions;
+    use WithFaker;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        Artisan::call('settings:set');
+    }
 
     public function getUrlId($url)
     {
@@ -51,7 +61,7 @@ class ShortUrlTest extends TestCase
      */
     public function test_edit_short_url_as_owner()
     {
-        $user = factory(User::class)->create();
+        $user =  User::factory()->create();
 
         $this->actingAs($user)
             ->post('/url', ['url' => 'https://urlhum.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
@@ -74,7 +84,7 @@ class ShortUrlTest extends TestCase
     public function test_short_hidden_from_public_url_page()
     {
         $data = [
-            'url' => 'https://reddit.com',
+            'url' => $this->faker->url,
             'customUrl' => 'reddit',
             'privateUrl' => 1,
             'hideUrlStats' => 0,
@@ -97,7 +107,7 @@ class ShortUrlTest extends TestCase
      */
     public function test_delete_short_url_as_owner()
     {
-        $user = factory(User::class)->create();
+        $user =  User::factory()->create();
 
         $this->actingAs($user)
             ->post('/url', ['url' => 'https://urlhum.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
@@ -116,7 +126,7 @@ class ShortUrlTest extends TestCase
      */
     public function test_delete_short_url_as_anonymous()
     {
-        $user = factory(User::class)->create();
+        $user =  User::factory()->create();
 
         $this->actingAs($user)
             ->post('/url', ['url' => 'https://urlhum.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
@@ -136,14 +146,14 @@ class ShortUrlTest extends TestCase
      */
     public function test_delete_short_url_as_admin()
     {
-        $user = factory(User::class)->create();
+        $user =  User::factory()->create();
 
         $this->actingAs($user)
             ->post('/url', ['url' => 'https://urlhum.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
 
         \Auth::logout();
 
-        $admin = User::find(1);
+        $admin =  User::factory()->create(['role' => 'admin']);
 
         $this->actingAs($admin)
             ->delete('url/inst')
@@ -159,7 +169,7 @@ class ShortUrlTest extends TestCase
      */
     public function test_show_my_urls_page()
     {
-        $user = factory(User::class)->create();
+        $user =  User::factory()->create();
         $this->actingAs($user)
             ->get('/url/my')
             ->assertStatus(200);
@@ -183,7 +193,7 @@ class ShortUrlTest extends TestCase
      */
     public function test_show_urls_list_page_admin()
     {
-        $admin = User::find(1);
+        $admin =  User::factory()->create(['role' => 'admin']);
         $this->actingAs($admin)
             ->get('/url/list')
                 ->assertStatus(200);
@@ -196,7 +206,7 @@ class ShortUrlTest extends TestCase
      */
     public function test_show_urls_list_page_user()
     {
-        $user = factory(User::class)->create();
+        $user =  User::factory()->create();
         $this->actingAs($user)
             ->get('/url/list')
             ->assertStatus(404);
@@ -209,7 +219,7 @@ class ShortUrlTest extends TestCase
      */
     public function test_show_urls_list_ajax_admin()
     {
-        $admin = User::find(1);
+        $admin =  User::factory()->create(['role' => 'admin']);
         $this->actingAs($admin)
             ->get('/url/list-load')
             ->assertStatus(200);
@@ -253,5 +263,28 @@ class ShortUrlTest extends TestCase
         $this->get('/inst.svg')->assertStatus(200);
 
         Storage::assertExists('qrcodes/inst.svg');
+    }
+
+    /**
+     * Test if the bulk creation is working, passing a list of random URLs
+     */
+    public function test_bulk_creation(): void
+    {
+        $urls = '';
+        $urlsArray = [];
+        for ($i = 0; $i < 5; $i++) {
+            $fakeUrl = $this->faker->url;
+            $urls .= $fakeUrl . PHP_EOL;
+            $urlsArray[] = $fakeUrl;
+        }
+
+        $user =  User::factory()->create();
+        $this->actingAs($user)
+            ->post('/url/multiple', ['urls' => $urls, 'privateUrl' => 0, 'hideUrlStats' => 0]);
+
+        foreach ($urlsArray as $url) {
+            $foundUrl = Url::where('long_url', $url)->firstOrFail();
+            self::assertNotNull($foundUrl);
+        }
     }
 }

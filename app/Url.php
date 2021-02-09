@@ -24,6 +24,8 @@ use App\User;
  * Model for the Url table, used for advanced functions too.
  *
  * Class Url
+ * @method static where(string $string, $custom_url)
+ * @method static find($url)
  */
 class Url extends Model
 {

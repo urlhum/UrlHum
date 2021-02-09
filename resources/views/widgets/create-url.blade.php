@@ -8,7 +8,7 @@
             <div class="card shadow
             @if ($anonymous)
                     anonymous-create-box
-@endif">
+        @endif">
                 <div class="card-header border-0">
                     <div class="row align-items-center">
                         <div class="col-md-12">

@@ -25,7 +25,8 @@ class UserTest extends TestCase
      */
     public function test_get_index_page()
     {
-        $this->actingAs(User::find(1))
+        $admin =  User::factory()->create(['role' => 'admin']);
+        $this->actingAs($admin)
             ->get('/user')
             ->assertStatus(200);
     }
@@ -37,7 +38,8 @@ class UserTest extends TestCase
      */
     public function test_get_user_create_page()
     {
-        $this->actingAs(User::find(1))
+        $admin =  User::factory()->create(['role' => 'admin']);
+        $this->actingAs($admin)
             ->get('/user/create')
             ->assertStatus(200);
     }
@@ -49,12 +51,13 @@ class UserTest extends TestCase
      */
     public function test_post_create_user()
     {
-        $this->actingAs(User::find(1))
+        $admin =  User::factory()->create(['role' => 'admin']);
+        $this->actingAs($admin)
             ->post('/user', ['name' => 'Testing', 'email' => 'test@urlhum.com', 'password' => 'secret123', 'password_confirmation' => 'secret123'])
             ->assertStatus(302);
 
         $user = User::where('email', 'test@urlhum.com')->first();
-        $this->assertEquals('test@urlhum.com', $user->email);
+        $this->assertEquals('Testing', $user->name);
     }
 
     /**
@@ -64,9 +67,11 @@ class UserTest extends TestCase
      */
     public function test_get_edit_user()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $userId = $user->id;
-        $this->actingAs(User::find(1))
+
+        $admin =  User::factory()->create(['role' => 'admin']);
+        $this->actingAs($admin)
             ->get('/user/'.$userId.'/edit')
             ->assertStatus(200);
     }
@@ -78,9 +83,11 @@ class UserTest extends TestCase
      */
     public function test_update_user()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $userId = $user->id;
-        $this->actingAs(User::find(1))
+
+        $admin =  User::factory()->create(['role' => 'admin']);
+        $this->actingAs($admin)
             ->put('/user/'.$userId, ['name' => 'Testing', 'email' => 'hello@urlhum.com', 'password' => 'newsecret', 'password_confirmation' => 'newsecret'])
             ->assertStatus(302);
 
@@ -96,9 +103,12 @@ class UserTest extends TestCase
      */
     public function test_delete_user()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $userId = $user->id;
-        $this->actingAs(User::find(1))
+
+        $admin =  User::factory()->create(['role' => 'admin']);
+
+        $this->actingAs($admin)
             ->delete('/user/'.$userId)
             ->assertStatus(302);
 
