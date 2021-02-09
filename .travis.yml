@@ -2,7 +2,7 @@ dist: trusty
 sudo: false
 language: php
 php:
-  - 7.2.0
+  - 7.4.0
 
 cache:
   directories:
