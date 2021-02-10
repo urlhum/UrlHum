@@ -30,17 +30,27 @@
                                 <ul class="list-group list-group-flush">
                                     @foreach(Session::get('shortened') as $shortened)
                                         <li class="list-group-item text-black">
-                                            <a href="/{{ $shortened }}"> {{ Session::get('siteUrl') }}/{{ $shortened }}</a>
+                                            <a href="/{{ $shortened }}">{{ Session::get('siteUrl') }}/{{ $shortened }}</a>
                                         </li>
                                     @endforeach
                                 </ul>
                             </div>
+                            <textarea class="d-none" id="generated-urls">
+                                @foreach(Session::get('shortened') as $shortened)
+                                    {{ Session::get('siteUrl') }}/{{ $shortened }}
+                                @endforeach
+                            </textarea>
+                            <button class="btn btn-icon btn-primary mr-0" type="button" id="copy-generated-urls-btn">
+                                <span class="btn-inner--icon"><i class="ni ni-single-copy-04"></i></span>
+                                <span class="btn-inner--text">Copy all</span>
+                            </button>
                             @if(! empty(Session::get('existing')))
-                            <div class="card-footer">
-                                <div class="alert alert-info">
-                                    Please note that {{ Session::get('existing') }} of these long URLs already existed, which have been shown above anyway.
+                                <div class="card-footer">
+                                    <div class="alert alert-info">
+                                        Please note that {{ Session::get('existing') }} of these long URLs already
+                                        existed, which have been shown above anyway.
+                                    </div>
                                 </div>
-                            </div>
                             @endif
                         </div>
 
@@ -95,4 +105,24 @@
 @endsection
 @push('js')
     <script src="/js/app.js"></script>
+    <script>
+        let textarea = document.getElementById('generated-urls');
+        let button = document.getElementById('copy-generated-urls-btn');
+
+        if (textarea !== null) {
+            let text = textarea.innerHTML;
+            text = text.replace(/(\r\n|\n|\r)/gm,"");
+            text = text.replace(/ +/g, "\n").trim();
+            button.addEventListener('click', function() {
+                navigator.clipboard.writeText(text)
+                    .then(text => {
+                       button.innerHTML = 'Copied!';
+                    })
+                    .catch(err => {
+                        alert("Error copying URLs. Please try again.");
+                });
+            });
+        }
+
+    </script>
 @endpush
