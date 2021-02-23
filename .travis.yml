@@ -9,6 +9,8 @@ cache:
     - $HOME/.composer/cache
 
 before_script:
+  - pecl install gd
+  - pecl install sodium
   - cp .env.travis .env
   - mysql -u root -e 'create database `urlhum-test`;'
   - mysql -u root -e "CREATE USER 'urlhum-test'@'localhost' IDENTIFIED BY 'secret';"
