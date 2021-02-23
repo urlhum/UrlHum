@@ -12,6 +12,7 @@ namespace Tests\Feature;
 
 use App\User;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -22,6 +23,7 @@ use Tests\TestCase;
  */
 class AnalyticsTest extends TestCase
 {
+    use WithFaker;
     use DatabaseTransactions;
 
     public function setUp(): void
@@ -71,11 +73,13 @@ class AnalyticsTest extends TestCase
     {
         $user = User::factory()->create();
 
+        $url = $this->faker->url;
+        $shortUrl = $this->faker->slug(1, false);
         $this->actingAs($user)
-            ->post('/url', ['url' => 'https://youtube.com', 'customUrl' => 'youtube', 'privateUrl' => 0, 'hideUrlStats' => 1]);
+            ->post('/url', ['url' => $url, 'customUrl' => $shortUrl, 'privateUrl' => 0, 'hideUrlStats' => 1]);
 
         $this->actingAs($user)
-            ->get('/youtube+')
+            ->get("/$shortUrl+")
             ->assertStatus(200);
     }
 

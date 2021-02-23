@@ -62,16 +62,19 @@ class ShortUrlTest extends TestCase
     public function test_edit_short_url_as_owner()
     {
         $user =  User::factory()->create();
+        $longUrl = $this->faker->url;
+        $shortUrl = $this->faker->slug(1, false);
+        $otherLongUrl = $this->faker->url;
 
         $this->actingAs($user)
-            ->post('/url', ['url' => 'https://urlhum.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
+            ->post('/url', ['url' => $longUrl, 'customUrl' => $shortUrl, 'privateUrl' => 0, 'hideUrlStats' => 0]);
 
         $this->actingAs($user)
-            ->get('/url/inst')
+            ->get('/url/'.$shortUrl)
             ->assertStatus(200);
 
         $this->actingAs($user)
-            ->put('/url/inst', ['url' => 'https://aaa.com', 'privateUrl' => 0, 'hideUrlStats' => 0])
+            ->put('/url/'.$shortUrl, ['url' => $otherLongUrl, 'privateUrl' => 0, 'hideUrlStats' => 0])
             ->assertStatus(302);
     }
 
@@ -136,7 +139,7 @@ class ShortUrlTest extends TestCase
         $this->delete('url/inst')
             ->assertStatus(403);
 
-        $this->assertNotNull(Url::find('inst'));
+        self::assertNotNull(Url::where('short_url', 'inst')->firstOrFail());
     }
 
     /**
@@ -254,15 +257,17 @@ class ShortUrlTest extends TestCase
      *
      * @return void
      */
-    public function test_svg_is_created_on_load()
+    public function test_svg_is_created_on_load(): void
     {
         Storage::fake();
+        $url = $this->faker->url;
+        $shortUrl = $this->faker->slug(1, false);
 
-        $this->post('/url', ['url' => 'https://instagram.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
+        $this->post('/url', ['url' => $url, 'customUrl' => $shortUrl, 'privateUrl' => 0, 'hideUrlStats' => 0]);
 
-        $this->get('/inst.svg')->assertStatus(200);
+        $this->get('/'.$shortUrl.'.svg')->assertStatus(200);
 
-        Storage::assertExists('qrcodes/inst.svg');
+        Storage::assertExists("qrcodes/$shortUrl.svg");
     }
 
     /**

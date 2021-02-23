@@ -36,7 +36,7 @@ class ClickUrlController
     {
         $urlService = new UrlService();
 
-        if ($result = Url::findOrFail($url)) {
+        if ($result = Url::where('short_url', $url)->firstOrFail()) {
             $externalUrl = $urlService->getLongUrl($result);
         }
 

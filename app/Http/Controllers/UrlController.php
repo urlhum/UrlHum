@@ -18,11 +18,15 @@ use App\ClickUrl;
 use App\DeletedUrls;
 use App\Services\UrlService;
 use Hashids\Hashids;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\ShortUrl;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -92,8 +96,8 @@ class UrlController extends Controller
                 $shortened[] = $shortUrl;
                 $existing++;
             } else {
-                $short = $this->url->shortenUrl($url, null, $data['privateUrl'], $data['hideUrlStats']);
-                $shortened[] = $short;
+                $url = $this->url->shortenUrl($url, null, $data['privateUrl'], $data['hideUrlStats']);
+                $shortened[] = $url->short_url;
             }
         }
 
@@ -132,13 +136,16 @@ class UrlController extends Controller
                 ->with('siteUrl', $siteUrl);
         }
 
-        $short = $this->url->shortenUrl($data['url'], $data['customUrl'], $data['privateUrl'], $data['hideUrlStats']);
+        if (empty($data['customUrl'])) {
+            $customUrl = null;
+        } else {
+            $customUrl = $data['customUrl'];
+        }
 
-        $hashids = new Hashids(env('APP_KEY'), 4);
+        $url = $this->url->shortenUrl($data['url'], $customUrl, $data['privateUrl'], $data['hideUrlStats']);
+        $short = $url->short_url;
 
-        $short_url_id = $hashids->decode($short)[0] ?? Url::where('short_url', $short)->first()->id;
-
-        $this->url->assignDeviceTargetUrl($data, $short_url_id);
+        $this->url->assignDeviceTargetUrl($data, $url->id);
 
         return Redirect::route('home')
             ->with('success', $short)
@@ -150,7 +157,7 @@ class UrlController extends Controller
      * This method actually shows the URL edit page. It is not actually "@show" URL. The URL show is in clickUrl@view.
      *
      * @param $url
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @return ResponseFactory|Factory|Response|View
      */
     public function show($url)
     {
@@ -158,11 +165,11 @@ class UrlController extends Controller
             abort(403);
         }
 
-        $short_url = Url::with('user:id,name,email')->findOrFail($url);
+        $url = Url::with('user:id,name,email')->where('short_url', $url)->firstOrFail();
 
-        $targets = $this->url->getTargets($short_url);
+        $targets = $this->url->getTargets($url);
 
-        $data['url'] = $short_url;
+        $data['url'] = $url;
 
         $data['targets'] = $targets;
 
@@ -175,11 +182,11 @@ class UrlController extends Controller
      * @param $url
      * @param ShortUrl $request
      *
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|RedirectResponse|\Illuminate\Http\Response
+     * @return ResponseFactory|RedirectResponse|Response
      */
     public function update($url, ShortUrl $request)
     {
-        $url = Url::findOrFail($url);
+        $url = Url::where('short_url', $url)->firstOrFail();
 
         if (! $this->url->OwnerOrAdmin($url->short_url)) {
             return response('Forbidden', 403);
@@ -191,8 +198,6 @@ class UrlController extends Controller
         $url->hide_stats = $data['hideUrlStats'];
         $url->long_url = $data['url'];
         $url->update();
-
-        $hashids = new Hashids(env('APP_KEY'), 4);
 
         $url->deviceTargets()->delete();
 
@@ -206,18 +211,18 @@ class UrlController extends Controller
      * Delete a Short URL on user request.
      *
      * @param $url
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|RedirectResponse|\Illuminate\Http\Response
+     * @return ResponseFactory|RedirectResponse|Response
      */
     public function destroy($url)
     {
-        Url::findOrFail($url);
+        Url::where('short_url', $url)->firstOrFail();
 
         if (! $this->url->OwnerOrAdmin($url)) {
             return response('Forbidden', 403);
         }
 
         ClickUrl::deleteUrlsClicks($url);
-        Url::find($url)->deviceTargets()->delete();
+        Url::where('short_url', $url)->firstOrFail()->deviceTargets()->delete();
         Url::destroy($url);
 
         // We add the Short URL to the DeletedUrls Database table.
@@ -231,7 +236,7 @@ class UrlController extends Controller
      * Response to an AJAX request by the custom Short URL form.
      *
      * @param Request $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return ResponseFactory|Response
      */
     public function checkExistingUrl(Request $request)
     {
@@ -246,7 +251,7 @@ class UrlController extends Controller
     /**
      * Show the user its own short URLs.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function getMyUrls()
     {
@@ -258,7 +263,7 @@ class UrlController extends Controller
     /**
      * Show the admin all the Short URLs.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function showUrlsList()
     {
@@ -290,7 +295,7 @@ class UrlController extends Controller
     /**
      * Load the public URLs list to show.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function publicUrls()
     {

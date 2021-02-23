@@ -1,8 +1,11 @@
-dist: trusty
+dist: focal
 sudo: false
 language: php
 php:
-  - 7.4.0
+  - 7.4
+
+services:
+  - mysql
 
 cache:
   directories:

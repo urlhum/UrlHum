@@ -40,45 +40,27 @@ class UrlService
      * @param $hideUrlStats
      * @return string
      */
-    public function shortenUrl($long_url, $short_url, $privateUrl, $hideUrlStats)
+    public function shortenUrl($long_url, $short_url, $privateUrl, $hideUrlStats): Url
     {
-        if (! empty($short_url)) {
-            // Set the short url as custom url sent by user
-            Url::createShortUrl($long_url, $short_url, $privateUrl, $hideUrlStats);
+        $createdUrlId = Url::createShortUrl($long_url, $short_url, $privateUrl, $hideUrlStats);
 
-            return $short_url;
+        if ($short_url === null) {
+            $short_url = $this->generateShortUrl($createdUrlId);
         }
 
-        // Iterate until a not-already-created short url is generated
-        do {
-            $short_url = $this->generateShortUrl();
-        } while ($this->customUrlExisting($short_url));
-
-        Url::createShortUrl($long_url, $short_url, $privateUrl, $hideUrlStats);
-
-        return $short_url;
+        return Url::assignShortUrlToUrl($createdUrlId, $short_url);
     }
 
     /**
      * Generate an unique short URL using hashids. Salt is the APP_KEY, which is always unique.
      *
+     * @param int $id
      * @return string
      */
-    public function generateShortUrl()
+    public function generateShortUrl(int $id): string
     {
         $hashids = new Hashids(env('APP_KEY'), 4);
-
-        $current = Url::orderBy('id', 'desc')->lockForUpdate()->first();
-
-        // If this is the first Short URL, let's encode a 0
-        if ($current === null) {
-            return $hashids->encode(0);
-        }
-
-        $currentInc = $current->id;
-        $currentInc++;
-
-        return $hashids->encode($currentInc);
+        return $hashids->encode($id);
     }
 
     /**
@@ -122,7 +104,7 @@ class UrlService
             return false;
         }
 
-        $urlUser = Url::find($url);
+        $urlUser = Url::where('short_url', $url)->firstOrFail();
 
         return $urlUser->user_id === Auth::user()->id;
     }
@@ -220,7 +202,7 @@ class UrlService
         $enums = DeviceTargetsEnum::all();
 
         foreach ($enums as $device) {
-            if ($request[$device->name] !== null) {
+            if (isset($request[$device->name]) && $request[$device->name] !== null) {
                 $data[] = [
                     'short_url_id' => $short_url_id,
                     'device' => $device->id,

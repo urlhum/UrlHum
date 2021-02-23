@@ -15,6 +15,8 @@ use App\ClickUrl;
 use Carbon\Carbon;
 use App\Services\Analytics;
 use App\Services\UrlService;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\View\View;
 
 /**
  * Class AnalyticsController.
@@ -46,7 +48,7 @@ class AnalyticsController extends Controller
      * Show the URL analytics page to user.
      *
      * @param $url
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function show($url)
     {
@@ -83,7 +85,7 @@ class AnalyticsController extends Controller
     /**
      * Show the referers list to the user.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function showReferrersList()
     {
