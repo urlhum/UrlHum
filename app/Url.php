@@ -10,7 +10,9 @@
 
 namespace App;
 
+use http\Exception\InvalidArgumentException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +28,14 @@ use App\User;
  * Class Url
  * @method static where(string $string, $custom_url)
  * @method static find($url)
+ * @method static withCount(array $array)
+ * @method static firstWhere(string $string, int $urlId)
+ * @property int id
+ * @property string short_url
+ * @property mixed long_url
+ * @property mixed hide_stats
+ * @property mixed private
+ * @property mixed|null user_id
  */
 class Url extends Model
 {
@@ -33,11 +43,6 @@ class Url extends Model
      * @var string
      */
     protected $table = 'urls';
-
-    /**
-     * @var string
-     */
-    protected $primaryKey = 'short_url';
 
     /**
      * @var bool
@@ -51,8 +56,9 @@ class Url extends Model
      * @param $short_url
      * @param $privateUrl
      * @param $hideUrlStats
+     * @return int
      */
-    public static function createShortUrl($long_url, $short_url, $privateUrl, $hideUrlStats)
+    public static function createShortUrl($long_url, $short_url, $privateUrl, $hideUrlStats): int
     {
         $user_id = null;
         if (Auth::check()) {
@@ -67,7 +73,16 @@ class Url extends Model
         $url->hide_stats = $hideUrlStats;
         $url->save();
 
+        return (int) DB::getPdo()->lastInsertId();
+    }
 
+    public static function assignShortUrlToUrl(int $urlId, string $shortUrl): Url
+    {
+        $url = self::firstWhere('id', $urlId);
+        $url->short_url = $shortUrl;
+        $url->save();
+
+        return $url;
     }
 
     /**
@@ -75,17 +90,15 @@ class Url extends Model
      *
      * @return LengthAwarePaginator
      */
-    public static function getLatestPublicUrls()
+    public static function getLatestPublicUrls(): LengthAwarePaginator
     {
-        $urls = DB::table('urls')
+        return DB::table('urls')
             ->select('urls.short_url', 'urls.long_url', \DB::raw('count(clicks.short_url) as clicks'), 'urls.created_at')
             ->leftJoin('clicks', 'urls.short_url', '=', 'clicks.short_url')
             ->groupBy('urls.short_url', 'urls.long_url', 'urls.created_at')
             ->orderBy('urls.created_at', 'DESC')
             ->where('private', '=', 0)
             ->paginate('20');
-
-        return $urls;
     }
 
     /**
@@ -94,9 +107,9 @@ class Url extends Model
      *
      * @return Collection
      */
-    public static function publicUrlsWidget()
+    public static function publicUrlsWidget(): Collection
     {
-        $urls = DB::table('urls')
+        return DB::table('urls')
           ->select('urls.short_url', 'urls.long_url', \DB::raw('count(clicks.short_url) as clicks'), 'urls.created_at')
           ->leftJoin('clicks', 'urls.short_url', '=', 'clicks.short_url')
           ->groupBy('urls.short_url', 'urls.long_url', 'urls.created_at')
@@ -104,8 +117,6 @@ class Url extends Model
           ->where('private', '=', 0)
           ->limit(8)
       ->get();
-
-        return $urls;
     }
 
     /**
@@ -121,7 +132,7 @@ class Url extends Model
 
         $user_id = Auth::user()->id;
 
-        return $urlsList = self::where('user_id', $user_id)->paginate(30);
+        return self::where('user_id', $user_id)->paginate(30);
     }
 
     /**
@@ -138,9 +149,9 @@ class Url extends Model
      * Eloquent relationship, which tells the user of the Short URL.
      * If the user doesn't exist, email will be "Anonymous".
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id')
             ->withDefault(function ($user) {
@@ -151,7 +162,7 @@ class Url extends Model
     /**
      * @return HasMany
      */
-    public function deviceTargets()
+    public function deviceTargets(): HasMany
     {
         return $this->hasMany(DeviceTarget::class, 'short_url_id', 'id');
     }

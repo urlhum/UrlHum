@@ -11,6 +11,10 @@
 namespace App\Http\Controllers;
 
 use App\Url;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -23,27 +27,38 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class QRCodeController
 {
     /**
-     * Retreives the QR Code in svg format for the short URL.
+     * Retrieves the QR Code in svg format for the short URL.
      *
-     * @param $url
-     * @return \Illuminate\Http\RedirectResponse
+     * @param string $shortUrl
+     * @return Application|ResponseFactory|Response
+     * @throws FileNotFoundException
      */
-    public function svg(Url $url)
+    public function svg(string $shortUrl)
     {
+        $url = Url::where('short_url', $shortUrl)->firstOrFail();
         return $this->qrCode($url, 'svg', 'image/svg+xml');
     }
 
     /**
-     * Retreives the QR Code in png format for the short URL.
+     * Retrieves the QR Code in png format for the short URL.
      *
-     * @param $url
-     * @return \Illuminate\Http\RedirectResponse
+     * @param string $shortUrl
+     * @return Application|ResponseFactory|Response
+     * @throws FileNotFoundException
      */
-    public function png(Url $url)
+    public function png(string $shortUrl)
     {
+        $url = Url::where('short_url', $shortUrl)->firstOrFail();
         return $this->qrCode($url, 'png', 'image/png');
     }
 
+    /**
+     * @param Url $url
+     * @param $format
+     * @param $contentType
+     * @return Application|ResponseFactory|Response
+     * @throws FileNotFoundException
+     */
     private function qrCode(Url $url, $format, $contentType)
     {
         $path = 'qrcodes/'.$url->short_url.'.'.$format;
@@ -56,4 +71,5 @@ class QRCodeController
 
         return response($qrCode)->header('Content-Type', $contentType);
     }
+
 }

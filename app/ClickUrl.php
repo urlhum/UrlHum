@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * Model that saves and loads data when an User visits a Short URL.
  *
  * Class ClickUrl
+ * @method static select(string $string)
  */
 class ClickUrl extends Model
 {

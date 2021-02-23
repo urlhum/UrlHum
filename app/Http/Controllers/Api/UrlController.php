@@ -78,11 +78,11 @@ class UrlController extends Controller
             ], 409);
         }
 
-        $short = $this->url->shortenUrl($data['url'], $data['customUrl'], $data['privateUrl'], $data['hideUrlStats']);
+        $url = $this->url->shortenUrl($data['url'], $data['customUrl'], $data['privateUrl'], $data['hideUrlStats']);
 
         return response()->json([
             'message' => 'Success! Short URL created.',
-            'short_url' => $short,
+            'short_url' => $url->short_url,
         ], 200);
     }
 
@@ -92,7 +92,7 @@ class UrlController extends Controller
      */
     public function show(Url $url)
     {
-        Url::findOrFail($url);
+        Url::where('short_url', $url)->firstOrFail();
         $selectStatement = ['long_url', 'short_url'];
 
         if ($this->url->isOwner($url)) {
@@ -113,7 +113,7 @@ class UrlController extends Controller
      */
     public function update($url, ShortUrl $request)
     {
-        $url = Url::findOrFail($url);
+        $url = Url::where('short_url', $url)->firstOrFail();
 
         if (! $this->url->OwnerOrAdmin($url->short_url)) {
             abort(403);
@@ -146,7 +146,7 @@ class UrlController extends Controller
      */
     public function destroy($url)
     {
-        Url::findOrFail($url);
+        Url::where('short_url', $url)->firstOrFail();
 
         if (! $this->url->OwnerOrAdmin($url)) {
             abort(403);

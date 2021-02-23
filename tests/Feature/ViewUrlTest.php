@@ -36,19 +36,21 @@ class ViewUrlTest extends TestCase
     public function test_url_view_fresh_ip_address()
     {
         $ip = '216.58.205.205';
+        $url = $this->faker->url;
+        $shortUrl = $this->faker->slug(1, false);
 
-        $this->post('/url', ['url' => $this->faker->url, 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
+        $this->post('/url', ['url' => $url, 'customUrl' => $shortUrl, 'privateUrl' => 0, 'hideUrlStats' => 0]);
 
-        $this->get('/inst', ['REMOTE_ADDR' => $ip])
+        $this->get('/'.$shortUrl, ['REMOTE_ADDR' => $ip])
                 ->assertStatus(302);
 
         $realClick = ClickUrl::select('real_click')
-            ->where('short_url', 'inst')
+            ->where('short_url', $shortUrl)
             ->orderBy('id', 'desc')
             ->first()
             ->real_click;
 
-        $this->assertEquals(true, $realClick);
+        self::assertEquals(true, $realClick);
     }
 
     /**
@@ -87,9 +89,12 @@ class ViewUrlTest extends TestCase
         $ip = '216.58.205.205';
         setting()->set('hash_ip', 1);
 
-        $this->post('/url', ['url' => 'https://google.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
+        $url = $this->faker->url;
+        $shortUrl = $this->faker->slug(1, false);
 
-        $this->get('/inst', ['REMOTE_ADDR' => $ip])
+        $this->post('/url', ['url' => $url, 'customUrl' => $shortUrl, 'privateUrl' => 0, 'hideUrlStats' => 0]);
+
+        $this->get('/'.$shortUrl, ['REMOTE_ADDR' => $ip])
             ->assertStatus(302);
 
         $hashedIp = ClickUrl::select('ip_address')
@@ -97,7 +102,7 @@ class ViewUrlTest extends TestCase
             ->first()
             ->ip_address;
 
-        $this->assertEquals(hash('sha1', $ip), $hashedIp);
+        self::assertEquals(hash('sha1', $ip), $hashedIp);
     }
 
     /**
@@ -111,10 +116,12 @@ class ViewUrlTest extends TestCase
 
         $ip = '216.58.205.205';
         $referer = 'https://github.com/urlhum';
+        $url = $this->faker->url;
+        $shortUrl = $this->faker->slug(1, false);
 
-        $this->post('/url', ['url' => 'https://google.com', 'customUrl' => 'inst', 'privateUrl' => 0, 'hideUrlStats' => 0]);
+        $this->post('/url', ['url' => $url, 'customUrl' => $shortUrl, 'privateUrl' => 0, 'hideUrlStats' => 0]);
 
-        $this->get('/inst', ['REMOTE_ADDR' => $ip, 'HTTP_REFERER' => $referer])
+        $this->get('/'.$shortUrl, ['REMOTE_ADDR' => $ip, 'HTTP_REFERER' => $referer])
             ->assertStatus(302);
 
         $check = ClickUrl::select('referer')
@@ -122,7 +129,7 @@ class ViewUrlTest extends TestCase
             ->first()
             ->referer;
 
-        $this->assertEquals($referer, $check);
+        self::assertEquals($referer, $check);
     }
 
     /**
