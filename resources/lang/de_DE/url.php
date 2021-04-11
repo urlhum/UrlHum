@@ -15,9 +15,9 @@ return [
         'short' => 'Kurz-URL bearbeiten',
     ],
     'multiple' => [
-        'title' => 'Create multiple links',
-        'new' => 'Create new Short URLs',
-        'description' => 'Paste multiple URLs, one for each line'
+        'title' => 'Erstelle mehrere Verlinkungen',
+        'new' => 'Neue verkürzte URLs erstellen',
+        'description' => 'Füge mehrere URLs ein, eine für jede Zeile'
     ],
     'created' => 'URL erstellt am :date',
     'url' => 'URL',
