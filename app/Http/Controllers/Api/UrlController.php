@@ -87,7 +87,7 @@ class UrlController extends Controller
                 'message' => 'The Short URL for this destination already exists.',
                 'short_url' => $existing,
                 'long_url' => $url,
-                'full_url' =>  url('/').$existing
+                'full_url' =>  url('/').'/'.$existing
             ], 200);
         }
 
@@ -96,7 +96,7 @@ class UrlController extends Controller
         return response()->json([
             'message' => 'Success! Short URL created.',
             'short_url' => $url->short_url,
-            'full_url' => url('/').$url->short_url
+            'full_url' => url('/').'/'.$url->short_url
         ], 200);
     }
 
