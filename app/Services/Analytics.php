@@ -16,7 +16,7 @@ use App\ClickUrl;
  * Class Analytics, used to retrieve analytics data about Short URLs.
  *
  *
- * @author Christian la Forgia <christian@optiroot.it>
+ * @author Christian la Forgia <christian@optiroot.dev>
  */
 class Analytics
 {

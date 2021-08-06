@@ -18,7 +18,7 @@ use anlutro\LaravelSettings\Facade as Setting;
  * Class SettingsController
  * Manage system settings for the admin.
  *
- * @author Christian la Forgia <christian@optiroot.it>
+ * @author Christian la Forgia <christian@optiroot.dev>
  */
 class SettingsController extends Controller
 {
