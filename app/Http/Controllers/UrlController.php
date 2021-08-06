@@ -35,7 +35,7 @@ use Illuminate\Support\Facades\Redirect;
  * Class UrlController
  * Manage everything related to short URLs.
  *
- * @author Christian la Forgia <christian@optiroot.it>
+ * @author Christian la Forgia <christian@optiroot.dev>
  */
 class UrlController extends Controller
 {

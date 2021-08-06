@@ -16,7 +16,7 @@ use Jenssegers\Agent\Agent;
  *
  * Class UrlService
  *
- * @author Christian la Forgia <christian@optiroot.it>
+ * @author Christian la Forgia <christian@optiroot.dev>
  */
 class DeviceDetection
 {

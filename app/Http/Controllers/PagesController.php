@@ -14,7 +14,7 @@ namespace App\Http\Controllers;
  * Class PagesController
  * Show Privacy Policy and TOS to users.
  *
- * @author Christian la Forgia <christian@optiroot.it>
+ * @author Christian la Forgia <christian@optiroot.dev>
  */
 class PagesController extends Controller
 {

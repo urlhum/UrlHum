@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Redirect;
  * Controller handling the actual page of the corresponding URL, that redirects the user.
  *
  * Class ClickUrlController
- * @author Christian la Forgia <christian@optiroot.it>
+ * @author Christian la Forgia <christian@optiroot.dev>
  */
 class ClickUrlController
 {

@@ -21,7 +21,7 @@ use Illuminate\View\View;
 /**
  * Class AnalyticsController.
  *
- * @author Christian la Forgia <christian@optiroot.it>
+ * @author Christian la Forgia <christian@optiroot.dev>
  */
 class AnalyticsController extends Controller
 {

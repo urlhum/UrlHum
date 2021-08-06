@@ -17,6 +17,7 @@ use App\DeletedUrls;
 use App\Services\UrlService;
 use App\Http\Requests\ShortUrl;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -60,25 +61,36 @@ class UrlController extends Controller
      * @param ShortUrl $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(ShortUrl $request)
+    public function store(Request $request)
     {
-        $data = $request->validated();
+        $url = $request->request->get('url');
+        $customUrl = $request->request->get('custom_url') ?? null;
+        $isPrivate = (bool) $request->request->get('is_private') ?? false;
+        $hideStats = (bool) $request->request->get('hide_stats') ?? false;
 
-        if ($this->url->customUrlExisting($data['customUrl'])) {
+        if ($url === null || $url === '') {
             return response()->json([
-                'message' => 'This Short URL already exists.',
+                'message' => 'Url parameter cannot be blank or null.'
             ], 409);
         }
 
-        if ($existing = $this->url->checkExistingLongUrl($data['url'])) {
+        if ($customUrl !== null) {
+            if ($this->url->customUrlExisting($customUrl)) {
+                return response()->json([
+                    'message' => 'This Short URL already exists.',
+                ], 409);
+            }
+        }
+
+        if ($existing = $this->url->checkExistingLongUrl($url)) {
             return response()->json([
                 'message' => 'The Short URL for this destination already exists.',
                 'short_url' => $existing,
                 'long_url' => $data['url'],
-            ], 409);
+            ], 200);
         }
 
-        $url = $this->url->shortenUrl($data['url'], $data['customUrl'], $data['privateUrl'], $data['hideUrlStats']);
+        $url = $this->url->shortenUrl($url, $customUrl, $isPrivate, $hideStats);
 
         return response()->json([
             'message' => 'Success! Short URL created.',
@@ -90,9 +102,20 @@ class UrlController extends Controller
      * @param $url
      * @return mixed
      */
-    public function show(Url $url)
+    public function show($shortUrl)
     {
-        Url::where('short_url', $url)->firstOrFail();
+        return response()->json([
+            'message' => 'Not implemented',
+        ], 409);
+
+        $url = Url::where('short_url', $shortUrl)->get()->first();
+
+        if ($url === null) {
+            return response()->json([
+                'message' => 'URL not found or not available'
+            ], 404);
+        }
+      
         $selectStatement = ['long_url', 'short_url'];
 
         if ($this->url->isOwner($url)) {
@@ -103,7 +126,7 @@ class UrlController extends Controller
             $selectStatement = '*';
         }
 
-        return Url::where('short_url', $url)->select($selectStatement)->get();
+        return Url::where('short_url', $shortUrl)->select($selectStatement)->get();
     }
 
     /**
@@ -113,6 +136,10 @@ class UrlController extends Controller
      */
     public function update($url, ShortUrl $request)
     {
+        return response()->json([
+            'message' => 'Not implemented'
+        ], 409);
+
         $url = Url::where('short_url', $url)->firstOrFail();
 
         if (! $this->url->OwnerOrAdmin($url->short_url)) {
@@ -146,6 +173,10 @@ class UrlController extends Controller
      */
     public function destroy($url)
     {
+        return response()->json([
+            'message' => 'Not implemented'
+        ], 409);
+      
         Url::where('short_url', $url)->firstOrFail();
 
         if (! $this->url->OwnerOrAdmin($url)) {

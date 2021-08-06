@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * Model for the deletedURls database table.
  *
  * Class DeletedUrls
- * @author Christian la Forgia <christian@optiroot.it>
+ * @author Christian la Forgia <christian@optiroot.dev>
  */
 class DeletedUrls extends Model
 {
