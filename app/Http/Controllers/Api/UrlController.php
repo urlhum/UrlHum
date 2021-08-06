@@ -115,7 +115,7 @@ class UrlController extends Controller
                 'message' => 'URL not found or not available'
             ], 404);
         }
-
+      
         $selectStatement = ['long_url', 'short_url'];
 
         if ($this->url->isOwner($url)) {
@@ -136,7 +136,6 @@ class UrlController extends Controller
      */
     public function update($url, ShortUrl $request)
     {
-
         return response()->json([
             'message' => 'Not implemented'
         ], 409);
@@ -177,7 +176,7 @@ class UrlController extends Controller
         return response()->json([
             'message' => 'Not implemented'
         ], 409);
-
+      
         Url::where('short_url', $url)->firstOrFail();
 
         if (! $this->url->OwnerOrAdmin($url)) {
