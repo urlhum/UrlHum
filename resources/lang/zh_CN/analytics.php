@@ -15,7 +15,7 @@ return [
     'list' => [
       'results' => ':firstItem / :lastItem 共 :num',
     ],
-    'na' => '仍无引荐网址，请分享这个链接！',
+    'na' => '仍无请求来源，请分享这个链接！',
     'best' => '最佳来源',
     'direct_unknown' => 'Direct / Unknown',
   ],
