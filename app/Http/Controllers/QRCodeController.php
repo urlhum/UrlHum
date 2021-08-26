@@ -65,7 +65,7 @@ class QRCodeController
         if (Storage::exists($path)) {
             $qrCode = Storage::get($path);
         } else {
-            $qrCode = QrCode::format($format)->size(300)->generate(route('click', $url));
+            $qrCode = QrCode::format($format)->size(300)->generate(route('click', $url->short_url));
             Storage::put($path, $qrCode);
         }
 

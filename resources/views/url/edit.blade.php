@@ -119,7 +119,7 @@
                                 </div>
                             </div>
 
-                            @include('url.partials.qrcodemodal', ['url' => $data['url']])
+                            @include('url.partials.qrcodemodal', ['url' => $data['url']->short_url])
 
                         </div>
                     </div>
