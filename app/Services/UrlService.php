@@ -59,7 +59,8 @@ class UrlService
      */
     public function generateShortUrl(int $id): string
     {
-        $hashids = new Hashids(env('APP_KEY'), 4);
+        $hashLength = setting('min_hash_length') ?? 4;
+        $hashids = new Hashids(env('APP_KEY'), $hashLength);
         return $hashids->encode($id);
     }
 

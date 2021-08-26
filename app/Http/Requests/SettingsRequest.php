@@ -41,6 +41,7 @@ class SettingsRequest extends FormRequest
             'enable_terms_of_use' => 'boolean',
             'require_user_verify' => 'boolean',
             'custom_html' => 'max:10000',
+            'min_hash_length' => 'required|int|min:4|max:16'
         ];
     }
 }

@@ -65,6 +65,7 @@ class SettingsSetCommand extends Command
             'enable_terms_of_use' => 1,
             'require_user_verify' => 1,
             'custom_html' => ' ',
+            'min_hash_length' => 4
         ];
     }
 

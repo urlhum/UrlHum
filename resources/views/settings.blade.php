@@ -284,6 +284,22 @@
                                     <h1>{{ __('url.short') }}</h1>
 
                                     <div class="form-group row mb-5 mt-4">
+                                        <label for="min_hash_length"
+                                               class="col-sm-4 col-md-6">
+                                            {{ __('settings.min_hash_length') }}
+                                            <i class="fa fa-question-circle"
+                                               data-toggle="tooltip"
+                                               data-placement="top"
+                                               title="{{ __('settings.min_hash_length_help') }}">
+                                            </i>
+                                        </label>
+                                        <div class="col-sm-8 col-md-6">
+                                            <input type="number" class="form-control" id="min_hash_length" name="min_hash_length"
+                                                   value="{{ $settings['min_hash_length'] }}" min="4" max="16">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row mb-5 mt-4">
                                         <label for="require_user_verify"
                                                class="col-sm-4 col-md-6">
                                             {{ __('settings.require_user_verify') }}

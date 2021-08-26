@@ -13,6 +13,8 @@ namespace App\Http\Controllers;
 use App\Settings;
 use App\Http\Requests\SettingsRequest;
 use anlutro\LaravelSettings\Facade as Setting;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\View\View;
 
 /**
  * Class SettingsController
@@ -25,7 +27,8 @@ class SettingsController extends Controller
     /**
      * Show the settings page to users.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
+     * @throws \JsonException
      */
     public function show()
     {
