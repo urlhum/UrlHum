@@ -17,6 +17,7 @@ use App\Url;
 use App\ClickUrl;
 use App\DeletedUrls;
 use App\Services\UrlService;
+use Exception;
 use Hashids\Hashids;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
@@ -95,8 +96,15 @@ class UrlController extends Controller
             if ($shortUrl = $this->url->checkExistingLongUrl($url)) {
                 $shortened[] = $shortUrl;
                 $existing++;
+
             } else {
-                $url = $this->url->shortenUrl($url, null, $data['privateUrl'], $data['hideUrlStats']);
+                try {
+                    $url = $this->url->shortenUrl($url, null, $data['privateUrl'], $data['hideUrlStats']);
+                } catch (Exception $ex) {
+                    return Redirect::route('multiple')
+                        ->with('errors', 'Error. Please try again.');
+                }
+
                 $shortened[] = $url->short_url;
             }
         }
@@ -130,7 +138,9 @@ class UrlController extends Controller
                 ->with('existingCustom', $data['customUrl']);
         }
 
-        if ($existing = $this->url->checkExistingLongUrl($data['url'])) {
+        $existing = $this->url->checkExistingLongUrl($data['url']);
+
+        if ($existing !== null) {
             return Redirect::route('home')
                 ->with('existing', $existing)
                 ->with('siteUrl', $siteUrl);
@@ -142,7 +152,13 @@ class UrlController extends Controller
             $customUrl = $data['customUrl'];
         }
 
-        $url = $this->url->shortenUrl($data['url'], $customUrl, $data['privateUrl'], $data['hideUrlStats']);
+        try {
+            $url = $this->url->shortenUrl($data['url'], $customUrl, $data['privateUrl'], $data['hideUrlStats']);
+        } catch (\Exception $ex) {
+            return Redirect::route('home')
+                ->with('error', 'Error. Please try again.');
+        }
+
         $short = $url->short_url;
 
         $this->url->assignDeviceTargetUrl($data, $url->id);
@@ -165,7 +181,7 @@ class UrlController extends Controller
             abort(403);
         }
 
-        $url = Url::with('user:id,name,email')->where('short_url', $url)->firstOrFail();
+        $url = Url::with('user:id,name,email')->whereRaw('BINARY `short_url` = ?', [$url])->firstOrFail();
 
         $targets = $this->url->getTargets($url);
 
@@ -186,7 +202,7 @@ class UrlController extends Controller
      */
     public function update($url, ShortUrl $request)
     {
-        $url = Url::where('short_url', $url)->firstOrFail();
+        $url = Url::whereRaw('BINARY `short_url` = ?', [$url])->firstOrFail();
 
         if (! $this->url->OwnerOrAdmin($url->short_url)) {
             return response('Forbidden', 403);
@@ -215,14 +231,14 @@ class UrlController extends Controller
      */
     public function destroy($url)
     {
-        Url::where('short_url', $url)->firstOrFail();
+        Url::whereRaw('BINARY `short_url` = ?',  [$url])->firstOrFail();
 
         if (! $this->url->OwnerOrAdmin($url)) {
             return response('Forbidden', 403);
         }
 
         ClickUrl::deleteUrlsClicks($url);
-        Url::where('short_url', $url)->firstOrFail()->deviceTargets()->delete();
+        Url::whereRaw('BINARY `short_url` = ?', [$url])->firstOrFail()->deviceTargets()->delete();
         Url::destroy($url);
 
         // We add the Short URL to the DeletedUrls Database table.
@@ -240,12 +256,13 @@ class UrlController extends Controller
      */
     public function checkExistingUrl(Request $request)
     {
-        if (Url::where('short_url', $request->input)->exists() || $this->url->isUrlReserved($request->input) ||
+        if ($this->url->isUrlReserved($request->input) ||
+            Url::whereRaw('BINARY `short_url` = ?', [$request->input])->exists() ||
             (! setting('deleted_urls_can_be_recreated') && $this->url->isUrlAlreadyDeleted($request->input)) || $this->url->isShortUrlProtected($request->input)) {
             return response('Custom URL already existing', 409);
         }
 
-        return response('ok', 200);
+        return response('ok');
     }
 
     /**
@@ -274,7 +291,7 @@ class UrlController extends Controller
      * AJAX load of all the Short URLs to show in the admin URLs list.
      *
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function loadUrlsList()
     {

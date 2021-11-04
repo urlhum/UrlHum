@@ -10,17 +10,13 @@
 
 namespace App;
 
-use http\Exception\InvalidArgumentException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Model;
-use App\DeviceTarget;
-use App\ClickUrl;
-use App\User;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Model for the Url table, used for advanced functions too.
@@ -30,6 +26,7 @@ use App\User;
  * @method static find($url)
  * @method static withCount(array $array)
  * @method static firstWhere(string $string, int $urlId)
+ * @method static whereRaw(string $string, array $array)
  * @property int id
  * @property string short_url
  * @property mixed long_url

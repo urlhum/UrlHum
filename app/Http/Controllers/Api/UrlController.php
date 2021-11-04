@@ -82,16 +82,24 @@ class UrlController extends Controller
             }
         }
 
-        if ($existing = $this->url->checkExistingLongUrl($url)) {
+        $existing = $this->url->checkExistingLongUrl($url);
+
+        if ($existing !== null) {
             return response()->json([
                 'message' => 'The Short URL for this destination already exists.',
                 'short_url' => $existing,
-                'long_url' => $url,
+                'long_url' => trim($url),
                 'full_url' =>  url('/').'/'.$existing
             ], 200);
         }
 
-        $url = $this->url->shortenUrl($url, $customUrl, $isPrivate, $hideStats);
+        try {
+            $url = $this->url->shortenUrl($url, $customUrl, $isPrivate, $hideStats);
+        } catch (\Exception $ex) {
+            return response()->json([
+                'message' => 'Error. Please try again.'
+            ], 409);
+        }
 
         return response()->json([
             'message' => 'Success! Short URL created.',

@@ -15,6 +15,7 @@ use App\Url;
 use App\ClickUrl;
 use App\IpAnonymizer;
 use GeoIp2\Database\Reader;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -30,13 +31,13 @@ class ClickUrlController
      * The actual "url" page, redirects the user.
      *
      * @param $url
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function click($url)
+    public function click($url): RedirectResponse
     {
         $urlService = new UrlService();
 
-        if ($result = Url::where('short_url', $url)->firstOrFail()) {
+        if ($result = Url::whereRaw('BINARY `short_url` = ?', [$url])->firstOrFail()) {
             $externalUrl = $urlService->getLongUrl($result);
         }
 
@@ -94,7 +95,7 @@ class ClickUrlController
         return Redirect::away($externalUrl);
     }
 
-    public function getCountries($ip)
+    public function getCountries($ip): array
     {
         // We try to get the IP country using (or not) the anonymized IP
         // If it fails, because GeoLite2 doesn't know the IP country, we

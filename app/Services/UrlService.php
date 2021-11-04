@@ -10,6 +10,7 @@
 
 namespace App\Services;
 
+use App\ClickUrl;
 use App\DeviceTarget;
 use App\DeviceTargetsEnum;
 use App\Http\Requests\ShortUrl;
@@ -21,6 +22,7 @@ use App\User;
 use App\Settings;
 use Hashids\Hashids;
 use Illuminate\Support\Facades\DB;
+use RuntimeException;
 
 /**
  * Useful functions to use in the Whole App for Short URLs.
@@ -38,7 +40,8 @@ class UrlService
      * @param $short_url
      * @param $privateUrl
      * @param $hideUrlStats
-     * @return string
+     * @return Url
+     * @throws RuntimeException
      */
     public function shortenUrl($long_url, $short_url, $privateUrl, $hideUrlStats): Url
     {
@@ -46,6 +49,9 @@ class UrlService
 
         if ($short_url === null) {
             $short_url = $this->generateShortUrl($createdUrlId);
+            if ($short_url === '') {
+                throw new RuntimeException();
+            }
         }
 
         return Url::assignShortUrlToUrl($createdUrlId, $short_url);
@@ -59,9 +65,22 @@ class UrlService
      */
     public function generateShortUrl(int $id): string
     {
-        $hashLength = setting('min_hash_length') ?? 4;
-        $hashids = new Hashids(env('APP_KEY'), $hashLength);
-        return $hashids->encode($id);
+        $checksQuantity = 0;
+        do {
+            if ($checksQuantity > 5) {
+                return '';
+            }
+            $hashLength = setting('min_hash_length') ?? 4;
+            $hashids = new Hashids(env('APP_KEY'), $hashLength);
+            $encoded = $hashids->encode($id);
+            $alreadyGenerated = false;
+            if ($this->isUrlReserved($encoded) || Url::whereRaw('BINARY `short_url` = ?', [$encoded])->exists()) {
+                $alreadyGenerated = true;
+                $checksQuantity++;
+            }
+        } while ($alreadyGenerated);
+
+        return $encoded;
     }
 
     /**
@@ -105,7 +124,7 @@ class UrlService
             return false;
         }
 
-        $urlUser = Url::where('short_url', $url)->firstOrFail();
+        $urlUser = Url::whereRaw('BINARY `short_url` = ?', [$url])->firstOrFail();
 
         return $urlUser->user_id === Auth::user()->id;
     }
@@ -116,14 +135,14 @@ class UrlService
      * @param $custom_url
      * @return bool
      */
-    public function checkExistingCustomUrl($custom_url)
+    public function checkExistingCustomUrl($custom_url): bool
     {
         // Check if custom url has been typed by user
         if (is_null($custom_url)) {
             return false;
         }
 
-        return Url::where('short_url', $custom_url)->exists() || $this->isUrlReserved($custom_url);
+        return Url::whereRaw('BINARY `short_url` = ?', [$custom_url])->exists() || $this->isUrlReserved($custom_url);
     }
 
     /**
@@ -136,7 +155,11 @@ class UrlService
     {
         $long_url_check = Url::where('long_url', $long_url)->first();
 
-        return $long_url_check === null ? null : $long_url_check['short_url'];
+        if ($long_url_check === null) {
+            return null;
+        }
+
+        return $long_url_check['short_url'];
     }
 
     /**
@@ -184,7 +207,7 @@ class UrlService
     {
         return \DB::table('deleted_urls')
             ->select('url')
-            ->where('url', $url)
+            ->whereRaw('BINARY `short_url` = ?', [$url])
             ->exists();
     }
 

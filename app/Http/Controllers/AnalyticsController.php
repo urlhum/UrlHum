@@ -60,7 +60,7 @@ class AnalyticsController extends Controller
             'clicks as today_clicks_count' => function ($query) {
                 $query->where('created_at', '>=', Carbon::now()->subDay());
             },
-        ])->where('short_url', $url)->firstOrFail();
+        ])->whereRaw('BINARY `short_url` = ?',  [$url])->firstOrFail();
 
         if ($urlWithRelations->hide_stats && ! $this->url->OwnerOrAdmin($url)) {
             abort(403);

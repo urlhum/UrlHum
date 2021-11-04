@@ -11,6 +11,7 @@
 namespace App\Services;
 
 use App\ClickUrl;
+use App\Url;
 
 /**
  * Class Analytics, used to retrieve analytics data about Short URLs.
@@ -28,7 +29,7 @@ class Analytics
      */
     public static function getCountriesClicks($url)
     {
-        $countriesClicks = ClickUrl::where('short_url', $url)
+        $countriesClicks = ClickUrl::whereRaw('BINARY `short_url` = ?', [$url])
             ->select('country_full', \DB::raw('count(*) as views'), \DB::raw('sum(real_click) as real_views'))
             ->groupBy('country_full')
             ->get();
@@ -68,7 +69,7 @@ class Analytics
      */
     public static function getUrlReferers($url)
     {
-        $referers = ClickUrl::where(['short_url' => $url])
+        $referers = ClickUrl::whereRaw('BINARY `short_url` = ?', [$url])
             ->select('referer', \DB::raw('sum(click+real_click) as clicks'), \DB::raw('sum(real_click) as real_clicks'))
             ->groupBy('referer')
             ->orderBy('real_clicks', 'DESC')
@@ -85,7 +86,7 @@ class Analytics
      */
     public static function getLatestClicks($url)
     {
-        $clicks = ClickUrl::where(['short_url' => $url])
+        $clicks = ClickUrl::whereRaw('BINARY `short_url` = ?', [$url])
             ->select('referer', 'created_at')
             ->orderBy('created_at', 'DESC')
             ->take(8)

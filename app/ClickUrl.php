@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * Class ClickUrl
  * @method static select(string $string)
+ * @method static whereRaw(string $string, array $array)
  */
 class ClickUrl extends Model
 {
@@ -55,7 +56,7 @@ class ClickUrl extends Model
     public static function realClick($short_url, $ip_address)
     {
         $click = DB::table('clicks')
-            ->where('short_url', $short_url)
+            ->whereRaw('BINARY `short_url` = ?', [$short_url])
             ->where('ip_address', $ip_address)
             ->where('created_at', '>=', Carbon::now()->subDay())
             ->where(function ($query) {
@@ -116,7 +117,7 @@ class ClickUrl extends Model
      */
     public static function deleteUrlsClicks($url)
     {
-        self::where('short_url', $url)->delete();
+        self::whereRaw('BINARY `short_url` = ?', [$url])->delete();
     }
 
     /**

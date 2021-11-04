@@ -35,7 +35,7 @@ class QRCodeController
      */
     public function svg(string $shortUrl)
     {
-        $url = Url::where('short_url', $shortUrl)->firstOrFail();
+        $url = Url::whereRaw('BINARY `short_url` = ?', [$shortUrl])->firstOrFail();
         return $this->qrCode($url, 'svg', 'image/svg+xml');
     }
 
@@ -48,7 +48,7 @@ class QRCodeController
      */
     public function png(string $shortUrl)
     {
-        $url = Url::where('short_url', $shortUrl)->firstOrFail();
+        $url = Url::whereRaw('BINARY `short_url` = ?', [$shortUrl])->firstOrFail();
         return $this->qrCode($url, 'png', 'image/png');
     }
 
